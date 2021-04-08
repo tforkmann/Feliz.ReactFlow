@@ -10,8 +10,10 @@
     <Compile Include="Node.fs" />
     <Compile Include="ReactFlow.fs" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="*.fsproj; *.fs;" PackagePath="fable\" />
-  </ItemGroup>
+  <PropertyGroup>
+    <NpmDependencies>
+        <NpmPackage Name="react-flow-renderer" Version="gt 9.0.0 lt 9.9.9" ResolutionStrategy="Max" DevDependency="true" />
+    </NpmDependencies>
+  </PropertyGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

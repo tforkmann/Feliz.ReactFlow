@@ -269,7 +269,6 @@ let dependencies = [
 [<EntryPoint>]
 let main args =
     try
-        printfn "args %A" args
         match args with
         | [| target |] -> Target.runOrDefault target
         | _ -> Target.runOrDefault "Run"

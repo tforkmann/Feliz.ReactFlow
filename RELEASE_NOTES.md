@@ -1,3 +1,5 @@
+#### 0.1.4 - 2021-04-08
+* get rid of artifacts
 #### 0.1.3 - 2021-04-08
 * restructur into namespace
 #### 0.1.2 - 2021-04-08
