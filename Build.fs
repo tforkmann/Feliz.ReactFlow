@@ -29,7 +29,7 @@ let release = ReleaseNotes.load "RELEASE_NOTES.md"
 
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
-let gitHome = "https://github.com/DanpowerGruppe"
+let gitHome = "https://github.com/tforkmann"
 // The name of the project on GitHub
 let gitName = "Feliz.ReactFlow"
 
@@ -45,7 +45,7 @@ let summary = "Feliz React Binding for ReactFlow"
 
 let copyright = "Copyright \169 2021"
 let iconUrl = "https://raw.githubusercontent.com/tforkmann/Feliz.ReactFlow/master/Feliz.ReactFlow_logo.png"
-let licenceUrl = "https://github.com/DanpowerGruppe/Feliz.ReactFlow/blob/master/LICENSE.md"
+let licenceUrl = "https://github.com/tforkmann/Feliz.ReactFlow/blob/master/LICENSE.md"
 let configuration = DotNet.BuildConfiguration.Release
 
 // Longer description of the project
