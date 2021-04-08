@@ -15,7 +15,7 @@ and install the npm package
 npm install --save react-flow-renderer
 ```
 
-or run use Femto:
+or use Femto:
 ```
 femto install Feliz.Bulma
 ```
