@@ -18,7 +18,7 @@ var CONFIG = {
     indexHtmlTemplate: './index.html',
     fsharpEntry: './App.fs.js',
     cssEntry: './style.scss',
-    outputDir: './deploy/public',
+    outputDir: './deploy',
     assetsDir: './public',
     devServerPort: 5000,
     // When using webpack-dev-server, you may need to redirect some calls
@@ -69,9 +69,12 @@ module.exports = {
     // have a faster HMR support. In production bundle styles together
     // with the code because the MiniCssExtractPlugin will extract the
     // CSS in a separate files.
-    entry: {
+    entry: isProduction ? {
         app: [resolve(CONFIG.fsharpEntry), resolve(CONFIG.cssEntry)]
-    },
+    } : {
+            app: [resolve(CONFIG.fsharpEntry)],
+            style: [resolve(CONFIG.cssEntry)]
+        },
     // Add a hash to the output file name in production
     // to prevent browser caching if code changes
     output: {
