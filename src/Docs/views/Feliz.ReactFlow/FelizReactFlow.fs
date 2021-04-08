@@ -143,16 +143,16 @@ let overview =
         ]
         Html.hr [
           ]
-        Bulma.content [
-            Bulma.title.h4 "Features"
-            Html.ul [
-                Html.li "column interactions (resize, reorder and pin columns="
-                Html.li "Pagination"
-                Html.li "Sorting"
-                Html.li "Row selection"
-                Html.li "Data export"
-            ]
-        ]
+        // Bulma.content [
+        //     Bulma.title.h4 "Features"
+        //     Html.ul [
+        //         Html.li "column interactions (resize, reorder and pin columns="
+        //         Html.li "Pagination"
+        //         Html.li "Sorting"
+        //         Html.li "Row selection"
+        //         Html.li "Data export"
+        //     ]
+        // ]
         Shared.fixDocsView "FelizReactFlow" false
     ]
 

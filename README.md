@@ -2,7 +2,26 @@
 
 [![Feliz.ReactFlow on Nuget](https://buildstats.info/nuget/Feliz.ReactFlow)](https://www.nuget.org/packages/Feliz.ReactFlow/)
 
+
+## Installation
+Install the nuget package
+```
+dotnet paket add Feliz.ReactFlow
+```
+
+and install the npm package
+
+```
+npm install --save react-flow-renderer
+```
+
+or run use Femto:
+```
+femto install Feliz.Bulma
+```
+
 ## Start test app
+
 - Start your test app by cloning this repository and then execute:
 ```
 dotnet run
