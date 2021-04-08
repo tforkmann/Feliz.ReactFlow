@@ -1,0 +1,83 @@
+/**
+ * GitHub Gist Theme
+ * Author : Anthony Attard - https://github.com/AnthonyAttard
+ * Author : Louis Barranqueiro - https://github.com/LouisBarranqueiro
+ */
+
+ $primary-color: #2b2b7c;
+ $secondary-color : #2e88c9;
+ $tertiary-color : #46BDCF;
+
+ .hljs {
+    display: block;
+    background: whitesmoke;
+    padding: 0.5em;
+    color: #2b2b7c;
+    overflow-x: auto;
+  }
+
+  .hljs-comment,
+  .hljs-meta {
+    color: #969896;
+  }
+
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-strong,
+  .hljs-emphasis,
+  .hljs-quote {
+    color: $primary-color;
+  }
+
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-type {
+    color: $secondary-color;
+  }
+
+  .hljs-literal,
+  .hljs-symbol,
+  .hljs-bullet,
+  .hljs-attribute {
+    color: $tertiary-color;
+  }
+
+  .hljs-section,
+  .hljs-name {
+    color: #63a35c;
+  }
+
+  .hljs-tag {
+    color: #333333;
+  }
+
+  .hljs-title,
+  .hljs-attr,
+  .hljs-selector-id,
+  .hljs-selector-class,
+  .hljs-selector-attr,
+  .hljs-selector-pseudo {
+    color: #19a831;
+  }
+
+  .hljs-addition {
+    color: #55a532;
+    background-color: #eaffea;
+  }
+
+  .hljs-deletion {
+    color: $tertiary-color;
+    background-color: #ffecec;
+  }
+
+  .hljs-link {
+    text-decoration: underline;
+  }
+
+  .hljs-number {
+    color: $tertiary-color;
+  }
+
+  .hljs-string {
+    color: $tertiary-color;
+  }
