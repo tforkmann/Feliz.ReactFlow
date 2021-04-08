@@ -86,7 +86,14 @@ let dotnet cmd workingDir =
         Trace.traceErrorfn "Errors while executing 'dotnet %s': %A" cmd result.Messages
         failwithf "'dotnet %s' failed in %s" cmd workingDir
 
-Target.create "Clean" (fun _ -> Shell.cleanDir deployDir)
+Target.create "Clean" (fun _ ->
+    !!"src/**/bin"
+    |> Shell.cleanDirs
+    !! "src/**/obj/*.nuspec"
+    |> Shell.cleanDirs
+
+    Shell.cleanDirs [buildDir; "temp"; "docs/output"; deployDir;]
+)
 
 Target.create "InstallClient" (fun _ -> npm "install" ".")
 
