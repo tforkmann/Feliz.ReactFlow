@@ -7,7 +7,8 @@ open Fake.IO
 open Farmer
 open Farmer.Builders
 open Fake.IO.FileSystemOperators
-
+open Fake.IO.Globbing.Operators
+open Fake.Tools
 let execContext = Context.FakeExecutionContext.Create false "build.fsx" [ ]
 Context.setExecutionContext (Context.RuntimeContext.Fake execContext)
 
@@ -131,6 +132,31 @@ Target.create "Format" (fun _ ->
     dotnet "fantomas . -r" "src"
 )
 
+// --------------------------------------------------------------------------------------
+// Build a NuGet package
+
+Target.create "Build" (fun _ ->
+    !! "src/*.fsproj"
+    |> Seq.iter (fun s ->
+        let dir = Path.GetDirectoryName s
+        DotNet.build id dir)
+)
+
+
+Target.create "PrepareRelease" (fun _ ->
+    Git.Branches.checkout "" false "main"
+    Git.CommandHelper.directRunGitCommand "" "fetch origin" |> ignore
+    Git.CommandHelper.directRunGitCommand "" "fetch origin --tags" |> ignore
+
+    Git.Staging.stageAll ""
+    Git.Commit.exec "" (sprintf "Bumping version to %O" release.NugetVersion)
+    Git.Branches.pushBranch "" "origin" "main"
+
+    let tagName = string release.NugetVersion
+    Git.Branches.tag "" tagName
+    Git.Branches.pushTag "" "origin" tagName
+)
+
 
 Target.create "Pack" (fun _ ->
     let nugetVersion = release.NugetVersion
@@ -220,6 +246,13 @@ let dependencies = [
     "Clean"
         ==> "InstallClient"
         ==> "RunTests"
+
+    "Clean"
+        ==> "Build"
+        ==> "PrepareRelease"
+        ==> "Pack"
+        ==> "Push"
+
     "InstallDocs"
         ==> "RunDocs"
 
@@ -230,6 +263,7 @@ let dependencies = [
 [<EntryPoint>]
 let main args =
     try
+        printfn "args %A" args
         match args with
         | [| target |] -> Target.runOrDefault target
         | _ -> Target.runOrDefault "Run"
