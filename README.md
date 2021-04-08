@@ -1,53 +1,132 @@
-# SAFE Template
+# Fable Binding for ReactAgGrid
 
-This template can be used to generate a full-stack web application using the [SAFE Stack](https://safe-stack.github.io/). It was created using the dotnet [SAFE Template](https://safe-stack.github.io/docs/template-overview/). If you want to learn more about the template why not start with the [quick start](https://safe-stack.github.io/docs/quickstart/) guide?
+[![Feliz.ReactFlow on Nuget](https://buildstats.info/nuget/Feliz.ReactFlow)](https://www.nuget.org/packages/Feliz.ReactFlow/)
 
-## Install pre-requisites
-
-You'll need to install the following pre-requisites in order to build SAFE applications
-
-* [.NET Core SDK](https://www.microsoft.com/net/download) 5.0 or higher
-* [Node LTS](https://nodejs.org/en/download/)
-
-## Starting the application
-
-Before you run the project **for the first time only** you must install dotnet "local tools" with this command:
-
-```bash
-dotnet tool restore
+## Start test app
+- Start your test app by cloning this repository and then execute:
 ```
-
-To concurrently run the server and the client components in watch mode use the following command:
-
-```bash
 dotnet run
 ```
 
-Then open `http://localhost:8080` in your browser.
-
-The build project in root directory contains a couple of different build targets. You can specify them after `--` (target name is case-insensitive).
-
-To run concurrently server and client tests in watch mode (you can run this command in parallel to the previous one in new terminal):
-
-```bash
-dotnet run -- RunTests
+## Example ReactFlow
+Here is an example ReactFlow
+```fs
+div [ Props.Style [
+              Props.CSSProp.Height 1000
+          ] ] [
+        ReactFlow.flowChart [
+            ReactFlow.elements [|
+                ReactFlow.node [
+                    node.id "1"
+                    node.nodetype Input
+                    node.data {| label = "Erdgas Einsatz" |}
+                    node.style [
+                        style.background "yellow"
+                        style.color "#332"
+                        style.border "1px solid #222138"
+                        style.width 180
+                    ]
+                    node.position (20, 5)
+                ]
+                ReactFlow.node [
+                    node.id "2"
+                    node.nodetype Default
+                    node.data {| label = "CityCube" |}
+                    node.style [
+                        style.background "#2e88c9"
+                        style.color "white"
+                        style.border "1px solid #222138"
+                        style.width 180
+                    ]
+                    node.position (250, 5)
+                ]
+                ReactFlow.node [
+                    node.id "3"
+                    node.nodetype Output
+                    node.data {| label = "Strom Absatz" |}
+                    node.style [
+                        style.background "lightblue"
+                        style.color "#333"
+                        style.border "1px solid #222138"
+                        style.width 180
+                    ]
+                    node.position (100, 100)
+                ]
+                ReactFlow.node [
+                    node.id "4"
+                    node.nodetype Output
+                    node.data {| label = "Wärme Absatz" |}
+                    node.style [
+                        style.background "red"
+                        style.color "white"
+                        style.border "1px solid #222138"
+                        style.width 180
+                    ]
+                    node.position (100, 100)
+                ]
+                ReactFlow.edge [
+                    edge.id "e1-2"
+                    edge.source "1"
+                    edge.target "2"
+                    edge.animated false
+                    edge.label "100 MWh"
+                    edge.edgeType SmoothStep
+                    edge.arrowHeadType ArrowClosed
+                    edge.style [ style.stroke "yellow" ]
+                    edge.labelStyle [
+                        labelStyle.fill "black"
+                        labelStyle.fontWeight 700
+                    ]
+                ]
+                ReactFlow.edge [
+                    edge.id "e2-3"
+                    edge.source "2"
+                    edge.target "3"
+                    edge.animated true
+                    edge.label "50 MWh"
+                    edge.edgeType SmoothStep
+                    edge.arrowHeadType ArrowClosed
+                    edge.style [ style.stroke "blue" ]
+                    edge.labelStyle [
+                        labelStyle.fill "blue"
+                        labelStyle.fontWeight 700
+                    ]
+                ]
+                ReactFlow.edge [
+                    edge.id "e2-4"
+                    edge.source "2"
+                    edge.target "4"
+                    edge.animated true
+                    edge.label "55 MWh"
+                    edge.edgeType SmoothStep
+                    edge.arrowHeadType ArrowClosed
+                    edge.style [ style.stroke "red" ]
+                    edge.labelStyle [
+                        labelStyle.fill "red"
+                        labelStyle.fontWeight 700
+                    ]
+                ]
+            |]
+            ReactFlow.onElementClick
+                (fun (x, y) ->
+                    console.log y
+                    window.alert "You clicked me!")
+            ReactFlow.onNodeDragStop
+                (fun (x, y) ->
+                    console.log y
+                    window.alert "You dragged me!")
+            ReactFlow.onElementsRemove
+                (fun (x, y) ->
+                    console.log y
+                    window.alert "You removed me!")
+            ReactFlow.onConnect
+                (fun (x, y) ->
+                    console.log y
+                    window.alert "You connected me!")
+            ReactFlow.onConnectStart
+                (fun (x, y) ->
+                    console.log y
+                    window.alert "You started to connect me!")
+        ]
+    ]
 ```
-
-Client tests are available under `http://localhost:8081` in your browser and server tests are running in watch mode in console.
-
-Finally, there are `Bundle` and `Azure` targets that you can use to package your app and deploy to Azure, respectively:
-
-```bash
-dotnet run -- Bundle
-dotnet run -- Azure
-```
-
-## SAFE Stack Documentation
-
-If you want to know more about the full Azure Stack and all of it's components (including Azure) visit the official [SAFE documentation](https://safe-stack.github.io/docs/).
-
-You will find more documentation about the used F# components at the following places:
-
-* [Saturn](https://saturnframework.org/)
-* [Fable](https://fable.io/docs/)
-* [Elmish](https://elmish.github.io/elmish/)
