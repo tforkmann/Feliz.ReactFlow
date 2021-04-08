@@ -220,7 +220,7 @@ let pushPackage _ =
 Target.create "Push" (fun _ -> pushPackage [] )
 
 let docsSrcPath = Path.getFullName "./src/Docs"
-let docsDeployPath = "Docs"
+let docsDeployPath = "docs"
 
 Target.create "InstallDocs" (fun _ ->
 
