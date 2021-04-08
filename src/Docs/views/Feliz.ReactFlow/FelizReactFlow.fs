@@ -2,26 +2,15 @@ module FelizReactFlow
 
 open Feliz
 open Feliz.Bulma
+open Fable.React
 open Feliz.ReactFlow
+open Browser.Dom
 
-let overview =
-    Html.div [
-        Bulma.title.h1 [
-            Html.text "Feliz.ReactFlow - Documentation"
-            Html.a [
-                prop.href "https://www.nuget.org/packages/Feliz.ReactFlow/"
-                prop.children [
-                    Html.img [
-                        prop.src "https://img.shields.io/nuget/v/Feliz.ReactFlow.svg?style=flat"
-                    ]
-                ]
-            ]
-        ]
-        Bulma.subtitle.h2 [
-            Html.text "Feliz bindings for ReactFlow."
-        ]
-        Html.hr []
-        ReactFlow.flowChart [
+let flowChart =
+    div [ Props.Style [
+              Props.CSSProp.Height 1000
+          ] ] [
+          ReactFlow.flowChart [
             ReactFlow.elements [|
                 ReactFlow.node [
                     node.id "1"
@@ -135,7 +124,25 @@ let overview =
                     console.log y
                     window.alert "You started to connect me!")
         ]
-    ]
+          ]
+let overview =
+    Html.div [
+        Bulma.title.h1 [
+            Html.text "Feliz.ReactFlow - Documentation"
+            Html.a [
+                prop.href "https://www.nuget.org/packages/Feliz.ReactFlow/"
+                prop.children [
+                    Html.img [
+                        prop.src "https://img.shields.io/nuget/v/Feliz.ReactFlow.svg?style=flat"
+                    ]
+                ]
+            ]
+        ]
+        Bulma.subtitle.h2 [
+            Html.text "Feliz bindings for ReactFlow."
+        ]
+        Html.hr [
+          ]
         Bulma.content [
             Bulma.title.h4 "Features"
             Html.ul [
