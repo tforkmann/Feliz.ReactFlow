@@ -40,7 +40,7 @@ let projectUrl = sprintf "%s/%s" gitHome gitName
 
 // Short summary of the project
 // (used as description in AssemblyInfo and as a short summary for NuGet package)
-let summary = "Felize React Binding for ReactFlow"
+let summary = "Feliz React Binding for ReactFlow"
 
 let copyright = "Copyright \169 2021"
 let iconUrl = "https://raw.githubusercontent.com/tforkmann/Feliz.ReactFlow/master/Feliz.ReactFlow_logo.png"
