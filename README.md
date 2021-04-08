@@ -1,4 +1,4 @@
-# Fable Binding for ReactAgGrid
+# Feliz Binding for ReactFlow (https://reactflow.dev/)
 
 [![Feliz.ReactFlow on Nuget](https://buildstats.info/nuget/Feliz.ReactFlow)](https://www.nuget.org/packages/Feliz.ReactFlow/)
 
