@@ -1,5 +1,10 @@
 {
     "private": true,
+    "scripts": {
+        "start": "webpack-dev-server",
+        "build": "webpack -p",
+        "test:live": "webpack-dev-server --config webpack.tests.config.js"
+    },
     "devDependencies": {
         "@babel/core": "^7.10.5",
         "@babel/plugin-external-helpers": "^7.10.4",
@@ -23,8 +28,6 @@
         "copy-webpack-plugin": "6.0.3",
         "core-js": "^3.3.2",
         "css-loader": "^3.6.0",
-        "fable-compiler": "2.10.2",
-        "fable-loader": "^2.1.8",
         "file-loader": "^6.0.0",
         "google-map-react": "1.1.7",
         "highlight.js": "^10.1.1",

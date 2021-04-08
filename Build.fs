@@ -230,15 +230,14 @@ Target.create "InstallDocs" (fun _ ->
 Target.create "PublishDocs" (fun _ ->
     let docsDeployLocalPath = (docsSrcPath </> "deploy")
     [ docsDeployPath; docsDeployLocalPath] |> Shell.cleanDirs
-    npm "webpack-cli -p" docsSrcPath
+    DotNet.exec id "fable" "src/Docs --outDir src/Docs/output --run webpack"
+    |> ignore
     Shell.copyDir docsDeployPath docsDeployLocalPath FileFilter.allFiles
 )
 
 
-Target.create "RunDocs" (fun _ -> npm "webpack-dev-server" docsSrcPath)
-
-
-open Fake.Core.TargetOperators
+Target.create "RunDocs" (fun _ ->
+    dotnet "fable watch --run webpack-dev-server --outDir src/Docs/output" docsSrcPath)
 
 let dependencies = [
     "Clean"

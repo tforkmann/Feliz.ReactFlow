@@ -18,7 +18,7 @@ let code (c:string) =
 let fixDocsView fileName client =
     Html.div [
         Html.a [
-            prop.href (sprintf "https://github.com/DanpowerGruppe/Fable.AgGrid/tree/master/src/docs/views/FableAgGrid/%s.fs" fileName)
+            prop.href (sprintf "https://github.com/tforkmann/Feliz.ReactFlow/blob/main/src/Docs/views/Feliz.ReactFlow/%s.fs" fileName)
             prop.text ("Fix docs file " + fileName + " here")
         ]
     ]
@@ -29,5 +29,9 @@ let installationView packageName =
         Bulma.content [
             Bulma.title.h4 "Use Paket"
             code (sprintf "paket add %s" packageName)
+        ]
+        Bulma.content [
+            Bulma.title.h4 "Add react flow npm package"
+            code ("npm install --save react-flow-renderer")
         ]
     ]

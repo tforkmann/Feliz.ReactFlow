@@ -18,7 +18,7 @@ let menuPart model dispatch =
               prop.href (getHref p) ]
 
     Bulma.menu
-        [ Bulma.menuLabel "Fable.AgGrid"
+        [ Bulma.menuLabel "Feliz.ReactFlow"
           Bulma.menuList [ item "Overview" FelizReactFlow ]
           Bulma.menuList
               [ item "Installation" FelizReactFlowInstallation

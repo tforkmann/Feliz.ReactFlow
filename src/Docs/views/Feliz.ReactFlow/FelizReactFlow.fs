@@ -8,21 +8,21 @@ let overview =
         Bulma.title.h1 [
             Html.text "Feliz.ReactFlow - Documentation"
             Html.a [
-                prop.href "https://www.nuget.org/packages/Fable.ReactAgGrid/"
+                prop.href "https://www.nuget.org/packages/Feliz.ReactFlow/"
                 prop.children [
                     Html.img [
-                        prop.src "https://img.shields.io/nuget/v/Fable.ReactAgGrid.svg?style=flat"
+                        prop.src "https://img.shields.io/nuget/v/Feliz.ReactFlow.svg?style=flat"
                     ]
                 ]
             ]
         ]
         Bulma.subtitle.h2 [
-            Html.text "Fable bindings for AgGrid."
+            Html.text "Fable bindings for ReactFlow."
         ]
         Html.hr []
         Bulma.content [
-            Html.p "ag-Grid is a powerfulll data grid."
-            Html.p "ag-Grid contains multiple filters and grouping features"
+            Html.p "ReactFlow is a powerfulll data grid."
+            Html.p "ReactFlow contains multiple filters and grouping features"
         ]
         Bulma.content [
             Bulma.title.h4 "Features"
@@ -34,7 +34,7 @@ let overview =
                 Html.li "Data export"
             ]
         ]
-        Shared.fixDocsView "Feliz.ReactFlow" false
+        Shared.fixDocsView "FelizReactFlow" false
     ]
 
 let installation = Shared.installationView "Feliz.ReactFlow"
