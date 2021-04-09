@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Types.fs" />
+    <Compile Include="Styles.fs" />
     <Compile Include="Interop.fs" />
     <Compile Include="Edge.fs" />
     <Compile Include="Node.fs" />
