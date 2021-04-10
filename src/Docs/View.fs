@@ -26,9 +26,9 @@ let menuPart model dispatch =
 
 let contentPart model dispatch =
     match model.CurrentPage with
-    | FelizReactFlow -> FelizReactFlow.overview
-    | FelizReactFlowInstallation -> FelizReactFlow.installation
-    | FelizReactFlowExampleFlow -> FelizReactFlow.ExampleFlow.overview
+    | FelizReactFlow -> Views.FelizReactFlow.overview
+    | FelizReactFlowInstallation -> Views.FelizReactFlow.installation
+    | FelizReactFlowExampleFlow -> Views.ExampleFlow.overview
 
 
 open Zanaptak.TypedCssClasses

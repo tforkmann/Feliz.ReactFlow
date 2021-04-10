@@ -1,4 +1,4 @@
-module FelizReactFlow
+module Views.FelizReactFlow
 
 open Feliz
 open Feliz.Bulma
