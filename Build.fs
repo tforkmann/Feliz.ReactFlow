@@ -228,11 +228,8 @@ Target.create "InstallDocs" (fun _ ->
     dotnet "restore" docsSrcPath )
 
 Target.create "PublishDocs" (fun _ ->
-    let docsDeployLocalPath = (docsSrcPath </> "deploy")
-    [ docsDeployPath; docsDeployLocalPath] |> Shell.cleanDirs
-    DotNet.exec id "fable" "src/Docs --outDir src/Docs/output --run webpack"
-    |> ignore
-    Shell.copyDir docsDeployPath docsDeployLocalPath FileFilter.allFiles
+    [ docsDeployPath] |> Shell.cleanDirs
+    dotnet "fable --run webpack-cli -p" docsSrcPath
 )
 
 

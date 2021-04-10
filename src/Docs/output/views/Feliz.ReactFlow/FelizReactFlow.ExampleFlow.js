@@ -1,5 +1,5 @@
 import { createElement } from "react";
-import { Interop_reactApi } from "../../.fable/Feliz.1.40.1/Interop.fs.js";
+import { Interop_reactApi } from "../../.fable/Feliz.1.41.0/Interop.fs.js";
 import { fixDocsView, code } from "../../Shared.js";
 import { ofArray } from "../../.fable/fable-library.3.1.2/List.js";
 
