@@ -1,3 +1,5 @@
+#### 0.1.8 - 2021-04-10
+* support netstandard2.0
 #### 0.1.7 - 2021-04-09
 * Move styles to its own file
 #### 0.1.6 - 2021-04-09
