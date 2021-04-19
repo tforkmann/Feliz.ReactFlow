@@ -1,4 +1,4 @@
-# Feliz Binding for ReactFlow (https://reactflow.dev/)
+# Feliz Binding for [ReactFlow](https://reactflow.dev/)
 
 [![Feliz.ReactFlow on Nuget](https://buildstats.info/nuget/Feliz.ReactFlow)](https://www.nuget.org/packages/Feliz.ReactFlow/)
 
@@ -17,7 +17,7 @@ npm install --save react-flow-renderer
 
 or use Femto:
 ```
-femto install Feliz.Bulma
+femto install Feliz.ReactFlow
 ```
 
 ## Start test app
