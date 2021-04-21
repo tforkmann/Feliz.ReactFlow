@@ -11,9 +11,6 @@ module Interop =
     let objectHas (keys: string list) (x: obj) =
         objectKeys (x) |> Seq.toList |> (=) keys
 
-    [<Emit("Object.assign({}, $0, $1)")>]
-    let objectAssign (x: obj) (y: obj) = jsNative
-
     let inline mkNodeAttr (key: string) (value: obj) : INodeProp = unbox (key, value)
     let reactFlow : obj = importDefault "react-flow-renderer" // import the top-level ReactFlow element
 

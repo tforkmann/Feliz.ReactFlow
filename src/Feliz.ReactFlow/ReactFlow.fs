@@ -29,10 +29,11 @@ type ReactFlow =
         Interop.reactApi.createElement (Interop.reactFlow, createObj !!props)
 
     static member inline node props =
-        Interop.objectAssign obj (createObj !!props)
+        createObj !!props
 
     static member inline edge props =
-        Interop.objectAssign obj (createObj !!props)
+        createObj !!props
+
     /// Provides the child elements in a flow.
     static member inline elements(elements: obj array) : IReactFlowProp = !!("elements" ==> elements)
 
