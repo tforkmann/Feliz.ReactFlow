@@ -1,3 +1,5 @@
+#### 0.1.9 - 2021-04-21
+* Remove objectAssign
 #### 0.1.8 - 2021-04-10
 * support netstandard2.0
 #### 0.1.7 - 2021-04-09
