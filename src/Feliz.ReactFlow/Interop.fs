@@ -5,19 +5,11 @@ open Fable.Core.JsInterop
 
 [<Erase; RequireQualifiedAccess>]
 module Interop =
-    [<Emit("Object.keys($0)")>]
-    let internal objectKeys (x: obj) = jsNative
+    let inline mkEdgeProp (key: string) (value: obj) : IEdgeProp = unbox (key, value)
+    let inline mkNodeProp (key: string) (value: obj) : INodeProp = unbox (key, value)
+    let inline mkStyleProp (key: string) (value: obj) : IStyleProp = unbox (key, value)
+    let inline mkLabelStyleProp (key: string) (value: obj) : ILabelStyleProp = unbox (key, value)
 
-    let objectHas (keys: string list) (x: obj) =
-        objectKeys (x) |> Seq.toList |> (=) keys
-
-    let inline mkNodeAttr (key: string) (value: obj) : INodeProp = unbox (key, value)
     let reactFlow : obj = importDefault "react-flow-renderer" // import the top-level ReactFlow element
-
-    let removeElements : obj =
-        import "removeElements" "react-flow-renderer" // a child of specific modules - not needed for this demo, but as an example
-
+    let removeElements : obj = import "removeElements" "react-flow-renderer" // a child of specific modules - not needed for this demo, but as an example
     let addEdge : obj = import "addEdge" "react-flow-renderer"
-
-    let funcToTuple handler =
-        System.Func<_, _, _>(fun a b -> handler (a, b))
