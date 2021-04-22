@@ -6,20 +6,20 @@ open Fable.Core
 
 [<Erase>]
 type edge =
-    static member inline source(source: string) = Interop.mkAttr "source" source
-    static member inline target(target: string) = Interop.mkAttr "target" target
-    static member inline animated(animated: bool) = Interop.mkAttr "animated" animated
+    static member inline source(source: string): IEdgeProp = Interop.mkEdgeProp "source" source
+    static member inline target(target: string): IEdgeProp = Interop.mkEdgeProp "target" target
+    static member inline animated(animated: bool): IEdgeProp = Interop.mkEdgeProp "animated" animated
 
-    static member inline arrowHeadType(arrowHeadType: ArrowHead) =
-        Interop.mkAttr "arrowHeadType" arrowHeadType.Value
+    static member inline arrowHeadType(arrowHeadType: ArrowHead): IEdgeProp =
+        Interop.mkEdgeProp "arrowHeadType" arrowHeadType
 
-    static member inline label(label: obj) = Interop.mkAttr "label" label
-    static member inline edgeType(edgeType: EdgeType) = Interop.mkAttr "type" edgeType.Value
+    static member inline label(label: obj): IEdgeProp = Interop.mkEdgeProp "label" label
+    static member inline edgeType(edgeType: EdgeType): IEdgeProp = Interop.mkEdgeProp "type" edgeType
 
-    static member inline labelStyle props =
-        Interop.mkAttr "labelStyle" (createObj !!props)
+    static member inline labelStyle(props: ILabelStyleProp seq): IEdgeProp =
+        Interop.mkEdgeProp "labelStyle" (createObj !!props)
 
-    static member inline id(id: string) = Interop.mkAttr "id" id
+    static member inline id(id: string): IEdgeProp = Interop.mkEdgeProp "id" id
 
-    static member inline style props =
-        Interop.mkAttr "style" (createObj !!props)
+    static member inline style props: IEdgeProp =
+        Interop.mkEdgeProp "style" (createObj !!props)
