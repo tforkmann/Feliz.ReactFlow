@@ -110,24 +110,24 @@ let view (model: Model) (dispatch: Msg -> unit) =
                 ]
             |]
             ReactFlow.onElementClick
-                (fun (x, y) ->
-                    console.log y
+                (fun ev element ->
+                    console.log ev
                     window.alert "You clicked me!")
             ReactFlow.onNodeDragStop
-                (fun (x, y) ->
-                    console.log y
+                (fun ev node ->
+                    console.log ev
                     window.alert "You dragged me!")
             ReactFlow.onElementsRemove
-                (fun (x, y) ->
-                    console.log y
+                (fun elements ->
+                    console.log elements
                     window.alert "You removed me!")
             ReactFlow.onConnect
-                (fun (x, y) ->
-                    console.log y
+                (fun ev ->
+                    console.log ev
                     window.alert "You connected me!")
             ReactFlow.onConnectStart
-                (fun (x, y) ->
-                    console.log y
+                (fun ev nodeId ->
+                    console.log ev
                     window.alert "You started to connect me!")
         ]
     ]

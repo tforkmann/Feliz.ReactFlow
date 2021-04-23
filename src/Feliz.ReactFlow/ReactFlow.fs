@@ -66,6 +66,9 @@ type ReactFlow =
     static member inline onNodeContextMenu(handler: Event -> Node -> unit) : IReactFlowProp =
         !!("onNodeContextMenu" ==> System.Func<_,_,_>handler)
 
+    static member inline onNodeDoubleClick(handler: Event -> Node -> unit) : IReactFlowProp =
+        !!("onNodeDoubleClick" ==> handler)
+
     static member inline onConnect(handler: {| source: Node; target: Node |} -> unit) : IReactFlowProp =
         !!("onConnect" ==> handler)
 
@@ -77,5 +80,57 @@ type ReactFlow =
 
     static member inline onConnectEnd(handler: Event -> unit) : IReactFlowProp =
         !!("onConnectEnd" ==> handler)
+
+    static member inline onEdgeUpdate(handler: Event -> Edge -> unit) : IReactFlowProp =
+        !!("onEdgeUpdate" ==> handler)
+
+    static member inline onEdgeMouseEnter(handler: Event -> Edge -> unit) : IReactFlowProp =
+        !!("onEdgeMouseEnter" ==> handler)
+
+    static member inline onEdgeMouseMove(handler: Event -> Edge -> unit) : IReactFlowProp =
+        !!("onEdgeMouseMove" ==> handler)
+
+    static member inline onEdgeMouseLeave(handler: Event -> Edge -> unit) : IReactFlowProp =
+        !!("onEdgeMouseLeave" ==> handler)
+
+    static member inline onEdgeContextMenu(handler: Event -> Edge -> unit) : IReactFlowProp =
+        !!("onEdgeContextMenu" ==> handler)
+
+    //TODO: Test if that works
+    static member inline onLoad(handler: unit) : IReactFlowProp =
+        !!("onLoad" ==> handler)
+
+    static member inline onMove(flowTransform: unit) : IReactFlowProp =
+        !!("onMove" ==> flowTransform)
+
+    static member inline onMoveStart(flowTransform: unit) : IReactFlowProp =
+        !!("onMoveStart" ==> flowTransform)
+
+    static member inline onMoveEnd(flowTransform: unit) : IReactFlowProp =
+        !!("onMoveEnd" ==> flowTransform)
+
+    static member inline onSelectionChange(handler: Element[] -> unit) : IReactFlowProp =
+        !!("onSelectionChange" ==> handler)
+
+    static member inline onSelectionDragStart(handler: Event -> Node [] -> unit) : IReactFlowProp =
+        !!("onSelectionDragStart" ==> handler)
+
+    static member inline onSelectionDrag(handler: Event -> Node [] -> unit) : IReactFlowProp =
+        !!("onSelectionDrag" ==> handler)
+
+    static member inline onSelectionDragStop(handler: Event -> Node [] -> unit) : IReactFlowProp =
+        !!("onSelectionDragStop" ==> handler)
+
+    static member inline onSelectionContextMenu(handler: Event -> Node [] -> unit) : IReactFlowProp =
+        !!("onSelectionContextMenu" ==> handler)
+
+    static member inline onPaneClick(handler: Event -> unit) : IReactFlowProp =
+        !!("onPaneClick" ==> handler)
+
+    static member inline onPaneContextMenu(handler: Event -> unit) : IReactFlowProp =
+        !!("onPaneContextMenu" ==> handler)
+
+    static member inline onPaneScroll(handler: Event -> unit) : IReactFlowProp =
+        !!("onPaneScroll" ==> handler)
 
     // TODO: Rest of events: https://reactflow.dev/docs/api/component-props/
