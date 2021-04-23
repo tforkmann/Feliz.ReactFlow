@@ -1,3 +1,5 @@
+#### 0.2.0 - 2021-04-23
+* Polishing and add more events
 #### 0.1.9 - 2021-04-21
 * Remove objectAssign
 #### 0.1.8 - 2021-04-10
