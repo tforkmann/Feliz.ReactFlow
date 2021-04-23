@@ -13,8 +13,5 @@
     <Compile Include="State.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Feliz.ReactFlow\Feliz.ReactFlow.fsproj" />
-  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

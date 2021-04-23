@@ -29,6 +29,7 @@ nuget Fake.Core.ReleaseNotes
 nuget Fake.Tools.Git
 nuget Fake.Core.UserInput
 nuget Farmer
+nuget Feliz.ReactFlow
 
 group Package
     source https://api.nuget.org/v3/index.json
