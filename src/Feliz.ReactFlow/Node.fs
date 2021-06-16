@@ -3,6 +3,7 @@ namespace Feliz.ReactFlow
 open Fable.Core
 open Fable.Core.JsInterop
 open Feliz
+open Browser
 
 [<Erase>]
 type node =
@@ -10,7 +11,7 @@ type node =
         Interop.mkNodeProp "position" {| x = x; y = y |}
 
     static member inline nodetype(nodeType: NodeType): INodeProp =
-        Interop.mkNodeProp "type" nodeType
+        Interop.mkNodeProp "type" (nodeType.toString())
 
     static member inline data(data: obj): INodeProp =
         Interop.mkNodeProp "data" data

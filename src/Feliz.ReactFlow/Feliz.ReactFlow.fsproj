@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -7,17 +7,18 @@
     <Compile Include="Types.fs" />
     <Compile Include="Interop.fs" />
     <Compile Include="Styles.fs" />
+    <Compile Include="Handle.fs" />
     <Compile Include="Edge.fs" />
     <Compile Include="Node.fs" />
     <Compile Include="ReactFlow.fs" />
   </ItemGroup>
   <PropertyGroup>
     <NpmDependencies>
-        <NpmPackage Name="react-flow-renderer" Version="gt 9.0.0 lt 9.9.9" ResolutionStrategy="Max" DevDependency="true" />
+      <NpmPackage Name="react-flow-renderer" Version="gt 9.0.0 lt 9.9.9" ResolutionStrategy="Max" DevDependency="true" />
     </NpmDependencies>
   </PropertyGroup>
   <ItemGroup>
-     <Content Include="*.fsproj; *.fs; *.js;" Exclude="**\*.fs.js" PackagePath="fable\" />
-   </ItemGroup>
+    <Content Include="*.fsproj; *.fs; *.js;" Exclude="**\*.fs.js" PackagePath="fable\" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

@@ -24,7 +24,7 @@ type labelStyle =
 [<Erase>]
 type ReactFlow =
     /// Creates a new ReactFlow component.
-    static member inline flowChart(props: IReactFlowProp seq) =
+    static member inline flowChart (props: IReactFlowProp seq) =
         Interop.reactApi.createElement (Interop.reactFlow, createObj !!props)
 
     static member inline node (props: INodeProp seq): IElement =
@@ -33,8 +33,13 @@ type ReactFlow =
     static member inline edge (props: IEdgeProp seq): IElement =
         !!(createObj !!props)
 
+    static member inline handle (props: IHandleProp seq) =
+        Interop.reactApi.createElement (Interop.handle, createObj !!props)
+
     /// Provides the child elements in a flow.
     static member inline elements(elements: IElement array) : IReactFlowProp = !!("elements" ==> elements)
+
+    static member inline nodeTypes(types: obj) : IReactFlowProp = !!("nodeTypes" ==> types)
 
     // Because the event helpers are inlined, Fable uncurrying is not working
     // so we make the conversion to delegate (Func) explicitly
@@ -69,7 +74,7 @@ type ReactFlow =
     static member inline onNodeDoubleClick(handler: Event -> Node -> unit) : IReactFlowProp =
         !!("onNodeDoubleClick" ==> handler)
 
-    static member inline onConnect(handler: {| source: Node; target: Node |} -> unit) : IReactFlowProp =
+    static member inline onConnect(handler: {| source: Node ; sourceHandle: Handle ; target: string ; targetHandle: Handle |} -> unit) : IReactFlowProp =
         !!("onConnect" ==> handler)
 
     static member inline onConnectStart(handler: Event -> {| nodeId: string; handleType: HandleType |} -> unit) : IReactFlowProp =
