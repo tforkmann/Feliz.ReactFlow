@@ -1,3 +1,5 @@
+#### 0.2.1 - 2021-06-17
+* Add bindings for custom nodes
 #### 0.2.0 - 2021-04-23
 * Polishing and add more events
 #### 0.1.9 - 2021-04-21
