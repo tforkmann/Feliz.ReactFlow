@@ -148,10 +148,10 @@ let view (model: Model) (dispatch: Msg -> unit) =
                     edge.style [ style.stroke "black" ]
                 ]
             |]
-            // ReactFlow.onElementClick
-            //     (fun ev element ->
-            //         console.log ev
-            //         window.alert "You clicked me!")
+            ReactFlow.onElementClick
+                (fun ev element ->
+                    console.log ev
+                    window.alert "You clicked me!")
             ReactFlow.onNodeDragStop
                 (fun ev node ->
                     console.log ev
@@ -164,9 +164,9 @@ let view (model: Model) (dispatch: Msg -> unit) =
                 (fun ev ->
                     console.log ev
                     window.alert "You connected me!")
-            // ReactFlow.onConnectStart
-            //     (fun ev nodeId ->
-            //         console.log ev
-            //         window.alert "You started to connect me!")
+            ReactFlow.onConnectStart
+                (fun ev nodeId ->
+                    console.log ev
+                    window.alert "You started to connect me!")
         ]
     ]

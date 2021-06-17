@@ -45,7 +45,7 @@ div [ Props.Style [
                         style.border "1px solid #222138"
                         style.width 180
                     ]
-                    node.position (20, 5)
+                    node.position (50, 30)
                 ]
                 ReactFlow.node [
                     node.id "2"
@@ -57,7 +57,7 @@ div [ Props.Style [
                         style.border "1px solid #222138"
                         style.width 180
                     ]
-                    node.position (250, 5)
+                    node.position (400, 30)
                 ]
                 ReactFlow.node [
                     node.id "3"
@@ -69,7 +69,7 @@ div [ Props.Style [
                         style.border "1px solid #222138"
                         style.width 180
                     ]
-                    node.position (100, 100)
+                    node.position (300, 200)
                 ]
                 ReactFlow.node [
                     node.id "4"
@@ -81,7 +81,18 @@ div [ Props.Style [
                         style.border "1px solid #222138"
                         style.width 180
                     ]
-                    node.position (100, 100)
+                    node.position (500, 200)
+                ]
+                ReactFlow.node [
+                    node.id "5"
+                    node.nodetype (Custom "test")
+                    node.data {| label = "Test" |}
+                    node.position (50, 120)
+                    node.style [
+                        style.background "lightgreen"
+                        style.border "1px solid black"
+                        style.width 180
+                    ]
                 ]
                 ReactFlow.edge [
                     edge.id "e1-2"
@@ -91,7 +102,7 @@ div [ Props.Style [
                     edge.label "100 MWh"
                     edge.edgeType SmoothStep
                     edge.arrowHeadType ArrowClosed
-                    edge.style [ style.stroke "yellow" ]
+                    edge.style [ style.stroke "blue" ]
                     edge.labelStyle [
                         labelStyle.fill "black"
                         labelStyle.fontWeight 700
@@ -125,26 +136,33 @@ div [ Props.Style [
                         labelStyle.fontWeight 700
                     ]
                 ]
+                ReactFlow.edge [
+                    edge.id "e1-5"
+                    edge.source "1"
+                    edge.target "5"
+                    edge.edgeType SmoothStep
+                    edge.style [ style.stroke "black" ]
+                ]
             |]
             ReactFlow.onElementClick
-                (fun (x, y) ->
-                    console.log y
+                (fun ev element ->
+                    console.log ev
                     window.alert "You clicked me!")
             ReactFlow.onNodeDragStop
-                (fun (x, y) ->
-                    console.log y
+                (fun ev node ->
+                    console.log ev
                     window.alert "You dragged me!")
             ReactFlow.onElementsRemove
-                (fun (x, y) ->
-                    console.log y
+                (fun elements ->
+                    console.log elements
                     window.alert "You removed me!")
             ReactFlow.onConnect
-                (fun (x, y) ->
-                    console.log y
+                (fun ev ->
+                    console.log ev
                     window.alert "You connected me!")
             ReactFlow.onConnectStart
-                (fun (x, y) ->
-                    console.log y
+                (fun ev nodeId ->
+                    console.log ev
                     window.alert "You started to connect me!")
         ]
     ]

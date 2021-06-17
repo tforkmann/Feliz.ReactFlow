@@ -61,6 +61,17 @@ let flowChart =
                     ]
                     node.position (100, 100)
                 ]
+                ReactFlow.node [
+                    node.id "5"
+                    node.nodetype (Custom "test")
+                    node.data {| label = "Test" |}
+                    node.position (50, 120)
+                    node.style [
+                        style.background "lightgreen"
+                        style.border "1px solid black"
+                        style.width 180
+                    ]
+                ]
                 ReactFlow.edge [
                     edge.id "e1-2"
                     edge.source "1"
