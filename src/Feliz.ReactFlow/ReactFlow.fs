@@ -109,7 +109,7 @@ type ReactFlow =
     static member inline onNodeDoubleClick(handler: Event -> Node -> unit) : IReactFlowProp =
         !!("onNodeDoubleClick" ==> handler)
 
-    static member inline onConnect(handler: {| source: Node ; sourceHandle: Handle ; target: string ; targetHandle: Handle |} -> unit) : IReactFlowProp =
+    static member inline onConnect(handler: {| source: Node ; sourceHandle: Handle ; target: Node ; targetHandle: Handle |} -> unit) : IReactFlowProp =
         !!("onConnect" ==> handler)
 
     static member inline onConnectStart(handler: Event -> {| nodeId: string; handleType: HandleType |} -> unit) : IReactFlowProp =
