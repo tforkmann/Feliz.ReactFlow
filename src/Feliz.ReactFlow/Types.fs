@@ -69,8 +69,10 @@ type ConnectionLineType =
     | Step
     | Smoothstep
 
+type ElementId = string
+
 type Element =
-    abstract id: string
+    abstract id: ElementId
 
 // TODO: Rest of properties https://reactflow.dev/docs/api/nodes/
 type Node =
