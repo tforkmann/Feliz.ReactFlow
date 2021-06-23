@@ -51,6 +51,24 @@ type HandlePosition =
 
 type position = {| x: int; y: int |}
 
+[<StringEnum>]
+type ScrollMode =
+    | Free
+    | Vertical
+    | Horizontal
+
+[<StringEnum>]
+type ConnectionMode =
+    | Strict
+    | Loose
+
+[<StringEnum>]
+type ConnectionLineType =
+    | Bezier
+    | Straight
+    | Step
+    | Smoothstep
+
 type Element =
     abstract id: string
 

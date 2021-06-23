@@ -10,8 +10,20 @@ module Interop =
     let inline mkNodeProp (key: string) (value: obj) : INodeProp = unbox (key, value)
     let inline mkStyleProp (key: string) (value: obj) : IStyleProp = unbox (key, value)
     let inline mkLabelStyleProp (key: string) (value: obj) : ILabelStyleProp = unbox (key, value)
+    let inline mkReactFlowProp (key: string) (value: obj) : IReactFlowProp = unbox (key, value)
 
     let reactFlow : obj = importDefault "react-flow-renderer" // import the top-level ReactFlow element
     let handle : obj = import "Handle" "react-flow-renderer"  // import the Handle component used for building custom nodes
-    let removeElements : obj = import "removeElements" "react-flow-renderer" // a child of specific modules - not needed for this demo, but as an example
-    let addEdge : obj = import "addEdge" "react-flow-renderer"
+
+[<Erase; RequireQualifiedAccess>]
+module Helpers =
+    let isEdge : Element -> bool = import "isEdge" "react-flow-renderer"
+    let isNode : Element -> bool = import "isNode" "react-flow-renderer"
+
+    // TODO
+    // let removeElements : obj = import "removeElements" "react-flow-renderer"
+    // let addEdge : obj = import "addEdge" "react-flow-renderer"
+    // let updateEdge : obj = import "updateEdge" "react-flow-renderer"
+    // let getOutgoers : obj = import "getOutgoers" "react-flow-renderer"
+    // let getIncomers : obj = import "getIncomers" "react-flow-renderer"
+    // let getConnectedEdges : obj = import "getConnectedEdges" "react-flow-renderer"
