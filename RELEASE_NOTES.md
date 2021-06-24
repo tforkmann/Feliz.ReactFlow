@@ -1,3 +1,5 @@
+#### 0.2.2 - 2021-06-24
+* Add ReactFlow props (complete) and helpers (incomplete)
 #### 0.2.1 - 2021-06-17
 * Add bindings for custom nodes
 #### 0.2.0 - 2021-04-23
