@@ -3,7 +3,6 @@ namespace Feliz.ReactFlow
 open Fable.Core
 open Fable.Core.JsInterop
 open Feliz
-open Browser
 
 [<Erase>]
 type node =

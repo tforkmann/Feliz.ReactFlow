@@ -51,8 +51,28 @@ type HandlePosition =
 
 type position = {| x: int; y: int |}
 
+[<StringEnum>]
+type ScrollMode =
+    | Free
+    | Vertical
+    | Horizontal
+
+[<StringEnum>]
+type ConnectionMode =
+    | Strict
+    | Loose
+
+[<StringEnum>]
+type ConnectionLineType =
+    | Bezier
+    | Straight
+    | Step
+    | Smoothstep
+
+type ElementId = string
+
 type Element =
-    abstract id: string
+    abstract id: ElementId
 
 // TODO: Rest of properties https://reactflow.dev/docs/api/nodes/
 type Node =
