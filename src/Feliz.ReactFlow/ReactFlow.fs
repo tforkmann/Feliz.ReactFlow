@@ -20,6 +20,29 @@ type labelStyle =
     static member inline fill(fill: string) = Interop.mkAttr "fill" fill
     static member inline fontWeight(fontWeight: int) = Interop.mkAttr "fontWeight" fontWeight
 
+[<Erase>]
+type Instance =
+    abstract project: position -> position
+    abstract fitView: {| padding: float ; includeHiddenNodes: bool |} -> unit
+    abstract zoomIn: unit -> unit
+    abstract zoomOut: unit -> unit
+    abstract zoomTo: float -> unit
+    abstract setTransform: {| x: int ;  y: int ; zoom: float |} -> unit
+    abstract toObject: unit -> {| elements: Element list ; position: int * int ; zoom: float |}
+    abstract getElements: unit -> Element list
+
+[<Erase>]
+type OnConnectParams =
+    abstract source: ElementId
+    abstract sourceHandle: Handle
+    abstract target: ElementId
+    abstract targetHandle: Handle
+
+[<Erase>]
+type OnConnectStartParams =
+    abstract nodeId: string
+    abstract handleType: HandleType
+
 // The !! below is used to "unsafely" expose a prop into an IReactFlowProp.
 [<Erase>]
 type ReactFlow =
@@ -109,10 +132,10 @@ type ReactFlow =
     static member inline onNodeDoubleClick(handler: Event -> Node -> unit) : IReactFlowProp =
         !!("onNodeDoubleClick" ==> handler)
 
-    static member inline onConnect(handler: {| source: ElementId ; sourceHandle: Handle ; target: ElementId ; targetHandle: Handle |} -> unit) : IReactFlowProp =
+    static member inline onConnect(handler: OnConnectParams -> unit) : IReactFlowProp =
         !!("onConnect" ==> handler)
 
-    static member inline onConnectStart(handler: Event -> {| nodeId: string; handleType: HandleType |} -> unit) : IReactFlowProp =
+    static member inline onConnectStart(handler: Event -> OnConnectStartParams -> unit) : IReactFlowProp =
         !!("onConnectStart" ==> System.Func<_,_,_>handler)
 
     static member inline onConnectStop(handler: Event -> unit) : IReactFlowProp =
@@ -144,8 +167,8 @@ type ReactFlow =
     static member inline onEdgeUpdateEnd(handler: Event -> Edge -> unit) : IReactFlowProp =
         !!("onEdgeUpdateEnd" ==> handler)
 
-    static member inline onLoad(handler: unit) : IReactFlowProp =
-        !!("onLoad" ==> handler)
+    static member inline onLoad(reactFlowInstance: Instance option -> unit) : IReactFlowProp =
+        !!("onLoad" ==> reactFlowInstance)
 
     static member inline onMove(flowTransform: unit) : IReactFlowProp =
         !!("onMove" ==> flowTransform)
