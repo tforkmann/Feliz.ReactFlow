@@ -47,6 +47,7 @@ type OnConnectStartParams =
 [<Erase>]
 type ReactFlow =
     /// Creates a new ReactFlow component.
+
     static member inline flowChart (props: IReactFlowProp seq) =
         Interop.reactApi.createElement (Interop.reactFlow, createObj !!props)
 
@@ -59,6 +60,15 @@ type ReactFlow =
     static member inline handle (props: IHandleProp seq) =
         Interop.reactApi.createElement (Interop.handle, createObj !!props)
 
+    static member inline background (props: IBackgroundProp seq) =
+        Interop.reactApi.createElement (Interop.background, createObj !!props)
+
+    static member inline miniMap (props: IMiniMapProp seq) =
+        Interop.reactApi.createElement (Interop.miniMap, createObj !!props)
+
+    static member inline controls (props: IControlsProp seq) =
+        Interop.reactApi.createElement (Interop.controls, createObj !!props)
+
     // Basic Props
 
     static member inline elements(elements: IElement array) : IReactFlowProp = !!("elements" ==> elements)
@@ -68,6 +78,9 @@ type ReactFlow =
 
     static member inline className(className: string) : IReactFlowProp =
         Interop.mkReactFlowProp "className" className
+
+    static member inline children (children: ReactElement list) =
+        unbox<IReactFlowProp> (prop.children children)
 
     // Flow View
 

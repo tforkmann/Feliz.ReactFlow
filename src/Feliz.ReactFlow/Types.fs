@@ -10,6 +10,9 @@ type INodeProp = interface end
 type IEdgeProp = interface end
 type IStyleProp = interface end
 type ILabelStyleProp = interface end
+type IBackgroundProp = interface end
+type IMiniMapProp = interface end
+type IControlsProp = interface end
 
 // Some sample types you can use for setting properties on elements.
 [<StringEnum>]

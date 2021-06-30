@@ -11,9 +11,15 @@ module Interop =
     let inline mkStyleProp (key: string) (value: obj) : IStyleProp = unbox (key, value)
     let inline mkLabelStyleProp (key: string) (value: obj) : ILabelStyleProp = unbox (key, value)
     let inline mkReactFlowProp (key: string) (value: obj) : IReactFlowProp = unbox (key, value)
+    let inline mkBackgroundProp (key: string) (value: obj) : IBackgroundProp = unbox (key, value)
+    let inline mkMiniMapProp (key: string) (value: obj) : IMiniMapProp = unbox (key, value)
+    let inline mkControlsProp (key: string) (value: obj) : IControlsProp = unbox (key, value)
 
-    let reactFlow : obj = importDefault "react-flow-renderer" // import the top-level ReactFlow element
-    let handle : obj = import "Handle" "react-flow-renderer"  // import the Handle component used for building custom nodes
+    let reactFlow : obj = importDefault "react-flow-renderer"
+    let handle : obj = import "Handle" "react-flow-renderer"
+    let background : obj = import "Background" "react-flow-renderer"
+    let miniMap : obj = import "MiniMap" "react-flow-renderer"
+    let controls : obj = import "Controls" "react-flow-renderer"
 
 [<Erase; RequireQualifiedAccess>]
 module Helpers =
