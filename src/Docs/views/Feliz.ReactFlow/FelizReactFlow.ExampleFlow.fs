@@ -7,11 +7,31 @@ open Feliz.Bulma
 open Feliz.ReactFlow
 open Shared
 
+[<ReactComponent>]
+let Counter() =
+    let (count, setCount) = React.useState(0)
+    Html.div [
+        prop.style [ style.padding 10 ]
+        prop.children [
+            ReactFlow.handle [
+                handle.``type`` Target
+                handle.position Top
+            ]
+            Html.button [
+                prop.style [ style.marginRight 5 ]
+                prop.onClick (fun _ -> setCount(count + 1))
+                prop.text "Increment"
+            ]
+            Html.text count
+        ]
+    ]
+
 let flowChart =
     div [ Props.Style [
               Props.CSSProp.Height 150
           ] ] [
           ReactFlow.flowChart [
+            ReactFlow.nodeTypes {| test = Counter |}
             ReactFlow.elements [|
                 ReactFlow.node [
                     node.id "1"
