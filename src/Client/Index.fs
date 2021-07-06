@@ -6,16 +6,114 @@ open Feliz
 open Feliz.ReactFlow
 open Browser.Dom
 
-type Model = obj
-type Msg = obj
+type FlowElement = { Id: string; Descr: string }
 
-let init () = obj (), Cmd.none
 
-let update msg model = model, Cmd.none
+type Model = { NodeList: IElement list }
+type Msg = AddFlowElement of FlowElement
+
+
+let initNodes : IElement list =
+    [
+        ReactFlow.node [
+            node.id "1"
+            node.nodetype Input
+            node.data {| label = "Erdgas Einsatz" |}
+            node.style [
+                style.background "yellow"
+                style.color "#332"
+                style.border "1px solid #222138"
+                style.width 180
+            ]
+            node.position (50, 30)
+          ]
+
+        ReactFlow.node
+
+          [ node.id "2"
+            node.nodetype Default
+            node.data {| label = "CityCube" |}
+            node.style [
+                style.background "#2e88c9"
+                style.color "white"
+                style.border "1px solid #222138"
+                style.width 180
+            ]
+            node.position (400, 30) ]
+
+        ReactFlow.node
+
+          [ node.id "3"
+            node.nodetype Output
+            node.data {| label = "Strom Absatz" |}
+            node.style [
+                style.background "lightblue"
+                style.color "#333"
+                style.border "1px solid #222138"
+                style.width 180
+            ]
+            node.position (300, 200) ]
+
+        ReactFlow.node
+
+          [ node.id "4"
+            node.nodetype Output
+            node.data {| label = "Wärme Absatz" |}
+            node.style [
+                style.background "red"
+                style.color "white"
+                style.border "1px solid #222138"
+                style.width 180
+            ]
+            node.position (500, 200) ]
+
+        ReactFlow.node
+
+          [ node.id "5"
+            node.nodetype (Custom "test")
+            node.data {| label = "Test" |}
+            node.position (50, 120)
+            node.style [
+                style.background "lightgreen"
+                style.border "1px solid black"
+                style.width 180
+            ] ] ]
+
+
+let init () = { NodeList = initNodes }, Cmd.none
+
+
+
+
+let createNode (flowElement: FlowElement) =
+    ReactFlow.node [
+        node.id flowElement.Id
+        node.nodetype Default
+        node.data {| label = flowElement.Descr |}
+        node.style [
+            style.background "red"
+            style.color "white"
+            style.border "1px solid #222138"
+            style.width 180
+        ]
+        node.position (700, 50)
+    ]
+
+let update msg (model: Model) =
+    match msg with
+    | AddFlowElement flowElement ->
+        let newNodes =
+            List.concat [
+                model.NodeList
+                [ createNode flowElement ]
+            ]
+
+        { model with NodeList = newNodes }, Cmd.none
 
 [<ReactComponent>]
-let Counter() =
-    let (count, setCount) = React.useState(0)
+let Counter () =
+    let (count, setCount) = React.useState (0)
+
     Html.div [
         prop.style [ style.padding 10 ]
         prop.children [
@@ -25,12 +123,13 @@ let Counter() =
             ]
             Html.button [
                 prop.style [ style.marginRight 5 ]
-                prop.onClick (fun _ -> setCount(count + 1))
+                prop.onClick (fun _ -> setCount (count + 1))
                 prop.text "Increment"
             ]
             Html.text count
         ]
     ]
+
 
 let view (model: Model) (dispatch: Msg -> unit) =
     div [ Props.Style [
@@ -39,65 +138,7 @@ let view (model: Model) (dispatch: Msg -> unit) =
         ReactFlow.flowChart [
             ReactFlow.nodeTypes {| test = Counter |}
             ReactFlow.elements [|
-                ReactFlow.node [
-                    node.id "1"
-                    node.nodetype Input
-                    node.data {| label = "Erdgas Einsatz" |}
-                    node.style [
-                        style.background "yellow"
-                        style.color "#332"
-                        style.border "1px solid #222138"
-                        style.width 180
-                    ]
-                    node.position (50, 30)
-                ]
-                ReactFlow.node [
-                    node.id "2"
-                    node.nodetype Default
-                    node.data {| label = "CityCube" |}
-                    node.style [
-                        style.background "#2e88c9"
-                        style.color "white"
-                        style.border "1px solid #222138"
-                        style.width 180
-                    ]
-                    node.position (400, 30)
-                ]
-                ReactFlow.node [
-                    node.id "3"
-                    node.nodetype Output
-                    node.data {| label = "Strom Absatz" |}
-                    node.style [
-                        style.background "lightblue"
-                        style.color "#333"
-                        style.border "1px solid #222138"
-                        style.width 180
-                    ]
-                    node.position (300, 200)
-                ]
-                ReactFlow.node [
-                    node.id "4"
-                    node.nodetype Output
-                    node.data {| label = "Wärme Absatz" |}
-                    node.style [
-                        style.background "red"
-                        style.color "white"
-                        style.border "1px solid #222138"
-                        style.width 180
-                    ]
-                    node.position (500, 200)
-                ]
-                ReactFlow.node [
-                    node.id "5"
-                    node.nodetype (Custom "test")
-                    node.data {| label = "Test" |}
-                    node.position (50, 120)
-                    node.style [
-                        style.background "lightgreen"
-                        style.border "1px solid black"
-                        style.width 180
-                    ]
-                ]
+                yield! model.NodeList
                 ReactFlow.edge [
                     edge.id "e1-2"
                     edge.source "1"
