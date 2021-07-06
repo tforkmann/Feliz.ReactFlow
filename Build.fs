@@ -9,6 +9,7 @@ open Farmer.Builders
 open Fake.IO.FileSystemOperators
 open Fake.IO.Globbing.Operators
 open Fake.Tools
+open Helpers
 let execContext = Context.FakeExecutionContext.Create false "build.fsx" [ ]
 Context.setExecutionContext (Context.RuntimeContext.Fake execContext)
 
@@ -57,34 +58,6 @@ let owner = "Tim Forkmann"
 // Tags for your project (for NuGet package)
 let tags = "Feliz binding for ReactFlow"
 
-// --------------------------------------------------------------------------------------
-// Classic SAFE STACK
-// --------------------------------------------------------------------------------------
-
-
-let npm args workingDir =
-    let npmPath =
-        match ProcessUtils.tryFindFileOnPath "npm" with
-        | Some path -> path
-        | None ->
-            "npm was not found in path. Please install it and make sure it's available from your path. " +
-            "See https://safe-stack.github.io/docs/quickstart/#install-pre-requisites for more info"
-            |> failwith
-
-    let arguments = args |> String.split ' ' |> Arguments.OfArgs
-
-    Command.RawCommand (npmPath, arguments)
-    |> CreateProcess.fromCommand
-    |> CreateProcess.withWorkingDirectory workingDir
-    |> CreateProcess.ensureExitCode
-    |> Proc.run
-    |> ignore
-
-let dotnet cmd workingDir =
-    let result = DotNet.exec (DotNet.Options.withWorkingDirectory workingDir) cmd ""
-    if not result.OK then
-        Trace.traceErrorfn "Errors while executing 'dotnet %s': %A" cmd result.Messages
-        failwithf "'dotnet %s' failed in %s" cmd workingDir
 
 Target.create "Clean" (fun _ ->
     !!"src/**/bin"
@@ -95,48 +68,37 @@ Target.create "Clean" (fun _ ->
     Shell.cleanDirs [buildDir; "temp"; "docs/output"; deployDir;]
 )
 
-Target.create "InstallClient" (fun _ -> npm "install" ".")
-
-Target.create "Bundle" (fun _ ->
-    dotnet (sprintf "publish -c Release -o \"%s\"" deployDir) serverPath
-    dotnet "fable --run webpack -p" clientPath
-)
-
-Target.create "Azure" (fun _ ->
-    let web = webApp {
-        name "reactflowfull"
-        zip_deploy "deploy"
-    }
-    let deployment = arm {
-        location Location.WestEurope
-        add_resource web
-    }
-
-    deployment
-    |> Deploy.execute "reactflowfull" Deploy.NoParameters
-    |> ignore
-)
+Target.create "InstallClient" (fun _ -> run npm "install" ".")
 
 Target.create "Run" (fun _ ->
-    dotnet "build" sharedPath
-    [ async { dotnet "watch run" serverPath }
-      async { dotnet "fable watch --run webpack-dev-server" clientPath } ]
-    |> Async.Parallel
-    |> Async.RunSynchronously
-    |> ignore
+    run dotnet "build" sharedPath
+    [ "server",  dotnet "watch run" serverPath
+      "client", dotnet "fable watch --run webpack-dev-server" clientPath  ]
+      |> runParallel
+
 )
 
 Target.create "RunTests" (fun _ ->
-    dotnet "build" sharedTestsPath
-    [ async { dotnet "watch run" serverTestsPath }
-      async { dotnet "fable watch --run webpack-dev-server --config ../../webpack.tests.config.js" "tests/Client" } ]
-    |> Async.Parallel
-    |> Async.RunSynchronously
-    |> ignore
+    run dotnet "build" sharedTestsPath
+    [ "server", dotnet "watch run" serverTestsPath
+      "client", npm "run test:live" "." ]
+    |> runParallel
 )
 
+
+Target.create
+    "ExecuteTests"
+    (fun _ ->
+        Environment.setEnvironVar "status" "Development"
+
+        run dotnet "build" sharedTestsPath
+
+        [ "server", dotnet "run" serverTestsPath
+          "client", npm "run test:build" "." ]
+        |> runParallel)
+
 Target.create "Format" (fun _ ->
-    dotnet "fantomas . -r" "src"
+   run dotnet "fantomas . -r" "src"
 )
 
 // --------------------------------------------------------------------------------------
@@ -216,7 +178,7 @@ let pushPackage _ =
     |> Seq.iter (fun fileName ->
         Trace.tracef "fileName %s" fileName
         let cmd = nugetCmd fileName key
-        dotnet cmd buildDir)
+        run dotnet cmd buildDir)
 Target.create "Push" (fun _ -> pushPackage [] )
 
 let docsSrcPath = Path.getFullName "./src/Docs"
@@ -224,23 +186,19 @@ let docsDeployPath = "docs"
 
 Target.create "InstallDocs" (fun _ ->
 
-    npm "install --frozen-lockfile" docsSrcPath
-    dotnet "restore" docsSrcPath )
+    run npm "install --frozen-lockfile" docsSrcPath
+    run dotnet "restore" docsSrcPath )
 
 Target.create "PublishDocs" (fun _ ->
     [ docsDeployPath] |> Shell.cleanDirs
-    dotnet "fable --run webpack-cli -p" docsSrcPath
+    run dotnet "fable --run webpack-cli -p" docsSrcPath
 )
 
 
 Target.create "RunDocs" (fun _ ->
-    dotnet "fable watch --run webpack-dev-server --outDir src/Docs/output" docsSrcPath)
+    run dotnet "fable watch --run webpack-dev-server --outDir src/Docs/output" docsSrcPath)
 
 let dependencies = [
-    "Clean"
-        ==> "InstallClient"
-        ==> "Bundle"
-        ==> "Azure"
 
     "Clean"
         ==> "InstallClient"
@@ -249,9 +207,15 @@ let dependencies = [
     "Clean"
         ==> "InstallClient"
         ==> "RunTests"
+    "Clean"
+        ==> "InstallClient"
+        ==> "Build"
+        ==> "ExecuteTests"
 
     "Clean"
+        ==> "InstallClient"
         ==> "Build"
+        ==> "ExecuteTests"
         ==> "PrepareRelease"
         ==> "Pack"
         ==> "Push"
@@ -260,6 +224,7 @@ let dependencies = [
         ==> "RunDocs"
 
     "InstallDocs"
+        ==> "ExecuteTests"
         ==> "PublishDocs"
 ]
 

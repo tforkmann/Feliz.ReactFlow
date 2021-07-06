@@ -23,7 +23,7 @@ jobs:
         run: dotnet tool restore
 
       - name: RunTests
-        run: dotnet run runTests
+        run: dotnet run ExecuteTests
 
       - name: Build
         run: dotnet run publishDocs
