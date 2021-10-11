@@ -132,11 +132,15 @@ let Counter () =
 
 
 let view (model: Model) (dispatch: Msg -> unit) =
+    let gridSize = 20
+
     div [ Props.Style [
-              Props.CSSProp.Height 1000
+              Props.CSSProp.Height 800
           ] ] [
         ReactFlow.flowChart [
             ReactFlow.nodeTypes {| test = Counter |}
+            ReactFlow.snapGrid (gridSize, gridSize)
+            ReactFlow.snapToGrid true
             ReactFlow.elements [|
                 yield! model.NodeList
                 ReactFlow.edge [
@@ -209,5 +213,22 @@ let view (model: Model) (dispatch: Msg -> unit) =
                 (fun ev nodeId ->
                     console.log ev
                     window.alert "You started to connect me!")
+            ReactFlow.children [
+                ReactFlow.background [
+                    background.gap gridSize
+                    background.size 1.
+                    background.variant Dots
+                    background.color "lightgrey"
+                ]
+                ReactFlow.miniMap [
+                    miniMap.nodeColor "lightgreen"
+                    miniMap.maskColor "gray"
+                ]
+                ReactFlow.controls [
+                    controls.onZoomIn (fun () -> console.log("Zoomed in"))
+                    controls.onZoomOut (fun () -> console.log("Zoomed out"))
+                    controls.onInteractiveChange (fun status -> console.log($"Locked: {not status}"))
+                ]
+            ]
         ]
     ]
