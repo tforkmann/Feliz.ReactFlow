@@ -20,10 +20,34 @@ type labelStyle =
     static member inline fill(fill: string) = Interop.mkAttr "fill" fill
     static member inline fontWeight(fontWeight: int) = Interop.mkAttr "fontWeight" fontWeight
 
+[<Erase>]
+type Instance =
+    abstract project: position -> position
+    abstract fitView: {| padding: float ; includeHiddenNodes: bool |} -> unit
+    abstract zoomIn: unit -> unit
+    abstract zoomOut: unit -> unit
+    abstract zoomTo: float -> unit
+    abstract setTransform: {| x: int ;  y: int ; zoom: float |} -> unit
+    abstract toObject: unit -> {| elements: Element list ; position: int * int ; zoom: float |}
+    abstract getElements: unit -> Element list
+
+[<Erase>]
+type OnConnectParams =
+    abstract source: ElementId
+    abstract sourceHandle: Handle
+    abstract target: ElementId
+    abstract targetHandle: Handle
+
+[<Erase>]
+type OnConnectStartParams =
+    abstract nodeId: string
+    abstract handleType: HandleType
+
 // The !! below is used to "unsafely" expose a prop into an IReactFlowProp.
 [<Erase>]
 type ReactFlow =
     /// Creates a new ReactFlow component.
+
     static member inline flowChart (props: IReactFlowProp seq) =
         Interop.reactApi.createElement (Interop.reactFlow, createObj !!props)
 
@@ -36,6 +60,15 @@ type ReactFlow =
     static member inline handle (props: IHandleProp seq) =
         Interop.reactApi.createElement (Interop.handle, createObj !!props)
 
+    static member inline background (props: IBackgroundProp seq) =
+        Interop.reactApi.createElement (Interop.background, createObj !!props)
+
+    static member inline miniMap (props: IMiniMapProp seq) =
+        Interop.reactApi.createElement (Interop.miniMap, createObj !!props)
+
+    static member inline controls (props: IControlsProp seq) =
+        Interop.reactApi.createElement (Interop.controls, createObj !!props)
+
     // Basic Props
 
     static member inline elements(elements: IElement array) : IReactFlowProp = !!("elements" ==> elements)
@@ -45,6 +78,9 @@ type ReactFlow =
 
     static member inline className(className: string) : IReactFlowProp =
         Interop.mkReactFlowProp "className" className
+
+    static member inline children (children: ReactElement list) =
+        unbox<IReactFlowProp> (prop.children children)
 
     // Flow View
 
@@ -109,10 +145,10 @@ type ReactFlow =
     static member inline onNodeDoubleClick(handler: Event -> Node -> unit) : IReactFlowProp =
         !!("onNodeDoubleClick" ==> handler)
 
-    static member inline onConnect(handler: {| source: ElementId ; sourceHandle: Handle ; target: ElementId ; targetHandle: Handle |} -> unit) : IReactFlowProp =
+    static member inline onConnect(handler: OnConnectParams -> unit) : IReactFlowProp =
         !!("onConnect" ==> handler)
 
-    static member inline onConnectStart(handler: Event -> {| nodeId: string; handleType: HandleType |} -> unit) : IReactFlowProp =
+    static member inline onConnectStart(handler: Event -> OnConnectStartParams -> unit) : IReactFlowProp =
         !!("onConnectStart" ==> System.Func<_,_,_>handler)
 
     static member inline onConnectStop(handler: Event -> unit) : IReactFlowProp =
@@ -144,8 +180,8 @@ type ReactFlow =
     static member inline onEdgeUpdateEnd(handler: Event -> Edge -> unit) : IReactFlowProp =
         !!("onEdgeUpdateEnd" ==> handler)
 
-    static member inline onLoad(handler: unit) : IReactFlowProp =
-        !!("onLoad" ==> handler)
+    static member inline onLoad(reactFlowInstance: Instance option -> unit) : IReactFlowProp =
+        !!("onLoad" ==> reactFlowInstance)
 
     static member inline onMove(flowTransform: unit) : IReactFlowProp =
         !!("onMove" ==> flowTransform)
