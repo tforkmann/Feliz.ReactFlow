@@ -3,7 +3,6 @@ module Client.Tests
 open Fable.Mocha
 
 open Index
-open Shared
 
 let client = testList "Client" [
     testCase "Added flowElement" <| fun _ ->

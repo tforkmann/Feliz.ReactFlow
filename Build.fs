@@ -68,6 +68,16 @@ Target.create "Clean" (fun _ ->
     Shell.cleanDirs [buildDir; "temp"; "docs/output"; deployDir;]
 )
 
+Target.create
+    "UpdateTools"
+    (fun _ ->
+        run dotnet "tool update fable" __SOURCE_DIRECTORY__
+        run dotnet "tool update fantomas-tool" __SOURCE_DIRECTORY__
+        run dotnet "tool update fake-cli" __SOURCE_DIRECTORY__
+        run dotnet "tool update paket" __SOURCE_DIRECTORY__
+
+        )
+
 Target.create "InstallClient" (fun _ -> run npm "install" ".")
 
 Target.create "Run" (fun _ ->
@@ -207,6 +217,7 @@ let dependencies = [
     "Clean"
         ==> "InstallClient"
         ==> "RunTests"
+
     "Clean"
         ==> "InstallClient"
         ==> "Build"
