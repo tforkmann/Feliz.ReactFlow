@@ -3,17 +3,18 @@ module Client.Tests
 open Fable.Mocha
 
 open Index
-open Shared
 
 let client = testList "Client" [
-    testCase "Added todo" <| fun _ ->
-        let newTodo = Todo.create "new todo"
+    testCase "Added flowElement" <| fun _ ->
         let model, _ = init ()
+        let flowElement =
+            { Id = "6"
+              Descr = "AdditionalFlowElement" }
 
-        let model, _ = update (AddedTodo newTodo) model
+        let model, _ = update (AddFlowElement flowElement) model
 
-        Expect.equal 1 model.Todos.Length "There should be 1 todo"
-        Expect.equal newTodo model.Todos.[0] "Todo should equal new todo"
+        Expect.equal 6 model.NodeList.Length "There should be 7 FlowElements"
+        Expect.equal (createNode flowElement) (model.NodeList |> List.last) "NodeList should equal new nodeElement"
 ]
 
 let all =

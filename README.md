@@ -1,7 +1,7 @@
 # Feliz Binding for [ReactFlow](https://reactflow.dev/)
 
 [![Feliz.ReactFlow on Nuget](https://buildstats.info/nuget/Feliz.ReactFlow)](https://www.nuget.org/packages/Feliz.ReactFlow/)
-
+[![Client](https://github.com/tforkmann/Feliz.ReactFlow/actions/workflows/Docs.yml/badge.svg)](https://github.com/tforkmann/Feliz.ReactFlow/actions/workflows/Docs.yml)
 
 ## Installation
 Install the nuget package

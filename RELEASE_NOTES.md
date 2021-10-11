@@ -1,3 +1,5 @@
+#### 0.2.3 - 2021-10-11
+* Add Minimap, Background and controls and test as well
 #### 0.2.2 - 2021-06-24
 * Add ReactFlow props (complete) and helpers (incomplete)
 #### 0.2.1 - 2021-06-17
