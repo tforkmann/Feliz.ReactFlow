@@ -212,19 +212,23 @@ let dependencies = [
 
     "Clean"
         ==> "InstallClient"
+        ==> "UpdateTools"
         ==> "Run"
 
     "Clean"
         ==> "InstallClient"
+        ==> "UpdateTools"
         ==> "RunTests"
 
     "Clean"
         ==> "InstallClient"
+        ==> "UpdateTools"
         ==> "Build"
         ==> "ExecuteTests"
 
     "Clean"
         ==> "InstallClient"
+        ==> "UpdateTools"
         ==> "Build"
         ==> "ExecuteTests"
         ==> "PrepareRelease"
