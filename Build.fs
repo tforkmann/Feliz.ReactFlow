@@ -228,7 +228,7 @@ let dependencies = [
 
     "Clean"
         ==> "InstallClient"
-        // ==> "UpdateTools"
+        ==> "UpdateTools"
         ==> "Build"
         ==> "ExecuteTests"
         ==> "PrepareRelease"
