@@ -4,7 +4,8 @@ open Fable.Core
 
 /// This interface allows us to stop adding random props to the react flow.
 type IReactFlowProp = interface end
-type IElement = interface end
+type INode = interface end
+type IEdge = interface end
 type IHandleProp = interface end
 type INodeProp = interface end
 type IEdgeProp = interface end
@@ -77,16 +78,24 @@ type ElementId = string
 type Element =
     abstract id: ElementId
 
-// TODO: Rest of properties https://reactflow.dev/docs/api/nodes/
+// Properties of https://reactflow.dev/docs/api/nodes/
 type Node =
     inherit Element
-    abstract position: position
-    abstract data: obj
+    abstract id: string
     abstract ``type``: NodeType
+    abstract data: obj
+    abstract position: position
 
 // TODO: Rest of properties https://reactflow.dev/docs/api/edges/
 type Edge =
     inherit Element
+    abstract id: string
+    abstract ``type``: EdgeType
+    abstract source: string
+    abstract target: string
+    abstract animated: bool
+    abstract data: obj
+    abstract label: string
 
 type Handle =
     inherit Element
