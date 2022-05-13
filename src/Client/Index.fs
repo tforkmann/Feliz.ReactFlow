@@ -119,7 +119,13 @@ let Counter () =
         prop.children [
             ReactFlow.handle [
                 handle.``type`` Target
+                handle.id "6"
                 handle.position Top
+            ]
+            ReactFlow.handle [
+                handle.``type`` Target
+                handle.id "7"
+                handle.position Left
             ]
             Html.button [
                 prop.style [ style.marginRight 5 ]
@@ -186,9 +192,10 @@ let view (model: Model) (dispatch: Msg -> unit) =
                     ]
                 ]
                 ReactFlow.edge [
-                    edge.id "e1-5"
+                    edge.id "e1-6"
                     edge.source "1"
                     edge.target "5"
+                    edge.targetHandle "7"
                     edge.edgeType SmoothStep
                     edge.style [ style.stroke "black" ]
                 ]

@@ -1,3 +1,5 @@
+#### 0.2.7 - 2022-05-12
+* Add Source and Target Handle in Edge
 #### 0.2.6 - 2022-02-23
 * Update packages
 #### 0.2.5 - 2022-02-22
