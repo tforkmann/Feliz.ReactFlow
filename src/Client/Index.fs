@@ -75,7 +75,7 @@ let initNodes: IElement list =
       ReactFlow.node [
           node.id "5"
           node.nodetype (Custom "test")
-          node.data {| label = "Test" |}
+          node.data {| label = "Label from Node" |}
           node.position (50, 120)
           node.style [
               style.background "lightgreen"
@@ -171,7 +171,8 @@ let createNode (flowElement: FlowElement) =
     ]
 
 let createEdge (parameter: OnConnectParams) =
-    let id =  new Guid()
+    let id = new Guid()
+
     ReactFlow.edge [
         edge.id (id.ToString())
         edge.source parameter.source
@@ -207,7 +208,11 @@ let update msg (model: Model) =
         { model with EdgeList = newEdge }, Cmd.none
 
 [<ReactComponent>]
-let Counter () =
+let Counter
+    (props: {| data: {| label: string |}
+               isConnectable: bool |})
+    ()
+    =
     let (count, setCount) = React.useState (0)
 
     Html.div [
@@ -228,8 +233,9 @@ let Counter () =
                 prop.onClick (fun _ -> setCount (count + 1))
                 prop.text "Increment"
             ]
+            Html.text props.data.label
             Html.text count
-        ]
+            ]
     ]
 
 
@@ -244,7 +250,7 @@ let view (model: Model) (dispatch: Msg -> unit) =
             ReactFlow.elements [|
                 yield! model.NodeList
                 yield! model.EdgeList
-                |]
+            |]
             ReactFlow.onElementClick (fun ev element ->
                 console.log ev
                 window.alert "You clicked me!")
