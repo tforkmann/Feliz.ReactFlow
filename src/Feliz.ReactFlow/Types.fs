@@ -4,7 +4,8 @@ open Fable.Core
 
 /// This interface allows us to stop adding random props to the react flow.
 type IReactFlowProp = interface end
-type IElement = interface end
+type INode = interface end
+type IEdge = interface end
 type IHandleProp = interface end
 type INodeProp = interface end
 type IEdgeProp = interface end

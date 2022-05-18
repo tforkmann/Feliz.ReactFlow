@@ -5,7 +5,7 @@
         "build": "webpack -p",
         "test:build": "dotnet fable tests/Client --outDir tests/Client/output --run webpack -p --config webpack.tests.config.js",
         "test:live": "dotnet fable tests/Client --outDir tests/Client/output --run webpack-dev-server --config webpack.tests.config.js"
-        },
+    },
     "devDependencies": {
         "@babel/core": "^7.6.4",
         "@babel/plugin-transform-runtime": "^7.6.2",
@@ -32,6 +32,6 @@
         "webpack-dev-server": "^3.8.2"
     },
     "dependencies": {
-        "react-flow-renderer": "^9.4.4"
+        "react-flow-renderer": "^10.2.2"
     }
 }

@@ -11,15 +11,15 @@ type FlowElement = { Id: string; Descr: string }
 
 
 type Model =
-    { NodeList: IElement list
-      EdgeList: IElement list }
+    { NodeList: INode list
+      EdgeList: IEdge list }
 
 type Msg =
     | AddFlowElement of FlowElement
     | AddEdge of OnConnectParams
 
 
-let initNodes: IElement list =
+let initNodes: INode list =
     [ ReactFlow.node [
           node.id "1"
           node.nodetype Input
@@ -247,19 +247,29 @@ let view (model: Model) (dispatch: Msg -> unit) =
             ReactFlow.nodeTypes {| test = Counter |}
             ReactFlow.snapGrid (gridSize, gridSize)
             ReactFlow.snapToGrid true
-            ReactFlow.elements [|
-                yield! model.NodeList
-                yield! model.EdgeList
-            |]
-            ReactFlow.onElementClick (fun ev element ->
-                console.log ev
-                window.alert "You clicked me!")
+            ReactFlow.nodes [| yield! model.NodeList |]
+            ReactFlow.edges [| yield! model.EdgeList |]
+            // ReactFlow.onEdgeClick (fun ev edge ->
+            //     console.log ev
+            //     window.alert "You clicked an edge!")
+            // ReactFlow.onNodeClick (fun ev edge ->
+            //     console.log ev
+            //     window.alert "You clicked an node!")
             ReactFlow.onNodeDragStop (fun ev node ->
                 console.log ev
                 window.alert "You dragged me!")
-            ReactFlow.onElementsRemove (fun elements ->
-                console.log elements
-                window.alert "You removed me!")
+            // ReactFlow.onEdgesRemove (fun edges ->
+            //     console.log edges
+            //     window.alert "You removed an edge!")
+            // ReactFlow.onNodesRemove (fun nodes ->
+            //     console.log nodes
+            //     window.alert "You removed an node!")
+            ReactFlow.onNodesChange (fun ev node ->
+                console.log node
+                window.alert "You changed an node!")
+            ReactFlow.onEdgesChange (fun ev edge ->
+                console.log edge
+                window.alert "You changed an edge!")
             ReactFlow.onConnect (fun onConnectParams ->
                 window.alert "Adding new edge"
                 onConnectParams |> AddEdge |> dispatch)

@@ -51,10 +51,10 @@ type ReactFlow =
     static member inline flowChart (props: IReactFlowProp seq) =
         Interop.reactApi.createElement (Interop.reactFlow, createObj !!props)
 
-    static member inline node (props: INodeProp seq): IElement =
+    static member inline node (props: INodeProp seq): INode =
         !!(createObj !!props)
 
-    static member inline edge (props: IEdgeProp seq): IElement =
+    static member inline edge (props: IEdgeProp seq): IEdge =
         !!(createObj !!props)
 
     static member inline handle (props: IHandleProp seq) =
@@ -71,7 +71,8 @@ type ReactFlow =
 
     // Basic Props
 
-    static member inline elements(elements: IElement array) : IReactFlowProp = !!("elements" ==> elements)
+    static member inline nodes(nodes: INode array) : IReactFlowProp = !!("nodes" ==> nodes)
+    static member inline edges(edges: IEdge array) : IReactFlowProp = !!("edges" ==> edges)
 
     static member inline style(style: string) : IReactFlowProp =
         Interop.mkReactFlowProp "style" style
@@ -115,11 +116,11 @@ type ReactFlow =
 
     // Because the event helpers are inlined, Fable uncurrying is not working
     // so we make the conversion to delegate (Func) explicitly
-    static member inline onElementClick(handler: Event -> Element -> unit) : IReactFlowProp =
-        !!("onElementClick" ==> System.Func<_,_,_>handler)
+    static member inline onNodeClick(handler: Event -> Node -> unit) : IReactFlowProp =
+        !!("onNodeClick" ==> System.Func<_,_,_>handler)
 
-    static member inline onElementsRemove(handler: Element[] -> unit) : IReactFlowProp =
-        !!("onElementsRemove" ==> handler)
+    static member inline onEdgeClick(handler: Event -> Edge -> unit) : IReactFlowProp =
+        !!("onEdgeClick" ==> System.Func<_,_,_>handler)
 
     static member inline onNodeDragStart(handler: Event -> Node -> unit) : IReactFlowProp =
         !!("onNodeDragStart" ==> System.Func<_,_,_>handler)
@@ -145,6 +146,9 @@ type ReactFlow =
     static member inline onNodeDoubleClick(handler: Event -> Node -> unit) : IReactFlowProp =
         !!("onNodeDoubleClick" ==> handler)
 
+    static member inline onNodesChange(handler: Event -> Node -> unit) : IReactFlowProp =
+        !!("onNodesChange" ==> handler)
+
     static member inline onConnect(handler: OnConnectParams -> unit) : IReactFlowProp =
         !!("onConnect" ==> handler)
 
@@ -157,8 +161,8 @@ type ReactFlow =
     static member inline onConnectEnd(handler: Event -> unit) : IReactFlowProp =
         !!("onConnectEnd" ==> handler)
 
-    static member inline onEdgeUpdate(handler: Event -> Edge -> unit) : IReactFlowProp =
-        !!("onEdgeUpdate" ==> handler)
+    static member inline onEdgesChange(handler: Event -> Edge -> unit) : IReactFlowProp =
+        !!("onEdgesChange" ==> handler)
 
     static member inline onEdgeMouseEnter(handler: Event -> Edge -> unit) : IReactFlowProp =
         !!("onEdgeMouseEnter" ==> handler)
@@ -172,16 +176,14 @@ type ReactFlow =
     static member inline onEdgeContextMenu(handler: Event -> Edge -> unit) : IReactFlowProp =
         !!("onEdgeContextMenu" ==> handler)
 
-    //TODO: Test if that works
-
     static member inline onEdgeUpdateStart(handler: Event -> Edge -> unit) : IReactFlowProp =
         !!("onEdgeUpdateStart" ==> handler)
 
     static member inline onEdgeUpdateEnd(handler: Event -> Edge -> unit) : IReactFlowProp =
         !!("onEdgeUpdateEnd" ==> handler)
 
-    static member inline onLoad(reactFlowInstance: Instance option -> unit) : IReactFlowProp =
-        !!("onLoad" ==> reactFlowInstance)
+    static member inline onInit(reactFlowInstance: Instance option -> unit) : IReactFlowProp =
+        !!("onInit" ==> reactFlowInstance)
 
     static member inline onMove(flowTransform: unit) : IReactFlowProp =
         !!("onMove" ==> flowTransform)
