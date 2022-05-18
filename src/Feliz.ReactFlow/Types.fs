@@ -73,6 +73,22 @@ type ConnectionLineType =
     | Step
     | Smoothstep
 
+[<StringEnum>]
+type NodeChange =
+    | NodeDimensionChange
+    | NodePositionChange
+    | NodeSelectionChange
+    | NodeRemoveChange
+    | NodeAddChange
+    | NodeResetChange
+
+[<StringEnum>]
+type EdgeChange =
+    | EdgeSelectionChange
+    | EdgeRemoveChange
+    | EdgeAddChange
+    | EdgeResetChange
+
 type ElementId = string
 
 type Element =

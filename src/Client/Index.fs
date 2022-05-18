@@ -11,16 +11,17 @@ type FlowElement = { Id: string; Descr: string }
 
 
 type Model =
-    { NodeList: INode list
-      EdgeList: IEdge list }
+    { NodeList: INode []
+      EdgeList: IEdge [] }
 
 type Msg =
     | AddFlowElement of FlowElement
     | AddEdge of OnConnectParams
 
 
-let initNodes: INode list =
-    [ ReactFlow.node [
+let initNodes: INode [] =
+    [|
+        ReactFlow.node [
           node.id "1"
           node.nodetype Input
           node.data {| label = "Erdgas Einsatz" |}
@@ -31,9 +32,9 @@ let initNodes: INode list =
               style.width 180
           ]
           node.position (50, 30)
-      ]
+        ]
 
-      ReactFlow.node [
+        ReactFlow.node [
           node.id "2"
           node.nodetype Default
           node.data {| label = "CityCube" |}
@@ -44,9 +45,9 @@ let initNodes: INode list =
               style.width 180
           ]
           node.position (400, 30)
-      ]
+        ]
 
-      ReactFlow.node [
+        ReactFlow.node [
           node.id "3"
           node.nodetype Output
           node.data {| label = "Strom Absatz" |}
@@ -57,9 +58,9 @@ let initNodes: INode list =
               style.width 180
           ]
           node.position (300, 200)
-      ]
+        ]
 
-      ReactFlow.node [
+        ReactFlow.node [
           node.id "4"
           node.nodetype Output
           node.data {| label = "Wärme Absatz" |}
@@ -70,9 +71,9 @@ let initNodes: INode list =
               style.width 180
           ]
           node.position (500, 200)
-      ]
+        ]
 
-      ReactFlow.node [
+        ReactFlow.node [
           node.id "5"
           node.nodetype (Custom "test")
           node.data {| label = "Label from Node" |}
@@ -82,8 +83,8 @@ let initNodes: INode list =
               style.border "1px solid black"
               style.width 180
           ]
-      ]
-      ReactFlow.node [
+        ]
+        ReactFlow.node [
           node.id "6"
           node.nodetype Output
           node.data {| label = "Unconnected" |}
@@ -94,10 +95,11 @@ let initNodes: INode list =
               style.width 180
           ]
           node.position (700, 200)
-      ] ]
+      ] |]
 
 let initEdges =
-    [ ReactFlow.edge [
+    [|
+        ReactFlow.edge [
           edge.id "e1-2"
           edge.source "1"
           edge.target "2"
@@ -110,8 +112,8 @@ let initEdges =
               labelStyle.fill "black"
               labelStyle.fontWeight 700
           ]
-      ]
-      ReactFlow.edge [
+        ]
+        ReactFlow.edge [
           edge.id "e2-3"
           edge.source "2"
           edge.target "3"
@@ -124,8 +126,8 @@ let initEdges =
               labelStyle.fill "blue"
               labelStyle.fontWeight 700
           ]
-      ]
-      ReactFlow.edge [
+         ]
+        ReactFlow.edge [
           edge.id "e2-4"
           edge.source "2"
           edge.target "4"
@@ -138,15 +140,15 @@ let initEdges =
               labelStyle.fill "red"
               labelStyle.fontWeight 700
           ]
-      ]
-      ReactFlow.edge [
+        ]
+        ReactFlow.edge [
           edge.id "e1-6"
           edge.source "1"
           edge.target "5"
           edge.targetHandle "7"
           edge.edgeType SmoothStep
           edge.style [ style.stroke "black" ]
-      ] ]
+      ] |]
 
 let init () =
     { NodeList = initNodes
@@ -194,17 +196,17 @@ let update msg (model: Model) =
     match msg with
     | AddFlowElement flowElement ->
         let newNodes =
-            List.concat [
+            Array.concat [
                 model.NodeList
-                [ createNode flowElement ]
+                [| createNode flowElement |]
             ]
 
         { model with NodeList = newNodes }, Cmd.none
     | AddEdge param ->
         let newEdge =
-            List.concat [
+            Array.concat [
                 model.EdgeList
-                [ createEdge param ]
+                [|createEdge param|]
             ]
 
         { model with EdgeList = newEdge }, Cmd.none
@@ -242,12 +244,22 @@ let Counter
 
 [<ReactComponent>]
 let ReactFlowChart
-    (props: {| nodeList: INode list
-               edgeList: IEdge list
+    (props: {| nodeList: INode []
+               edgeList: IEdge []
                callback: OnConnectParams -> unit   |})
     =
-    let (nodes, setNodes) = React.useState (0)
-
+    let (nodes, setNodes) = React.useState props.nodeList
+    let (edges, setEdges) = React.useState props.edgeList
+    let onNodesChange =
+        // React.useCallback(
+        // ReactFlow.applyNodeChanges changes)
+        // // setNodes changes)
+        React.useCallback(fun changes nodes  ->
+            printfn "callback %A" changes
+            ReactFlow.applyNodeChanges (fun change _ ->
+                setNodes nodes
+            ) |> ignore
+            )
     ReactFlow.flowChart [
         ReactFlow.nodeTypes {| test = Counter |}
         // ReactFlow.snapGrid (gridSize, gridSize)
@@ -255,14 +267,15 @@ let ReactFlowChart
         // ReactFlow.elementsSelectable true
         // ReactFlow.panOnDrag true
         ReactFlow.nodesDraggable true
-        ReactFlow.nodes [| yield! props.nodeList |]
-        ReactFlow.edges [| yield! props.edgeList |]
+        ReactFlow.nodes [| yield! nodes |]
+        ReactFlow.edges [| yield! edges |]
         // ReactFlow.onEdgeClick (fun ev edge ->
         //     console.log ev
         //     window.alert "You clicked an edge!")
-        // ReactFlow.onNodeClick (fun ev edge ->
-        //     console.log ev
-        //     window.alert "You clicked an node!")
+        ReactFlow.onNodeClick (fun ev edge ->
+            printfn "edge %A" edge
+            console.log ev
+            window.alert "You clicked an node!")
         // ReactFlow.onNodeDrag (fun ev node ->
         //     console.log ev
         //     window.alert "You dragged me!")
@@ -278,23 +291,20 @@ let ReactFlowChart
         ReactFlow.onDrop (fun ev node ->
             console.log node
             window.alert "You changed an node!")
-        ReactFlow.onNodesChange (fun changes ->
-            printfn "changes at node %A" changes
-            let r =
-                ReactFlow.applyNodeChanges (fun changes x  ->
-                    console.log changes
-                    window.alert "Applying changes")
-            printfn "Got result %A" r
+        // ReactFlow.onNodesChange onNodesChange
+        ReactFlow.onNodesChange (fun changes nodes ->
+            printfn "changes %A" changes
             console.log changes
-            // window.alert "You changed an node!"
+            window.alert "You changed an edge!"
             )
         ReactFlow.onEdgesChange (fun changes ->
+            printfn "changes %A" changes
             console.log changes
-            // window.alert "You changed an edge!"
+            window.alert "You changed an edge!"
             )
-        ReactFlow.onConnect (fun onConnectParams ->
-            window.alert "Adding new edge"
-            props.callback onConnectParams)
+        // ReactFlow.onConnect (fun onConnectParams ->
+        //     window.alert "Adding new edge"
+        //     props.callback onConnectParams)
 
         // ReactFlow.onConnectStart
         //     (fun ev nodeId ->
