@@ -104,7 +104,7 @@ let initEdges =
           edge.animated false
           edge.label "100 MWh"
           edge.edgeType SmoothStep
-          edge.arrowHeadType ArrowClosed
+          edge.markerType ArrowClosed
           edge.style [ style.stroke "blue" ]
           edge.labelStyle [
               labelStyle.fill "black"
@@ -118,7 +118,7 @@ let initEdges =
           edge.animated true
           edge.label "50 MWh"
           edge.edgeType SmoothStep
-          edge.arrowHeadType ArrowClosed
+          edge.markerType Arrow
           edge.style [ style.stroke "blue" ]
           edge.labelStyle [
               labelStyle.fill "blue"
@@ -132,7 +132,7 @@ let initEdges =
           edge.animated true
           edge.label "55 MWh"
           edge.edgeType SmoothStep
-          edge.arrowHeadType ArrowClosed
+          edge.markerType ArrowClosed
           edge.style [ style.stroke "red" ]
           edge.labelStyle [
               labelStyle.fill "red"
@@ -160,6 +160,7 @@ let createNode (flowElement: FlowElement) =
     ReactFlow.node [
         node.id flowElement.Id
         node.nodetype Default
+        node.draggable true
         node.data {| label = flowElement.Descr |}
         node.style [
             style.background "red"
@@ -180,7 +181,8 @@ let createEdge (parameter: OnConnectParams) =
         edge.animated true
         edge.label "50 MWh"
         edge.edgeType SmoothStep
-        edge.arrowHeadType ArrowClosed
+        edge.markerType Arrow
+        edge.markerEdge [markerEdge.source 1 ]
         edge.style [ style.stroke "blue" ]
         edge.labelStyle [
             labelStyle.fill "blue"
@@ -238,66 +240,93 @@ let Counter
             ]
     ]
 
+[<ReactComponent>]
+let ReactFlowChart
+    (props: {| nodeList: INode list
+               edgeList: IEdge list
+               callback: OnConnectParams -> unit   |})
+    =
+    let (nodes, setNodes) = React.useState (0)
+
+    ReactFlow.flowChart [
+        ReactFlow.nodeTypes {| test = Counter |}
+        // ReactFlow.snapGrid (gridSize, gridSize)
+        // ReactFlow.snapToGrid true
+        // ReactFlow.elementsSelectable true
+        // ReactFlow.panOnDrag true
+        ReactFlow.nodesDraggable true
+        ReactFlow.nodes [| yield! props.nodeList |]
+        ReactFlow.edges [| yield! props.edgeList |]
+        // ReactFlow.onEdgeClick (fun ev edge ->
+        //     console.log ev
+        //     window.alert "You clicked an edge!")
+        // ReactFlow.onNodeClick (fun ev edge ->
+        //     console.log ev
+        //     window.alert "You clicked an node!")
+        // ReactFlow.onNodeDrag (fun ev node ->
+        //     console.log ev
+        //     window.alert "You dragged me!")
+        // ReactFlow.onNodeDragStop (fun ev node ->
+        //     console.log ev
+        //     window.alert "You stopeed dragging me!")
+        // ReactFlow.onEdgesRemove (fun edges ->
+        //     console.log edges
+        //     window.alert "You removed an edge!")
+        // ReactFlow.onNodesRemove (fun nodes ->
+        //     console.log nodes
+        //     window.alert "You removed an node!")
+        ReactFlow.onDrop (fun ev node ->
+            console.log node
+            window.alert "You changed an node!")
+        ReactFlow.onNodesChange (fun changes ->
+            printfn "changes at node %A" changes
+            let r =
+                ReactFlow.applyNodeChanges (fun changes x  ->
+                    console.log changes
+                    window.alert "Applying changes")
+            printfn "Got result %A" r
+            console.log changes
+            // window.alert "You changed an node!"
+            )
+        ReactFlow.onEdgesChange (fun changes ->
+            console.log changes
+            // window.alert "You changed an edge!"
+            )
+        ReactFlow.onConnect (fun onConnectParams ->
+            window.alert "Adding new edge"
+            props.callback onConnectParams)
+
+        // ReactFlow.onConnectStart
+        //     (fun ev nodeId ->
+        //         console.log ev
+        //         window.alert "You started to connect me!")
+        // ReactFlow.onConnectEnd
+        //     (fun ev ->
+        //         console.log ev
+        //         window.alert "You stopped to connect me!")
+        // ReactFlow.children [
+        //     ReactFlow.background [
+        //         background.gap gridSize
+        //         background.size 1.
+        //         background.variant Dots
+        //         background.color "lightgrey"
+        //     ]
+        //     ReactFlow.miniMap [
+        //         miniMap.nodeColor "lightgreen"
+        //         miniMap.maskColor "gray"
+        //     ]
+        //     ReactFlow.controls [
+        //         controls.onZoomIn (fun () -> console.log ("Zoomed in"))
+        //         controls.onZoomOut (fun () -> console.log ("Zoomed out"))
+        //         controls.onInteractiveChange (fun status -> console.log ($"Locked: {not status}"))
+        //     ]
+        // ]
+    ]
+
 
 let view (model: Model) (dispatch: Msg -> unit) =
     let gridSize = 20
 
     div [ Props.Style [ Props.CSSProp.Height 800 ] ] [
-        ReactFlow.flowChart [
-            ReactFlow.nodeTypes {| test = Counter |}
-            ReactFlow.snapGrid (gridSize, gridSize)
-            ReactFlow.snapToGrid true
-            ReactFlow.nodes [| yield! model.NodeList |]
-            ReactFlow.edges [| yield! model.EdgeList |]
-            // ReactFlow.onEdgeClick (fun ev edge ->
-            //     console.log ev
-            //     window.alert "You clicked an edge!")
-            // ReactFlow.onNodeClick (fun ev edge ->
-            //     console.log ev
-            //     window.alert "You clicked an node!")
-            ReactFlow.onNodeDragStop (fun ev node ->
-                console.log ev
-                window.alert "You dragged me!")
-            // ReactFlow.onEdgesRemove (fun edges ->
-            //     console.log edges
-            //     window.alert "You removed an edge!")
-            // ReactFlow.onNodesRemove (fun nodes ->
-            //     console.log nodes
-            //     window.alert "You removed an node!")
-            ReactFlow.onNodesChange (fun ev node ->
-                console.log node
-                window.alert "You changed an node!")
-            ReactFlow.onEdgesChange (fun ev edge ->
-                console.log edge
-                window.alert "You changed an edge!")
-            ReactFlow.onConnect (fun onConnectParams ->
-                window.alert "Adding new edge"
-                onConnectParams |> AddEdge |> dispatch)
-            ReactFlow.panOnDrag true
-            // ReactFlow.onConnectStart
-            //     (fun ev nodeId ->
-            //         console.log ev
-            //         window.alert "You started to connect me!")
-            // ReactFlow.onConnectEnd
-            //     (fun ev ->
-            //         console.log ev
-            //         window.alert "You stopped to connect me!")
-            ReactFlow.children [
-                ReactFlow.background [
-                    background.gap gridSize
-                    background.size 1.
-                    background.variant Dots
-                    background.color "lightgrey"
-                ]
-                ReactFlow.miniMap [
-                    miniMap.nodeColor "lightgreen"
-                    miniMap.maskColor "gray"
-                ]
-                ReactFlow.controls [
-                    controls.onZoomIn (fun () -> console.log ("Zoomed in"))
-                    controls.onZoomOut (fun () -> console.log ("Zoomed out"))
-                    controls.onInteractiveChange (fun status -> console.log ($"Locked: {not status}"))
-                ]
-            ]
-        ]
+        ReactFlowChart  {| nodeList = model.NodeList ;edgeList = model.EdgeList; callback = AddEdge >> dispatch |}
     ]

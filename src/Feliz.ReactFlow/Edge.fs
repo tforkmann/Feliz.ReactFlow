@@ -22,8 +22,8 @@ type edge =
 
     static member inline hidden(hidden: bool) : IEdgeProp = Interop.mkEdgeProp "hidden" hidden
 
-    static member inline arrowHeadType(arrowHeadType: ArrowHead) : IEdgeProp =
-        Interop.mkEdgeProp "arrowHeadType" arrowHeadType
+    static member inline markerType(markerType: MarkerType) : IEdgeProp =
+        Interop.mkEdgeProp "markerType" markerType
 
     static member inline label(label: string) : IEdgeProp = Interop.mkEdgeProp "label" label
 
@@ -38,3 +38,6 @@ type edge =
 
     static member inline style props : IEdgeProp =
         Interop.mkEdgeProp "style" (createObj !!props)
+
+    static member inline markerEdge props : IEdgeProp =
+        Interop.mkEdgeProp "markerEdge" (createObj !!props)

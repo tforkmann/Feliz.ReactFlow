@@ -24,8 +24,8 @@ type EdgeType =
     | [<CompiledName("smoothstep")>] SmoothStep
 
 [<StringEnum>]
-type ArrowHead =
-    | Arrow
+type MarkerType =
+    | [<CompiledName("arrow")>] Arrow
     | [<CompiledName("arrowclosed")>] ArrowClosed
 
 type NodeType =
@@ -88,6 +88,8 @@ type Node =
 // TODO: Rest of properties https://reactflow.dev/docs/api/edges/
 type Edge =
     inherit Element
+
+
 
 type Handle =
     inherit Element
