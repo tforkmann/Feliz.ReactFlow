@@ -30,8 +30,8 @@ type node =
     static member inline sourcePosition(sourcePosition: HandlePosition): INodeProp =
         Interop.mkNodeProp "sourcePosition" (createObj !!sourcePosition)
 
-    static member inline isHidden(isHidden: bool): INodeProp =
-        Interop.mkNodeProp "isHidden" (createObj !!isHidden)
+    static member inline hidden(hidden: bool): INodeProp =
+        Interop.mkNodeProp "hidden" (createObj !!hidden)
 
     static member inline draggable(draggable: bool): INodeProp =
         Interop.mkNodeProp "draggable" (createObj !!draggable)

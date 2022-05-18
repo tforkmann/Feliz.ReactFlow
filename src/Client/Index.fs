@@ -273,6 +273,7 @@ let view (model: Model) (dispatch: Msg -> unit) =
             ReactFlow.onConnect (fun onConnectParams ->
                 window.alert "Adding new edge"
                 onConnectParams |> AddEdge |> dispatch)
+            ReactFlow.panOnDrag true
             // ReactFlow.onConnectStart
             //     (fun ev nodeId ->
             //         console.log ev

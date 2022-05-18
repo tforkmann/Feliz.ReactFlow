@@ -250,8 +250,8 @@ type ReactFlow =
     static member inline selectNodesOnDrag(selectNodesOnDrag : bool) : IReactFlowProp =
         Interop.mkReactFlowProp "selectNodesOnDrag" selectNodesOnDrag
 
-    static member inline paneMoveable(paneMoveable : bool) : IReactFlowProp =
-        Interop.mkReactFlowProp "paneMoveable" paneMoveable
+    static member inline panOnDrag(panOnDrag : bool) : IReactFlowProp =
+        Interop.mkReactFlowProp "panOnDrag" panOnDrag
 
     static member inline connectionMode(connectionMode : ConnectionMode) : IReactFlowProp =
         Interop.mkReactFlowProp "connectionMode" connectionMode
