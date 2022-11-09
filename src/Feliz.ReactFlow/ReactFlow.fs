@@ -271,8 +271,8 @@ type ReactFlow =
     static member inline connectionLineType(connectionLineType: ConnectionLineType) : IReactFlowProp =
         Interop.mkReactFlowProp "connectionLineType" connectionLineType
 
-    static member inline connectionLineStyle(connectionLineStyle: Fable.React.Props.SVGAttr []) : IReactFlowProp =
-        Interop.mkReactFlowProp "connectionLineStyle" connectionLineStyle
+    // static member inline connectionLineStyle(connectionLineStyle: Fable.React.FragmentProps.SVGAttr []) : IReactFlowProp =
+    //     Interop.mkReactFlowProp "connectionLineStyle" connectionLineStyle
 
     static member inline connectionLineComponent(connectionLineComponent: string) : IReactFlowProp =
         Interop.mkReactFlowProp "connectionLineComponent" connectionLineComponent
