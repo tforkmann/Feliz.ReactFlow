@@ -1,9 +1,9 @@
 source https://api.nuget.org/v3/index.json
-framework: net6.0
+framework: net7.0
 storage: none
 
 nuget Fable.Remoting.Giraffe
-nuget Saturn prerelease
+nuget Saturn
 nuget Expecto
 
 nuget Fable.Elmish.React
@@ -29,4 +29,4 @@ group Package
     source https://api.nuget.org/v3/index.json
     framework: netstandard2.0
 
-    nuget Feliz
+    nuget Feliz prerelease
