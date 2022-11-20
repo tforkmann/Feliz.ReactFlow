@@ -13,8 +13,5 @@
     <ItemGroup>
         <ProjectReference Include="..\Feliz.ReactFlow\Feliz.ReactFlow.fsproj" />
     </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\Shared\Shared.fsproj" />
-    </ItemGroup>
     <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

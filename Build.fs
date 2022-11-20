@@ -12,9 +12,6 @@ open Fake.Tools
 open Helpers
 let execContext = Context.FakeExecutionContext.Create false "build.fsx" [ ]
 Context.setExecutionContext (Context.RuntimeContext.Fake execContext)
-
-let sharedPath = Path.getFullName "src/Shared"
-let serverPath = Path.getFullName "src/Server"
 let clientPath = Path.getFullName "src/Client"
 let deployDir = Path.getFullName "deploy"
 let sharedTestsPath = Path.getFullName "tests/Shared"
@@ -56,7 +53,7 @@ let description = """Feliz binding for ReactFlow."""
 let authors = [ "Tim Forkmann; Isaac Abraham"]
 let owner = "Tim Forkmann"
 // Tags for your project (for NuGet package)
-let tags = "Feliz binding for ReactFlow"
+let tags = "fsharp;fable;ReactFlow;feliz;react;FlowElements"
 
 
 Target.create "Clean" (fun _ ->
@@ -81,9 +78,7 @@ Target.create
 Target.create "InstallClient" (fun _ -> run npm "install" ".")
 
 Target.create "Run" (fun _ ->
-    run dotnet "build" sharedPath
-    [ "server",  dotnet "watch run" serverPath
-      "client", dotnet "fable watch --run webpack-dev-server" clientPath  ]
+    [ "client", dotnet "fable watch --run webpack-dev-server" clientPath  ]
       |> runParallel
 
 )

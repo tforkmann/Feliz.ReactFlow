@@ -12,7 +12,7 @@ dotnet paket add Feliz.ReactFlow
 and install the npm package
 
 ```
-npm install --save react-flow-renderer
+npm install --save reactflow
 ```
 
 or use Femto:

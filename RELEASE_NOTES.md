@@ -1,3 +1,7 @@
+#### 0.2.8 - 2022-11-19
+* Add tags for Fable.Packages
+#### 0.2.7 - 2022-05-12
+* Add Source and Target Handle in Edge
 #### 0.2.7 - 2022-05-12
 * Add Source and Target Handle in Edge
 #### 0.2.6 - 2022-02-23

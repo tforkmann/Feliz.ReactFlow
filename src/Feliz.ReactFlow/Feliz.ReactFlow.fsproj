@@ -15,7 +15,7 @@
   </ItemGroup>
   <PropertyGroup>
     <NpmDependencies>
-      <NpmPackage Name="react-flow-renderer" Version="gt 9.0.0 lt 9.9.9" ResolutionStrategy="Max" DevDependency="true" />
+      <NpmPackage Name="reactflow" Version="gt 11.0.0 lt 11.9.9" ResolutionStrategy="Max" DevDependency="true" />
     </NpmDependencies>
   </PropertyGroup>
   <ItemGroup>

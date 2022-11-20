@@ -16,6 +16,7 @@ nuget Fulma
 nuget Feliz.Router
 nuget Zanaptak.TypedCssClasses
 nuget Feliz.Markdown
+nuget Feliz prerelease
 
 nuget Fake.Core.Target
 nuget Fake.DotNet.Cli
