@@ -72,14 +72,18 @@ let createProcess exe arg dir =
     |> CreateProcess.ensureExitCode
 
 let dotnet = createProcess "dotnet"
-let npm =
+let pnpmOrNpm =
     let npmPath =
-        match ProcessUtils.tryFindFileOnPath "npm" with
+        match ProcessUtils.tryFindFileOnPath "pnpm" with
         | Some path -> path
         | None ->
-            "npm was not found in path. Please install it and make sure it's available from your path. " +
-            "See https://safe-stack.github.io/docs/quickstart/#install-pre-requisites for more info"
-            |> failwith
+            do printfn "pnpm was not found in path. Trying to switch to npm..."
+            match ProcessUtils.tryFindFileOnPath "npm" with
+            | Some path -> path
+            | None ->
+                "npm was not found in path. Please install it and make sure it's available from your path. " +
+                "See https://safe-stack.github.io/docs/quickstart/#install-pre-requisites for more info"
+                |> failwith
 
     createProcess npmPath
 let node =
