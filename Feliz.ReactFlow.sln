@@ -12,6 +12,13 @@ EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Feliz.ReactFlow", "src\Feliz.ReactFlow\Feliz.ReactFlow.fsproj", "{C2CC6AF8-0058-4ADE-BCFB-B11FF950DBFF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{670E2276-806A-4D19-ACD4-7D964E4A08FB}"
+	ProjectSection(SolutionItems) = preProject
+		.npmrc = .npmrc
+		src\Docs\package-lock.json = src\Docs\package-lock.json
+		src\Docs\package.json = src\Docs\package.json
+		pnpm-lock.yaml = pnpm-lock.yaml
+		src\Docs\webpack.config.js = src\Docs\webpack.config.js
+	EndProjectSection
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "App", "src\Docs\App.fsproj", "{2BD065F1-E217-42C9-A816-474C359408A4}"
 EndProject

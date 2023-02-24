@@ -6,6 +6,7 @@
         "test:live": "webpack-dev-server --config webpack.tests.config.js"
     },
     "devDependencies": {
+        "@types/react": "^18",
         "@babel/core": "^7.10.5",
         "@babel/plugin-external-helpers": "^7.10.4",
         "@babel/plugin-proposal-class-properties": "^7.10.4",
@@ -34,7 +35,9 @@
         "html-webpack-plugin": "^4.3.0",
         "mini-css-extract-plugin": "^1.6.0",
         "open-sans-fonts": "^1.6.2",
-        "react-flow-renderer": "^9.4.4",
+        "react": "^18",
+        "react-dom": "^18",
+        "react-flow-renderer": "^9",
         "react-highlight": "0.12.0",
         "react-hot-loader": "^4.12.20",
         "react-markdown": "^6.0.2",
