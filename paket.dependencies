@@ -11,9 +11,10 @@ nuget Fable.Elmish.Debugger
 nuget Fable.FontAwesome.Free
 nuget Fable.Mocha
 nuget Fable.Remoting.Client
+nuget Feliz >= 2
 nuget Feliz.Bulma
 nuget Fulma
-nuget Feliz.Router
+nuget Feliz.Router >= 4
 nuget Zanaptak.TypedCssClasses
 nuget Feliz.Markdown
 
@@ -29,4 +30,4 @@ group Package
     source https://api.nuget.org/v3/index.json
     framework: netstandard2.0
 
-    nuget Feliz prerelease
+    nuget Feliz >= 2 lowest_matching: true
