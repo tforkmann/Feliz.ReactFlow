@@ -17,3 +17,4 @@ release.sh
 *.orig
 *.DotSettings.user
 tests/Client/output/
+/build

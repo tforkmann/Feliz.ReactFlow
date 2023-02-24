@@ -4,8 +4,10 @@
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="paket.references" />
     <Compile Include="Helpers.fs" />
     <Compile Include="Build.fs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project=".paket\Paket.Restore.targets" />
 </Project>
