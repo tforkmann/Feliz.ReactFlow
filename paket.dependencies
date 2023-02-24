@@ -6,11 +6,12 @@ nuget Fable.Remoting.Giraffe
 nuget Saturn
 nuget Expecto
 
-nuget Fable.Elmish.React
-nuget Fable.Elmish.Debugger
+nuget Fable.Elmish.React >= 4
+nuget Fable.Elmish.Debugger >= 4
 nuget Fable.FontAwesome.Free
 nuget Fable.Mocha
 nuget Fable.Remoting.Client
+nuget Fable.Core >= 4.0.0 theta
 nuget Feliz >= 2
 nuget Feliz.Bulma
 nuget Fulma
