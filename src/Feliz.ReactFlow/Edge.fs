@@ -4,6 +4,7 @@ open Feliz
 open Fable.Core.JsInterop
 open Fable.Core
 
+
 [<Erase>]
 type edge =
     static member inline source(source: string) : IEdgeProp = Interop.mkEdgeProp "source" source
@@ -22,8 +23,48 @@ type edge =
 
     static member inline hidden(hidden: bool) : IEdgeProp = Interop.mkEdgeProp "hidden" hidden
 
-    static member inline arrowHeadType(arrowHeadType: ArrowHead) : IEdgeProp =
-        Interop.mkEdgeProp "arrowHeadType" arrowHeadType
+    //static member inline arrowHeadType(arrowHeadType: ArrowHead) : IEdgeProp =
+    //    Interop.mkEdgeProp "arrowHeadType" arrowHeadType
+
+    static member inline markerStart(markerType: EdgeMarker) : IEdgeProp =
+        Interop.mkEdgeProp "markerStart" markerType
+
+    static member inline markerStart(markerType: string) : IEdgeProp =
+        Interop.mkEdgeProp "markerStart" markerType
+
+    static member inline markerStart(
+        ``type``: MarkerType, ?color: string, ?width: float, ?height: float,
+        ?markerUnits: string, ?orient: string, ?strokeWidth: float
+    ) =
+        jsOptions<EdgeMarker>(fun m ->
+            m.``type`` <- ``type``
+            m.color <- color
+            m.width <- width
+            m.height <- height
+            m.markerUnits <- markerUnits
+            m.orient <- orient
+            m.strokeWidth <- strokeWidth
+        ) |> Interop.mkEdgeProp "markerStart"
+
+    static member inline markerEnd(markerType: EdgeMarker) : IEdgeProp =
+        Interop.mkEdgeProp "markerEnd" markerType
+
+    static member inline markerEnd(markerType: string) : IEdgeProp =
+        Interop.mkEdgeProp "markerEnd" markerType
+
+    static member inline markerEnd(
+        ``type``: MarkerType, ?color: string, ?width: float, ?height: float,
+        ?markerUnits: string, ?orient: string, ?strokeWidth: float
+    ) =
+        jsOptions<EdgeMarker>(fun m ->
+            m.``type`` <- ``type``
+            m.color <- color
+            m.width <- width
+            m.height <- height
+            m.markerUnits <- markerUnits
+            m.orient <- orient
+            m.strokeWidth <- strokeWidth
+        ) |> Interop.mkEdgeProp "markerEnd"
 
     static member inline label(label: string) : IEdgeProp = Interop.mkEdgeProp "label" label
 

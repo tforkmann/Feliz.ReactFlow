@@ -30,8 +30,12 @@ type node =
     static member inline sourcePosition(sourcePosition: HandlePosition): INodeProp =
         Interop.mkNodeProp "sourcePosition" (createObj !!sourcePosition)
 
+    static member inline hidden(isHidden: bool): INodeProp =
+        Interop.mkNodeProp "hidden" (createObj !!isHidden)
+
+    [<System.Obsolete "Alias for `hidden`: `isHidden` has been renamed to `hidden` since React Flow v10">]
     static member inline isHidden(isHidden: bool): INodeProp =
-        Interop.mkNodeProp "isHidden" (createObj !!isHidden)
+        node.hidden isHidden
 
     static member inline draggable(draggable: bool): INodeProp =
         Interop.mkNodeProp "draggable" (createObj !!draggable)

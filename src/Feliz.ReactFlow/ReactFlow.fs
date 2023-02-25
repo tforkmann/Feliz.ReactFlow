@@ -5,6 +5,7 @@ open Fable.Core
 open Feliz
 
 type Event = Browser.Types.Event
+type MouseEvent = Browser.Types.MouseEvent
 
 [<Erase>]
 type style =
@@ -40,8 +41,13 @@ type OnConnectParams =
 
 [<Erase>]
 type OnConnectStartParams =
-    abstract nodeId: string
-    abstract handleType: HandleType
+    abstract nodeId: NodeId option
+    abstract handleId : HandleId option
+    abstract handleType: HandleType option
+
+type [<AllowNullLiteral>] OnSelectionChangeParams =
+    abstract nodes: Node[]
+    abstract edges: Edge[]
 
 // The !! below is used to "unsafely" expose a prop into an IReactFlowProp.
 [<Erase>]
@@ -51,10 +57,10 @@ type ReactFlow =
     static member inline flowChart (props: IReactFlowProp seq) =
         Interop.reactApi.createElement (Interop.reactFlow, createObj !!props)
 
-    static member inline node (props: INodeProp seq): IElement =
+    static member inline node (props: INodeProp seq): Node =
         !!(createObj !!props)
 
-    static member inline edge (props: IEdgeProp seq): IElement =
+    static member inline edge (props: IEdgeProp seq): Edge =
         !!(createObj !!props)
 
     static member inline handle (props: IHandleProp seq) =
@@ -71,7 +77,14 @@ type ReactFlow =
 
     // Basic Props
 
-    static member inline elements(elements: IElement array) : IReactFlowProp = !!("elements" ==> elements)
+    static member inline nodes(nodes: Node array) : IReactFlowProp = !!("nodes" ==> nodes)
+    static member inline edges(edges: Edge array) : IReactFlowProp = !!("edges" ==> edges)
+
+    static member inline defaultNodes(nodes: Node array) : IReactFlowProp = !!("defaultNodes" ==> nodes)
+    static member inline defaultEdges(edges: Edge array) : IReactFlowProp = !!("defaultEdges" ==> edges)
+
+    static member inline nodeOrigin (xyValues: (float * float)) : IReactFlowProp =
+        Interop.mkReactFlowProp "nodeOrigin" xyValues
 
     static member inline style(style: string) : IReactFlowProp =
         Interop.mkReactFlowProp "style" style
@@ -90,11 +103,9 @@ type ReactFlow =
     static member inline maxZoom(maxZoom : float) : IReactFlowProp =
         Interop.mkReactFlowProp "maxZoom" maxZoom
 
-    static member inline defaultZoom(defaultZoom : float) : IReactFlowProp =
-        Interop.mkReactFlowProp "defaultZoom" defaultZoom
-
-    static member inline defaultPosition(x: int, y: int) : IReactFlowProp =
-        Interop.mkReactFlowProp "defaultPosition" (x, y)
+    static member inline defaultViewport(x: float, y: float, zoom: float) : IReactFlowProp =
+        jsOptions<Viewport>(fun v -> v.x <- x; v.y <- y; v.zoom <- zoom)
+        |> Interop.mkReactFlowProp "defaultPosition"
 
     static member inline snapToGrid(snapToGrid : bool) : IReactFlowProp =
         Interop.mkReactFlowProp "snapToGrid" snapToGrid
@@ -115,106 +126,126 @@ type ReactFlow =
 
     // Because the event helpers are inlined, Fable uncurrying is not working
     // so we make the conversion to delegate (Func) explicitly
-    static member inline onElementClick(handler: Event -> Element -> unit) : IReactFlowProp =
-        !!("onElementClick" ==> System.Func<_,_,_>handler)
 
-    static member inline onElementsRemove(handler: Element[] -> unit) : IReactFlowProp =
-        !!("onElementsRemove" ==> handler)
+    static member inline onNodesChange (handler: NodeChange [] -> unit) =
+        Interop.mkReactFlowProp "onNodesChange" handler
 
-    static member inline onNodeDragStart(handler: Event -> Node -> unit) : IReactFlowProp =
-        !!("onNodeDragStart" ==> System.Func<_,_,_>handler)
+    static member inline onEdgesChange (handler: EdgeChange [] -> unit) =
+        Interop.mkReactFlowProp "onEdgesChange" handler
 
-    static member inline onNodeDrag(handler: Event -> Node -> unit) : IReactFlowProp =
-        !!("onNodeDrag" ==> System.Func<_,_,_>handler)
+    static member inline onNodeClick(handler: MouseEvent -> Node -> unit) : IReactFlowProp =
+        !!("onNodeClick" ==> System.Func<_,_,_>handler)
 
-    static member inline onNodeDragStop(handler: Event -> Node -> unit) : IReactFlowProp =
-        !!("onNodeDragStop" ==> System.Func<_,_,_>handler)
+    static member inline onEdgeClick(handler: MouseEvent -> Edge -> unit) : IReactFlowProp =
+        !!("onEdgeClick" ==> System.Func<_,_,_>handler)
 
-    static member inline onNodeMouseEnter(handler: Event -> Node -> unit) : IReactFlowProp =
+    static member inline onNodeDragStart(handler: MouseEvent -> Node -> Node [] -> unit) : IReactFlowProp =
+        !!("onNodeDragStart" ==> System.Func<_,_,_,_>handler)
+
+    static member inline onNodeDrag(handler: MouseEvent -> Node -> Node [] -> unit) : IReactFlowProp =
+        !!("onNodeDrag" ==> System.Func<_,_,_,_>handler)
+
+    static member inline onNodeDragStop(handler: MouseEvent -> Node -> Node [] -> unit) : IReactFlowProp =
+        !!("onNodeDragStop" ==> System.Func<_,_,_,_>handler)
+
+    static member inline onNodeMouseEnter(handler: MouseEvent -> Node -> unit) : IReactFlowProp =
         !!("onNodeMouseEnter" ==> System.Func<_,_,_>handler)
 
-    static member inline onNodeMouseMove(handler: Event -> Node -> unit) : IReactFlowProp =
+    static member inline onNodeMouseMove(handler: MouseEvent -> Node -> unit) : IReactFlowProp =
         !!("onNodeMouseMove" ==> System.Func<_,_,_>handler)
 
-    static member inline onNodeMouseLeave(handler: Event -> Node -> unit) : IReactFlowProp =
+    static member inline onNodeMouseLeave(handler: MouseEvent -> Node -> unit) : IReactFlowProp =
         !!("onNodeMouseLeave" ==> System.Func<_,_,_>handler)
 
-    static member inline onNodeContextMenu(handler: Event -> Node -> unit) : IReactFlowProp =
+    static member inline onNodeContextMenu(handler: MouseEvent -> Node -> unit) : IReactFlowProp =
         !!("onNodeContextMenu" ==> System.Func<_,_,_>handler)
 
-    static member inline onNodeDoubleClick(handler: Event -> Node -> unit) : IReactFlowProp =
-        !!("onNodeDoubleClick" ==> handler)
+    static member inline onNodeDoubleClick(handler: MouseEvent -> Node -> unit) : IReactFlowProp =
+        !!("onNodeDoubleClick" ==> System.Action<_,_> handler)
 
-    static member inline onConnect(handler: OnConnectParams -> unit) : IReactFlowProp =
+    static member inline onConnect(handler: Connection -> unit) : IReactFlowProp =
         !!("onConnect" ==> handler)
 
-    static member inline onConnectStart(handler: Event -> OnConnectStartParams -> unit) : IReactFlowProp =
+    static member inline onConnectStart(handler: MouseEvent -> OnConnectStartParams -> unit) : IReactFlowProp =
         !!("onConnectStart" ==> System.Func<_,_,_>handler)
 
-    static member inline onConnectStop(handler: Event -> unit) : IReactFlowProp =
-        !!("onConnectStop" ==> handler)
+    static member inline onClickConnectStart(handler: MouseEvent -> OnConnectStartParams -> unit) : IReactFlowProp =
+        !!("onClickConnectStart" ==> System.Func<_,_,_>handler)
 
-    static member inline onConnectEnd(handler: Event -> unit) : IReactFlowProp =
+    static member inline onConnectEnd(handler: MouseEvent -> unit) : IReactFlowProp =
         !!("onConnectEnd" ==> handler)
 
-    static member inline onEdgeUpdate(handler: Event -> Edge -> unit) : IReactFlowProp =
-        !!("onEdgeUpdate" ==> handler)
+    static member inline onClickConnectEnd(handler: MouseEvent -> unit) : IReactFlowProp =
+        !!("onClickConnectEnd" ==> handler)
 
-    static member inline onEdgeMouseEnter(handler: Event -> Edge -> unit) : IReactFlowProp =
-        !!("onEdgeMouseEnter" ==> handler)
+    static member inline onEdgeUpdate(handler: Edge -> Connection -> unit) : IReactFlowProp =
+        !!("onEdgeUpdate" ==> System.Action<_,_> handler)
 
-    static member inline onEdgeMouseMove(handler: Event -> Edge -> unit) : IReactFlowProp =
-        !!("onEdgeMouseMove" ==> handler)
+    static member inline onEdgeMouseEnter(handler: MouseEvent -> Edge -> unit) : IReactFlowProp =
+        !!("onEdgeMouseEnter" ==> System.Action<_,_> handler)
 
-    static member inline onEdgeMouseLeave(handler: Event -> Edge -> unit) : IReactFlowProp =
-        !!("onEdgeMouseLeave" ==> handler)
+    static member inline onEdgeMouseMove(handler: MouseEvent -> Edge -> unit) : IReactFlowProp =
+        !!("onEdgeMouseMove" ==> System.Action<_,_> handler)
 
-    static member inline onEdgeContextMenu(handler: Event -> Edge -> unit) : IReactFlowProp =
-        !!("onEdgeContextMenu" ==> handler)
+    static member inline onEdgeMouseLeave(handler: MouseEvent -> Edge -> unit) : IReactFlowProp =
+        !!("onEdgeMouseLeave" ==> System.Action<_,_> handler)
+
+    static member inline onEdgeContextMenu(handler: MouseEvent -> Edge -> unit) : IReactFlowProp =
+        !!("onEdgeContextMenu" ==> System.Action<_,_> handler)
 
     //TODO: Test if that works
 
-    static member inline onEdgeUpdateStart(handler: Event -> Edge -> unit) : IReactFlowProp =
-        !!("onEdgeUpdateStart" ==> handler)
+    static member inline onEdgeUpdateStart(handler: MouseEvent -> Edge -> HandleType -> unit) : IReactFlowProp =
+        !!("onEdgeUpdateStart" ==> System.Action<_,_,_> handler)
 
-    static member inline onEdgeUpdateEnd(handler: Event -> Edge -> unit) : IReactFlowProp =
-        !!("onEdgeUpdateEnd" ==> handler)
+    static member inline onEdgeUpdateEnd(handler: MouseEvent -> Edge -> HandleType -> unit) : IReactFlowProp =
+        !!("onEdgeUpdateEnd" ==> System.Action<_,_,_> handler)
 
+    static member inline onEdgesDelete(handler: Edge [] -> unit) : IReactFlowProp =
+        !! ("onEdgesDelete" ==> handler)
+
+    static member inline onInit(reactFlowInstance: Instance option -> unit) : IReactFlowProp =
+        !!("onInit" ==> reactFlowInstance)
+
+    [<System.Obsolete "Alias for `onInit`: `onLoad` has been renamed to `onInit` since React Flow v10">]
     static member inline onLoad(reactFlowInstance: Instance option -> unit) : IReactFlowProp =
-        !!("onLoad" ==> reactFlowInstance)
+        ReactFlow.onInit reactFlowInstance
 
-    static member inline onMove(flowTransform: unit) : IReactFlowProp =
-        !!("onMove" ==> flowTransform)
+    static member inline onMove(handler: MouseEvent -> Viewport -> unit) : IReactFlowProp =
+        !!("onMove" ==> System.Action<_,_> handler)
 
-    static member inline onMoveStart(flowTransform: unit) : IReactFlowProp =
-        !!("onMoveStart" ==> flowTransform)
+    static member inline onMoveStart(handler: MouseEvent -> Viewport -> unit) : IReactFlowProp =
+        !!("onMoveStart" ==> System.Action<_,_> handler)
 
-    static member inline onMoveEnd(flowTransform: unit) : IReactFlowProp =
-        !!("onMoveEnd" ==> flowTransform)
+    static member inline onMoveEnd(handler: MouseEvent -> Viewport -> unit) : IReactFlowProp =
+        !!("onMoveEnd" ==> System.Action<_,_> handler)
 
-    static member inline onSelectionChange(handler: Element [] -> unit) : IReactFlowProp =
+    static member inline onSelectionChange(handler: OnSelectionChangeParams -> unit) : IReactFlowProp =
         !!("onSelectionChange" ==> handler)
 
-    static member inline onSelectionDragStart(handler: Event -> Node [] -> unit) : IReactFlowProp =
-        !!("onSelectionDragStart" ==> handler)
+    static member inline onSelectionDragStart(handler: MouseEvent -> Node [] -> unit) : IReactFlowProp =
+        !!("onSelectionDragStart" ==> System.Action<_,_> handler)
 
-    static member inline onSelectionDrag(handler: Event -> Node [] -> unit) : IReactFlowProp =
-        !!("onSelectionDrag" ==> handler)
+    static member inline onSelectionDrag(handler: MouseEvent -> Node [] -> unit) : IReactFlowProp =
+        !!("onSelectionDrag" ==> System.Action<_,_> handler)
 
-    static member inline onSelectionDragStop(handler: Event -> Node [] -> unit) : IReactFlowProp =
-        !!("onSelectionDragStop" ==> handler)
+    static member inline onSelectionDragStop(handler: MouseEvent -> Node [] -> unit) : IReactFlowProp =
+        !!("onSelectionDragStop" ==> System.Action<_,_> handler)
 
-    static member inline onSelectionContextMenu(handler: Event -> Node [] -> unit) : IReactFlowProp =
-        !!("onSelectionContextMenu" ==> handler)
+    static member inline onSelectionContextMenu(handler: MouseEvent -> Node [] -> unit) : IReactFlowProp =
+        !!("onSelectionContextMenu" ==> System.Action<_,_> handler)
 
-    static member inline onPaneClick(handler: Event -> unit) : IReactFlowProp =
+    static member inline onPaneClick(handler: MouseEvent -> unit) : IReactFlowProp =
         !!("onPaneClick" ==> handler)
 
-    static member inline onPaneContextMenu(handler: Event -> unit) : IReactFlowProp =
+    static member inline onPaneContextMenu(handler: MouseEvent -> unit) : IReactFlowProp =
         !!("onPaneContextMenu" ==> handler)
 
-    static member inline onPaneScroll(handler: Event -> unit) : IReactFlowProp =
+    static member inline onPaneScroll(handler: MouseEvent -> unit) : IReactFlowProp =
         !!("onPaneScroll" ==> handler)
+
+    static member inline onError(handler: string -> string -> unit) : IReactFlowProp =
+        !!("onError" ==> System.Action<_, _> handler)
 
     // Interaction
 
@@ -248,8 +279,12 @@ type ReactFlow =
     static member inline selectNodesOnDrag(selectNodesOnDrag : bool) : IReactFlowProp =
         Interop.mkReactFlowProp "selectNodesOnDrag" selectNodesOnDrag
 
+    static member inline panOnDrag(panOnDrag : bool) : IReactFlowProp =
+        Interop.mkReactFlowProp "panOnDrag" panOnDrag
+
+    [<System.Obsolete "Alias for `panOnDrag`: `paneMoveable` has been renamed to `panOnDrag` since React Flow v10">]
     static member inline paneMoveable(paneMoveable : bool) : IReactFlowProp =
-        Interop.mkReactFlowProp "paneMoveable" paneMoveable
+        ReactFlow.panOnDrag paneMoveable
 
     static member inline connectionMode(connectionMode : ConnectionMode) : IReactFlowProp =
         Interop.mkReactFlowProp "connectionMode" connectionMode
