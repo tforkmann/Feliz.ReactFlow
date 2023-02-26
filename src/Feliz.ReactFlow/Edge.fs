@@ -72,10 +72,10 @@ type edge =
 
     static member inline edgeType(edgeType: EdgeType) : IEdgeProp = Interop.mkEdgeProp "type" edgeType
 
-    static member inline labelStyle props : IEdgeProp =
-        Interop.mkEdgeProp "labelStyle" (createObj !!props)
+    static member inline labelStyle (styleProps: #seq<IStyleAttribute>) : IEdgeProp =
+        Interop.mkEdgeProp "labelStyle" (createObj !!styleProps)
 
     static member inline id(id: string) : IEdgeProp = Interop.mkEdgeProp "id" id
 
-    static member inline style props : IEdgeProp =
-        Interop.mkEdgeProp "style" (createObj !!props)
+    static member inline style (styleProps: #seq<IStyleAttribute>) : IEdgeProp =
+        Interop.mkEdgeProp "style" (createObj !!styleProps)

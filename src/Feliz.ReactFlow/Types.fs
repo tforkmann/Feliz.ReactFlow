@@ -8,8 +8,6 @@ type IElement = interface end
 type IHandleProp = interface end
 type INodeProp = interface end
 type IEdgeProp = interface end
-type IStyleProp = interface end
-type ILabelStyleProp = interface end
 type IBackgroundProp = interface end
 type IMiniMapProp = interface end
 type IControlsProp = interface end
@@ -125,6 +123,8 @@ type [<AllowNullLiteral>] Connection =
     abstract target: NodeId option with get, set
     abstract sourceHandle: HandleId option with get, set
     abstract targetHandle: HandleId option with get, set
+
+type [<RequireQualifiedAccess; StringEnum>] CoordinateExtentKind = Parent
 
 type [<AllowNullLiteral>] NodeDimensionChange =
     abstract id: string with get, set

@@ -7,19 +7,6 @@ open Feliz
 type Event = Browser.Types.Event
 type MouseEvent = Browser.Types.MouseEvent
 
-[<Erase>]
-type style =
-    static member inline background(background: string) = Interop.mkAttr "background" background
-    static member inline color(color: string) = Interop.mkAttr "color" color
-    static member inline border(border: string) = Interop.mkAttr "border" border
-    static member inline width(width: int) = Interop.mkAttr "width" width
-    static member inline height(heigth: int) = Interop.mkAttr "heigth" heigth
-    static member inline stroke(stroke: string) = Interop.mkAttr "stroke" stroke
-
-[<Erase>]
-type labelStyle =
-    static member inline fill(fill: string) = Interop.mkAttr "fill" fill
-    static member inline fontWeight(fontWeight: int) = Interop.mkAttr "fontWeight" fontWeight
 
 [<Erase>]
 type Instance =
@@ -86,8 +73,8 @@ type ReactFlow =
     static member inline nodeOrigin (xyValues: (float * float)) : IReactFlowProp =
         Interop.mkReactFlowProp "nodeOrigin" xyValues
 
-    static member inline style(style: string) : IReactFlowProp =
-        Interop.mkReactFlowProp "style" style
+    static member inline style(styleProps: #seq<IStyleAttribute>) : IReactFlowProp =
+        Interop.mkReactFlowProp "style" (createObj !!styleProps)
 
     static member inline className(className: string) : IReactFlowProp =
         Interop.mkReactFlowProp "className" className

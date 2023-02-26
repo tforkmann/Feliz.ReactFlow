@@ -2,6 +2,7 @@ module Index
 
 open System
 open Elmish
+open Fable.Core
 open Fable.Core.JsInterop
 open Fable.React
 open Feliz
@@ -18,6 +19,12 @@ type Model =
 type Msg =
     | AddFlowElement of FlowElement
     | AddEdge of Connection
+
+
+type style with
+    static member inline background(background: string): IStyleAttribute = Interop.mkStyleProp "background" background
+    static member inline border(border: string): IStyleAttribute = Interop.mkStyleProp "border" border
+    static member inline stroke(stroke: string): IStyleAttribute = Interop.mkStyleProp "stroke" stroke
 
 
 let initNodes: Node list =
@@ -108,8 +115,8 @@ let initEdges =
           edge.markerEnd(MarkerType.ArrowClosed)
           edge.style [ style.stroke "blue" ]
           edge.labelStyle [
-              labelStyle.fill "black"
-              labelStyle.fontWeight 700
+              style.fill "black"
+              style.fontWeight 700
           ]
       ]
       ReactFlow.edge [
@@ -122,8 +129,8 @@ let initEdges =
           edge.markerEnd ArrowClosed
           edge.style [ style.stroke "blue" ]
           edge.labelStyle [
-              labelStyle.fill "blue"
-              labelStyle.fontWeight 700
+              style.fill "blue"
+              style.fontWeight 700
           ]
       ]
       ReactFlow.edge [
@@ -136,8 +143,8 @@ let initEdges =
           edge.markerEnd ArrowClosed
           edge.style [ style.stroke "red" ]
           edge.labelStyle [
-              labelStyle.fill "red"
-              labelStyle.fontWeight 700
+              style.fill "red"
+              style.fontWeight 700
           ]
       ]
       ReactFlow.edge [
@@ -185,8 +192,8 @@ let createEdge (connection: Connection) =
             edge.markerEnd ArrowClosed
             edge.style [ style.stroke "blue" ]
             edge.labelStyle [
-                labelStyle.fill "blue"
-                labelStyle.fontWeight 700
+                style.fill "blue"
+                style.fontWeight 700
             ]
         ]
     )
