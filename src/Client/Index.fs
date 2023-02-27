@@ -30,7 +30,7 @@ type style with
 let initNodes: Node list =
     [ ReactFlow.node [
           node.id "1"
-          node.nodetype Input
+          node.type' Input
           node.data {| label = "Erdgas Einsatz" |}
           node.style [
               style.background "yellow"
@@ -43,7 +43,7 @@ let initNodes: Node list =
 
       ReactFlow.node [
           node.id "2"
-          node.nodetype Default
+          node.type' Default
           node.data {| label = "CityCube" |}
           node.style [
               style.background "#2e88c9"
@@ -56,7 +56,7 @@ let initNodes: Node list =
 
       ReactFlow.node [
           node.id "3"
-          node.nodetype Output
+          node.type' Output
           node.data {| label = "Strom Absatz" |}
           node.style [
               style.background "lightblue"
@@ -69,7 +69,7 @@ let initNodes: Node list =
 
       ReactFlow.node [
           node.id "4"
-          node.nodetype Output
+          node.type' Output
           node.data {| label = "Wärme Absatz" |}
           node.style [
               style.background "red"
@@ -82,7 +82,7 @@ let initNodes: Node list =
 
       ReactFlow.node [
           node.id "5"
-          node.nodetype (Custom "test")
+          node.type' "test"
           node.data {| label = "Label from Node" |}
           node.position (50, 120)
           node.style [
@@ -93,7 +93,7 @@ let initNodes: Node list =
       ]
       ReactFlow.node [
           node.id "6"
-          node.nodetype Output
+          node.type' Output
           node.data {| label = "Unconnected" |}
           node.style [
               style.background "green"
@@ -167,7 +167,7 @@ let init () =
 let createNode (flowElement: FlowElement) =
     ReactFlow.node [
         node.id flowElement.Id
-        node.nodetype Default
+        node.type' Default
         node.data {| label = flowElement.Descr |}
         node.style [
             style.background "red"
@@ -228,12 +228,12 @@ let Counter
         prop.style [ style.padding 10 ]
         prop.children [
             ReactFlow.handle [
-                handle.``type`` Target
+                handle.type' Target
                 handle.id "6"
                 handle.position Top
             ]
             ReactFlow.handle [
-                handle.``type`` Target
+                handle.type' Target
                 handle.id "7"
                 handle.position Left
             ]

@@ -7,15 +7,15 @@ open Fable.Core
 
 [<Erase>]
 type edge =
-    static member inline source(source: string) : IEdgeProp = Interop.mkEdgeProp "source" source
+    static member inline source(sourceNodeId: string) : IEdgeProp = Interop.mkEdgeProp "source" sourceNodeId
 
-    static member inline target(target: string) : IEdgeProp = Interop.mkEdgeProp "target" target
+    static member inline target(targetNodeId: string) : IEdgeProp = Interop.mkEdgeProp "target" targetNodeId
 
-    static member inline sourceHandle(sourceHandle: string) : IEdgeProp =
-        Interop.mkEdgeProp "sourceHandle" sourceHandle
+    static member inline sourceHandle(sourceHandleId: string) : IEdgeProp =
+        Interop.mkEdgeProp "sourceHandle" sourceHandleId
 
-    static member inline targetHandle(targetHandle: string) : IEdgeProp =
-        Interop.mkEdgeProp "targetHandle" targetHandle
+    static member inline targetHandle(targetHandleId: string) : IEdgeProp =
+        Interop.mkEdgeProp "targetHandle" targetHandleId
 
     static member inline animated(animated: bool) : IEdgeProp = Interop.mkEdgeProp "animated" animated
 

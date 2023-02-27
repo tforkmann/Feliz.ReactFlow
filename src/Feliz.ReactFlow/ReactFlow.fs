@@ -19,17 +19,11 @@ type Instance =
     abstract toObject: unit -> {| elements: Element list ; position: int * int ; zoom: float |}
     abstract getElements: unit -> Element list
 
-[<Erase>]
-type OnConnectParams =
-    abstract source: ElementId
-    abstract sourceHandle: Handle
-    abstract target: ElementId
-    abstract targetHandle: Handle
 
 [<Erase>]
 type OnConnectStartParams =
-    abstract nodeId: NodeId option
-    abstract handleId : HandleId option
+    abstract nodeId: string option
+    abstract handleId : string option
     abstract handleType: HandleType option
 
 type [<AllowNullLiteral>] OnSelectionChangeParams =

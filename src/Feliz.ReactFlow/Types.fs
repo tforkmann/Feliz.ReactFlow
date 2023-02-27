@@ -41,18 +41,12 @@ type [<AllowNullLiteral>] EdgeMarker =
 type EdgeMarkerType =
     U2<string, EdgeMarker>
 
+[<StringEnum>]
 type NodeType =
     | Input
     | Output
     | Default
-    | Custom of string
-
-    member this.toString() =
-        match this with
-        | Input -> "input"
-        | Output -> "output"
-        | Default -> "default"
-        | Custom name -> name
+    | Group
 
 [<StringEnum>]
 type HandleType =

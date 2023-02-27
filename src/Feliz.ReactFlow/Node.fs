@@ -6,8 +6,8 @@ open Feliz
 
 [<Erase>]
 type node =
-    static member inline id(id: string): INodeProp =
-        Interop.mkNodeProp "id" id
+    static member inline id(nodeId: string): INodeProp =
+        Interop.mkNodeProp "id" nodeId
 
     static member inline position(x: float, y: float): INodeProp =
         Interop.mkNodeProp "position" {| x = x; y = y |}
@@ -15,8 +15,11 @@ type node =
     static member inline data(data: obj): INodeProp =
         Interop.mkNodeProp "data" data
 
-    static member inline nodetype(nodeType: NodeType): INodeProp =
-        Interop.mkNodeProp "type" (nodeType.toString())
+    static member inline type' (nodeType: NodeType): INodeProp =
+        Interop.mkNodeProp "type" nodeType
+
+    static member inline type' (customTypeName: string): INodeProp =
+        Interop.mkNodeProp "type" customTypeName
 
     static member inline style (props: #seq<IStyleAttribute>): INodeProp =
         Interop.mkNodeProp "style" (createObj !!props)
@@ -88,3 +91,10 @@ module node =
     [<Erase>]
     type extent =
         static member inline parent = Interop.mkNodeProp "extent" "parent"
+
+    [<Erase>]
+    type type' =
+        static member inline input = Interop.mkNodeProp "type" "input"
+        static member inline output = Interop.mkNodeProp "type" "output"
+        static member inline default' = Interop.mkNodeProp "type" "default"
+        static member inline group = Interop.mkNodeProp "type" "group"
