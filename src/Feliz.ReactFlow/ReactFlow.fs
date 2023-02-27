@@ -34,8 +34,7 @@ type [<AllowNullLiteral>] OnSelectionChangeParams =
 [<Erase>]
 type ReactFlow =
     /// Creates a new ReactFlow component.
-
-    static member inline flowChart (props: IReactFlowProp seq) =
+    static member inline reactFlow (props: #seq<IReactFlowProp>) =
         Interop.reactApi.createElement (Interop.reactFlow, createObj !!props)
 
     static member inline node (props: INodeProp seq): Node =

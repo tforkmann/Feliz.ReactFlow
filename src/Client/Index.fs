@@ -257,7 +257,7 @@ let view (model: Model) (dispatch: Msg -> unit) =
     let gridSize = 20
 
     div [ Props.Style [ Props.CSSProp.Height 800 ] ] [
-        ReactFlow.flowChart [
+        ReactFlow.reactFlow [
             ReactFlow.nodeTypes {| test = Counter |}
             ReactFlow.snapGrid (gridSize, gridSize)
             ReactFlow.snapToGrid true
