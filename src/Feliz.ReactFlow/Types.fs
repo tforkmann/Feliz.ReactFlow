@@ -17,6 +17,7 @@ type NodeId = string
 type EdgeId = string
 type HandleId = string
 
+
 // Some sample types you can use for setting properties on elements.
 [<StringEnum>]
 type EdgeType =
@@ -111,6 +112,15 @@ type [<AllowNullLiteral>] Dimensions =
 type [<AllowNullLiteral>] XYPosition =
     abstract x: float with get, set
     abstract y: float with get, set
+
+type [<AllowNullLiteral>] Rect =
+    abstract x: float with get, set
+    abstract y: float with get, set
+    abstract width: float with get, set
+    abstract height: float with get, set
+
+/// (x, y, zoom)
+type Transform = float * float * float
 
 type [<AllowNullLiteral>] Connection =
     abstract source: NodeId option with get, set
