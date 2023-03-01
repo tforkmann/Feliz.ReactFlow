@@ -286,29 +286,38 @@ type ReactFlow =
     static member inline connectionLineType(connectionLineType: ConnectionLineType) : IReactFlowProp =
         Interop.mkReactFlowProp "connectionLineType" connectionLineType
 
-    // static member inline connectionLineStyle(connectionLineStyle: Fable.React.FragmentProps.SVGAttr []) : IReactFlowProp =
-    //     Interop.mkReactFlowProp "connectionLineStyle" connectionLineStyle
+    static member inline connectionLineStyle (svgAttrs: #seq<ISvgAttribute>) : IReactFlowProp =
+        Interop.mkReactFlowProp "connectionLineStyle" (createObj !!svgAttrs)
 
     static member inline connectionLineComponent(connectionLineComponent: string) : IReactFlowProp =
         Interop.mkReactFlowProp "connectionLineComponent" connectionLineComponent
 
+    static member inline connectionLineComponent(connectionLineComponent: Fable.React.ReactElementType) : IReactFlowProp =
+        Interop.mkReactFlowProp "connectionLineComponent" connectionLineComponent
+
     // Keys
 
-    static member inline deleteKeyCode(deleteKeyCode: string) : IReactFlowProp =
-        Interop.mkReactFlowProp "deleteKeyCode" deleteKeyCode
-    static member inline deleteKeyCode(deleteKeyCode: int) : IReactFlowProp =
-        Interop.mkReactFlowProp "deleteKeyCode" deleteKeyCode
+    static member inline deleteKeyCode (keyCode: string) : IReactFlowProp =
+        Interop.mkReactFlowProp "deleteKeyCode" keyCode
+    static member inline deleteKeyCode ([<System.ParamArray>] keyCodes: string []) : IReactFlowProp =
+        Interop.mkReactFlowProp "deleteKeyCode" keyCodes
 
-    static member inline selectionKeyCode(selectionKeyCode: string) : IReactFlowProp =
-        Interop.mkReactFlowProp "selectionKeyCode" selectionKeyCode
-    static member inline selectionKeyCode(selectionKeyCode: int) : IReactFlowProp =
-        Interop.mkReactFlowProp "selectionKeyCode" selectionKeyCode
+    static member inline selectionKeyCode (keyCode: string) : IReactFlowProp =
+        Interop.mkReactFlowProp "selectionKeyCode" keyCode
+    static member inline selectionKeyCode ([<System.ParamArray>] keyCodes: string []) : IReactFlowProp =
+        Interop.mkReactFlowProp "selectionKeyCode" keyCodes
 
-    static member inline multiSelectionKeyCode(multiSelectionKeyCode: string) : IReactFlowProp =
-        Interop.mkReactFlowProp "multiSelectionKeyCode" multiSelectionKeyCode
-    static member inline multiSelectionKeyCode(multiSelectionKeyCode: int) : IReactFlowProp =
-        Interop.mkReactFlowProp "multiSelectionKeyCode" multiSelectionKeyCode
-    static member inline zoomActivationKeyCode(zoomActivationKeyCode: string) : IReactFlowProp =
-        Interop.mkReactFlowProp "zoomActivationKeyCode" zoomActivationKeyCode
-    static member inline zoomActivationKeyCode(zoomActivationKeyCode: int) : IReactFlowProp =
-        Interop.mkReactFlowProp "zoomActivationKeyCode" zoomActivationKeyCode
+    static member inline multiSelectionKeyCode (keyCode: string) : IReactFlowProp =
+        Interop.mkReactFlowProp "multiSelectionKeyCode" keyCode
+    static member inline multiSelectionKeyCode ([<System.ParamArray>] keyCodes: string []) : IReactFlowProp =
+        Interop.mkReactFlowProp "multiSelectionKeyCode" keyCodes
+
+    static member inline zoomActivationKeyCode (keyCode: string) : IReactFlowProp =
+        Interop.mkReactFlowProp "zoomActivationKeyCode" keyCode
+    static member inline zoomActivationKeyCode ([<System.ParamArray>] keyCodes: string []) : IReactFlowProp =
+        Interop.mkReactFlowProp "zoomActivationKeyCode" keyCodes
+
+    static member inline panActivationKeyCode (keyCode: string) : IReactFlowProp =
+        Interop.mkReactFlowProp "panActivationKeyCode" keyCode
+    static member inline panActivationKeyCode ([<System.ParamArray>] keyCodes: string []) : IReactFlowProp =
+        Interop.mkReactFlowProp "panActivationKeyCode" keyCodes
