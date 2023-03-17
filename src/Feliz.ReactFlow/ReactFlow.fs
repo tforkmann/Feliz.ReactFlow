@@ -35,10 +35,10 @@ type [<AllowNullLiteral>] OnSelectionChangeParams =
 type ReactFlow =
     /// Creates a new ReactFlow component.
     static member inline reactFlow (props: #seq<IReactFlowProp>) =
-        Interop.reactApi.createElement (Interop.reactFlow, createObj !!props)
+        Interop.reactApi.createElement (importDefault PackageNames.ReactFlow, createObj !!props)
 
     static member inline reactFlowProvider (children: ReactElement) =
-        Interop.reactElementWithChild ComponentNames.ReactFlowProvider children
+        Interop.reactApi.createElement (import ImportNames.ReactFlowProvider PackageNames.ReactFlow, {| children = children |})
 
     static member inline node (props: INodeProp seq): Node =
         !!(createObj !!props)
@@ -47,16 +47,16 @@ type ReactFlow =
         !!(createObj !!props)
 
     static member inline handle (props: IHandleProp seq) =
-        Interop.reactApi.createElement (Interop.handle, createObj !!props)
+        Interop.reactApi.createElement (import ImportNames.Handle PackageNames.ReactFlow, createObj !!props)
 
     static member inline background (props: IBackgroundProp seq) =
-        Interop.reactApi.createElement (Interop.background, createObj !!props)
+        Interop.reactApi.createElement (import ImportNames.Background PackageNames.ReactFlow, createObj !!props)
 
     static member inline miniMap (props: IMiniMapProp seq) =
-        Interop.reactApi.createElement (Interop.miniMap, createObj !!props)
+        Interop.reactApi.createElement (import ImportNames.MiniMap PackageNames.ReactFlow, createObj !!props)
 
     static member inline controls (props: IControlsProp seq) =
-        Interop.reactApi.createElement (Interop.controls, createObj !!props)
+        Interop.reactApi.createElement (import ImportNames.Controls PackageNames.ReactFlow, createObj !!props)
 
     // Basic Props
 

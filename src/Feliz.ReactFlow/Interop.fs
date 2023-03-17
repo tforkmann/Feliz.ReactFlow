@@ -4,7 +4,11 @@ open Fable.Core
 open Fable.Core.JsInterop
 
 [<Erase; RequireQualifiedAccess>]
-module ComponentNames =
+module PackageNames =
+    let [<Literal>] ReactFlow = "reactflow"
+
+[<Erase; RequireQualifiedAccess>]
+module ImportNames =
     let [<Literal>] ReactFlowProvider = "ReactFlowProvider"
     let [<Literal>] Handle = "Handle"
     let [<Literal>] Background = "Background"
@@ -22,13 +26,6 @@ module Interop =
     let inline mkBackgroundProp (key: string) (value: obj) : IBackgroundProp = unbox (key, value)
     let inline mkMiniMapProp (key: string) (value: obj) : IMiniMapProp = unbox (key, value)
     let inline mkControlsProp (key: string) (value: obj) : IControlsProp = unbox (key, value)
-
-    let reactFlow : obj = importDefault "reactflow"
-    let reactFlowProvider : obj = import ComponentNames.ReactFlowProvider "reactflow"
-    let handle : obj = import ComponentNames.Handle "reactflow"
-    let background : obj = import ComponentNames.Background "reactflow"
-    let miniMap : obj = import ComponentNames.MiniMap "reactflow"
-    let controls : obj = import ComponentNames.Controls "reactflow"
 
 [<Erase>]
 type GraphUtils =
