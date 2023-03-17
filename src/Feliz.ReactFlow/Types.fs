@@ -141,7 +141,7 @@ type Node =
 
 type UntypedDataNode =
     inherit Node
-    abstract data: obj option with get, set
+    abstract data: obj with get, set
 
 type TypedDataNode<'Data> =
     inherit Node
