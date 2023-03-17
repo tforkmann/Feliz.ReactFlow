@@ -1,5 +1,6 @@
 namespace Feliz.ReactFlow
 
+open Fable.React
 open Fable.Core
 
 /// This interface allows us to stop adding random props to the react flow.
@@ -18,13 +19,13 @@ type EdgeId = string
 type HandleId = string
 
 
-// Some sample types you can use for setting properties on elements.
-[<StringEnum>]
+[<StringEnum; RequireQualifiedAccess>]
 type EdgeType =
     | [<CompiledName("default")>] Bezier
     | Straight
     | Step
     | [<CompiledName("smoothstep")>] SmoothStep
+    | [<CompiledName "simplebezier">] SimpleBezier
 
 type [<StringEnum>] MarkerType =
     | Arrow
@@ -54,12 +55,11 @@ type HandleType =
     | Source
     | Target
 
-[<StringEnum>]
-type HandlePosition =
-    | Top
-    | Bottom
+type [<StringEnum>] [<RequireQualifiedAccess>] Position =
     | Left
+    | Top
     | Right
+    | Bottom
 
 type position = {| x: int; y: int |}
 
@@ -74,31 +74,12 @@ type ConnectionMode =
     | Strict
     | Loose
 
-[<StringEnum>]
-type ConnectionLineType =
-    | Bezier
+type [<StringEnum>] [<RequireQualifiedAccess>] ConnectionLineType =
+    | [<CompiledName("default")>] Bezier
     | Straight
     | Step
-    | Smoothstep
-
-type Element =
-    abstract id: ElementId
-
-// TODO: Rest of properties https://reactflow.dev/docs/api/nodes/
-type Node =
-    inherit Element
-    abstract position: position
-    abstract data: obj
-    abstract ``type``: NodeType
-
-// TODO: Rest of properties https://reactflow.dev/docs/api/edges/
-type Edge =
-    inherit Element
-
-type Handle =
-    inherit Element
-    abstract ``type``: HandleType
-    abstract position: HandlePosition
+    | [<CompiledName("smoothstep")>] SmoothStep
+    | [<CompiledName("simplebezier")>] SimpleBezier
 
 type [<AllowNullLiteral>] Viewport =
     abstract x: float with get, set
@@ -121,6 +102,120 @@ type [<AllowNullLiteral>] Rect =
 
 /// (x, y, zoom)
 type Transform = float * float * float
+
+type CoordinateExtent =
+    (float * float) * (float * float)
+
+type Element =
+    abstract id: ElementId with get, set
+
+// TODO: Rest of properties https://reactflow.dev/docs/api/nodes/
+type Node =
+    inherit Element
+
+    //abstract style: CSSProperties option with get, set
+    abstract position: XYPosition with get, set
+    abstract ``type``: NodeType with get, set
+    abstract className: string option with get, set
+    abstract targetPosition: Position option with get, set
+    abstract sourcePosition: Position option with get, set
+    abstract hidden: bool option with get, set
+    abstract selected: bool option with get, set
+    abstract dragging: bool option with get, set
+    abstract draggable: bool option with get, set
+    abstract selectable: bool option with get, set
+    abstract connectable: bool option with get, set
+    abstract deletable: bool option with get, set
+    abstract focusable: bool option with get, set
+    abstract dragHandle: string option with get, set
+    abstract width: float option with get, set
+    abstract height: float option with get, set
+    abstract parentNode: string option with get, set
+    abstract zIndex: float option with get, set
+    abstract extent: U2<CoordinateExtent, string> option with get, set
+    abstract expandParent: bool option with get, set
+    abstract positionAbsolute: XYPosition option with get, set
+    abstract ariaLabel: string option with get, set
+
+type UntypedDataNode =
+    inherit Node
+    abstract data: obj option with get, set
+
+type TypedDataNode<'Data> =
+    inherit Node
+    abstract data : 'Data with get, set
+
+type [<AllowNullLiteral>] EdgeLabelOptions =
+    //abstract labelStyle: CSSProperties option with get, set
+    //abstract labelBgStyle: CSSProperties option with get, set
+    abstract label: U2<string, ReactElement> option with get, set
+    abstract labelShowBg: bool option with get, set
+    abstract labelBgPadding: (float * float) option with get, set
+    abstract labelBgBorderRadius: float option with get, set
+
+// TODO: Rest of properties https://reactflow.dev/docs/api/edges/
+type DefaultEdge =
+    inherit Element
+    inherit EdgeLabelOptions
+
+    //abstract style: CSSProperties option with get, set
+    abstract ``type``: string option with get, set
+    abstract source: string with get, set
+    abstract target: string with get, set
+    abstract sourceHandle: string option with get, set
+    abstract targetHandle: string option with get, set
+    abstract animated: bool option with get, set
+    abstract hidden: bool option with get, set
+    abstract deletable: bool option with get, set
+    abstract className: string option with get, set
+    abstract sourceNode: Node option with get, set
+    abstract targetNode: Node option with get, set
+    abstract selected: bool option with get, set
+    abstract markerStart: EdgeMarkerType option with get, set
+    abstract markerEnd: EdgeMarkerType option with get, set
+    abstract zIndex: float option with get, set
+    abstract ariaLabel: string option with get, set
+    abstract interactionWidth: float option with get, set
+    abstract focusable: bool option with get, set
+
+type [<AllowNullLiteral>] SmoothStepPathOptions =
+    abstract offset: float option with get, set
+    abstract borderRadius: float option with get, set
+
+type SmoothStepEdgeType =
+    inherit DefaultEdge
+    abstract ``type``: string with get, set
+    abstract pathOptions: SmoothStepPathOptions option with get, set
+
+type [<AllowNullLiteral>] BezierPathOptions =
+    abstract curvature: float option with get, set
+
+type BezierEdgeType =
+    inherit DefaultEdge
+    abstract ``type``: string with get, set
+    abstract pathOptions: BezierPathOptions option with get, set
+
+type [<TypeScriptTaggedUnion("type")>] [<RequireQualifiedAccess>] BuiltInEdge =
+    | [<CompiledName("default")>] BezierEdgeType of BezierEdgeType
+    | [<CompiledName("smoothstep")>] SmoothStepEdgeType of SmoothStepEdgeType
+    static member inline op_ErasedCast(x: BezierEdgeType) = BezierEdgeType x
+    static member inline op_ErasedCast(x: SmoothStepEdgeType) = SmoothStepEdgeType x
+
+type Edge = DefaultEdge //U2<DefaultEdge, BuiltInEdge>
+
+type UntypedDataEdge =
+    inherit DefaultEdge
+    abstract data: obj option with get, set
+
+type TypedDataEdge<'Data> =
+    inherit DefaultEdge
+    abstract data: 'Data option with get, set
+
+
+type Handle =
+    inherit Element
+    abstract ``type``: HandleType with get, set
+    abstract position: Position with get, set
 
 type [<AllowNullLiteral>] Connection =
     abstract source: NodeId option with get, set

@@ -111,7 +111,7 @@ let initEdges =
           edge.target "2"
           edge.animated false
           edge.label "100 MWh"
-          edge.edgeType SmoothStep
+          edge.type' EdgeType.SmoothStep
           edge.markerEnd(MarkerType.ArrowClosed)
           edge.style [ style.stroke "blue" ]
           edge.labelStyle [
@@ -125,7 +125,7 @@ let initEdges =
           edge.target "3"
           edge.animated true
           edge.label "50 MWh"
-          edge.edgeType SmoothStep
+          edge.type' EdgeType.SmoothStep
           edge.markerEnd ArrowClosed
           edge.style [ style.stroke "blue" ]
           edge.labelStyle [
@@ -139,7 +139,7 @@ let initEdges =
           edge.target "4"
           edge.animated true
           edge.label "55 MWh"
-          edge.edgeType SmoothStep
+          edge.type' EdgeType.SmoothStep
           edge.markerEnd ArrowClosed
           edge.style [ style.stroke "red" ]
           edge.labelStyle [
@@ -152,7 +152,7 @@ let initEdges =
           edge.source "1"
           edge.target "5"
           edge.targetHandle "7"
-          edge.edgeType SmoothStep
+          edge.type' EdgeType.SmoothStep
           edge.style [ style.stroke "black" ]
       ] ]
 
@@ -188,7 +188,7 @@ let createEdge (connection: Connection) =
             edge.target target
             edge.animated true
             edge.label "50 MWh"
-            edge.edgeType SmoothStep
+            edge.type' EdgeType.SmoothStep
             edge.markerEnd ArrowClosed
             edge.style [ style.stroke "blue" ]
             edge.labelStyle [
@@ -230,12 +230,12 @@ let Counter
             ReactFlow.handle [
                 handle.type' Target
                 handle.id "6"
-                handle.position Top
+                handle.position Position.Top
             ]
             ReactFlow.handle [
                 handle.type' Target
                 handle.id "7"
-                handle.position Left
+                handle.position Position.Left
             ]
             Html.button [
                 prop.classes [Styles.classes.nodrag]

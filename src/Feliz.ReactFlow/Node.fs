@@ -15,6 +15,9 @@ type node =
     static member inline data(data: obj): INodeProp =
         Interop.mkNodeProp "data" data
 
+    static member inline data(data: 'T): INodeProp =
+        Interop.mkNodeProp "data" data
+
     static member inline type' (nodeType: NodeType): INodeProp =
         Interop.mkNodeProp "type" nodeType
 
@@ -45,10 +48,10 @@ type node =
     static member inline positionAbsolute(x: float, y: float): INodeProp =
         Interop.mkNodeProp "positionAbsolute" {| x = x; y = y |}
 
-    static member inline targetPosition(targetPosition: HandlePosition): INodeProp =
+    static member inline targetPosition(targetPosition: Position): INodeProp =
         Interop.mkNodeProp "targetPosition" targetPosition
 
-    static member inline sourcePosition(sourcePosition: HandlePosition): INodeProp =
+    static member inline sourcePosition(sourcePosition: Position): INodeProp =
         Interop.mkNodeProp "sourcePosition" sourcePosition
 
     static member inline hidden(isHidden: bool): INodeProp =

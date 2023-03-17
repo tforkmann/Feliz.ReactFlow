@@ -14,7 +14,7 @@ type handle =
     static member inline id(handleId: string): IHandleProp =
         Interop.mkHandleProp "id" handleId
 
-    static member inline position(position: HandlePosition): IHandleProp =
+    static member inline position(position: Position): IHandleProp =
         Interop.mkHandleProp "position" position
 
     static member inline onConnect(handler: Connection -> unit) : IHandleProp =

@@ -23,9 +23,6 @@ type edge =
 
     static member inline hidden(hidden: bool) : IEdgeProp = Interop.mkEdgeProp "hidden" hidden
 
-    //static member inline arrowHeadType(arrowHeadType: ArrowHead) : IEdgeProp =
-    //    Interop.mkEdgeProp "arrowHeadType" arrowHeadType
-
     static member inline markerStart(markerType: EdgeMarker) : IEdgeProp =
         Interop.mkEdgeProp "markerStart" markerType
 
@@ -68,9 +65,13 @@ type edge =
 
     static member inline label(label: string) : IEdgeProp = Interop.mkEdgeProp "label" label
 
-    static member inline data(data: obj) : IEdgeProp = Interop.mkEdgeProp "data" data
+    static member inline data (data: obj) : IEdgeProp = Interop.mkEdgeProp "data" data
 
-    static member inline edgeType(edgeType: EdgeType) : IEdgeProp = Interop.mkEdgeProp "type" edgeType
+    static member inline data (data: 'T) : IEdgeProp = Interop.mkEdgeProp "data" data
+
+    static member inline type' (edgeType: EdgeType) : IEdgeProp = Interop.mkEdgeProp "type" edgeType
+
+    static member inline type' (customTypeName: string) : IEdgeProp = Interop.mkEdgeProp "type" customTypeName
 
     static member inline labelStyle (styleProps: #seq<IStyleAttribute>) : IEdgeProp =
         Interop.mkEdgeProp "labelStyle" (createObj !!styleProps)
