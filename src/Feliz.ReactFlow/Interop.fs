@@ -4,6 +4,15 @@ open Fable.Core
 open Fable.Core.JsInterop
 
 [<Erase; RequireQualifiedAccess>]
+module ComponentNames =
+    let [<Literal>] ReactFlowProvider = "ReactFlowProvider"
+    let [<Literal>] Handle = "Handle"
+    let [<Literal>] Background = "Background"
+    let [<Literal>] MiniMap = "MiniMap"
+    let [<Literal>] Controls = "Controls"
+
+
+[<Erase; RequireQualifiedAccess>]
 module Interop =
     let inline mkHandleProp (key: string) (value: obj) : IHandleProp = unbox (key, value)
     let inline mkEdgeProp (key: string) (value: obj) : IEdgeProp = unbox (key, value)
@@ -15,10 +24,11 @@ module Interop =
     let inline mkControlsProp (key: string) (value: obj) : IControlsProp = unbox (key, value)
 
     let reactFlow : obj = importDefault "reactflow"
-    let handle : obj = import "Handle" "reactflow"
-    let background : obj = import "Background" "reactflow"
-    let miniMap : obj = import "MiniMap" "reactflow"
-    let controls : obj = import "Controls" "reactflow"
+    let reactFlowProvider : obj = import ComponentNames.ReactFlowProvider "reactflow"
+    let handle : obj = import ComponentNames.Handle "reactflow"
+    let background : obj = import ComponentNames.Background "reactflow"
+    let miniMap : obj = import ComponentNames.MiniMap "reactflow"
+    let controls : obj = import ComponentNames.Controls "reactflow"
 
 [<Erase>]
 type GraphUtils =

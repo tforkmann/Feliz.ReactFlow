@@ -100,6 +100,8 @@ type [<AllowNullLiteral>] Rect =
     abstract width: float with get, set
     abstract height: float with get, set
 
+type OnViewportChange = Viewport -> unit
+
 /// (x, y, zoom)
 type Transform = float * float * float
 
@@ -290,3 +292,55 @@ type [<TypeScriptTaggedUnion("type")>] [<RequireQualifiedAccess>] EdgeChange =
     static member inline op_ErasedCast(x: EdgeRemoveChange) = EdgeRemoveChange x
     static member inline op_ErasedCast(x: EdgeResetChange) = EdgeResetChange x
     static member inline op_ErasedCast(x: EdgeSelectionChange) = EdgeSelectionChange x
+
+
+type [<AllowNullLiteral>] NodeDimensionUpdate =
+    abstract id: string with get, set
+    abstract nodeElement: Browser.Types.HTMLDivElement with get, set
+    abstract forceUpdate: bool option with get, set
+
+type [<AllowNullLiteral>] NodeDragItem =
+    abstract id: string with get, set
+    abstract position: XYPosition with get, set
+    abstract positionAbsolute: XYPosition with get, set
+    abstract distance: XYPosition with get, set
+    abstract width: float option with get, set
+    abstract height: float option with get, set
+    abstract extent: U2<CoordinateExtent, string> option with get, set
+    abstract parentNode: string option with get, set
+    abstract dragging: bool option with get, set
+
+type [<AllowNullLiteral>] UnselectNodesAndEdgesParams =
+    abstract nodes: Node[] option with get, set
+    abstract edges: Edge[] option with get, set
+
+type [<AllowNullLiteral>] ReactFlowActions =
+    abstract setNodes: nodes: Node[] -> unit
+    abstract getNodes: unit -> Node[]
+    abstract setEdges: edges: Edge[] -> unit
+    abstract setDefaultNodesAndEdges: ?nodes: Node[] * ?edges: Edge[] -> unit
+    abstract updateNodeDimensions: updates: NodeDimensionUpdate[] -> unit
+    abstract updateNodePositions: nodeDragItems: U2<NodeDragItem[], Node[]> * positionChanged: bool * dragging: bool -> unit
+    abstract resetSelectedElements: unit -> unit
+    abstract unselectNodesAndEdges: ?``params``: UnselectNodesAndEdgesParams -> unit
+    abstract addSelectedNodes: nodeIds: string[] -> unit
+    abstract addSelectedEdges: edgeIds: string[] -> unit
+    abstract setMinZoom: minZoom: float -> unit
+    abstract setMaxZoom: maxZoom: float -> unit
+    abstract setTranslateExtent: translateExtent: CoordinateExtent -> unit
+    abstract setNodeExtent: nodeExtent: CoordinateExtent -> unit
+    abstract cancelConnection: unit -> unit
+    abstract reset: unit -> unit
+    abstract triggerNodeChanges: changes: NodeChange[] -> unit
+    abstract panBy: delta: XYPosition -> unit
+
+
+type NodeInternals = JS.Map<NodeId, Node>
+
+type ReactFlowStore =
+    abstract nodeInternals : NodeInternals
+
+
+type ReactFlowState =
+    inherit ReactFlowStore
+    inherit ReactFlowActions

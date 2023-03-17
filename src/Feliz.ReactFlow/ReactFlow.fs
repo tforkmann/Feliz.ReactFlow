@@ -37,6 +37,9 @@ type ReactFlow =
     static member inline reactFlow (props: #seq<IReactFlowProp>) =
         Interop.reactApi.createElement (Interop.reactFlow, createObj !!props)
 
+    static member inline reactFlowProvider (children: ReactElement) =
+        Interop.reactElementWithChild ComponentNames.ReactFlowProvider children
+
     static member inline node (props: INodeProp seq): Node =
         !!(createObj !!props)
 
