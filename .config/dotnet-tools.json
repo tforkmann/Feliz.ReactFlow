@@ -3,13 +3,13 @@
   "isRoot": true,
   "tools": {
     "paket": {
-      "version": "7.2.0",
+      "version": "7.2.1",
       "commands": [
         "paket"
       ]
     },
     "fable": {
-      "version": "4.0.0-theta-018",
+      "version": "4.0.0",
       "commands": [
         "fable"
       ]
