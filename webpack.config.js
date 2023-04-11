@@ -119,8 +119,9 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
+                test: /\.(js|ts|tsx)$/,
+                // Reactflow should be processed by Babel, see https://github.com/wbkd/react-flow/issues/2453#issuecomment-1267228332
+                exclude: /node_modules(?![\/\\]@reactflow)/,
                 use: {
                     loader: 'babel-loader',
                     options: CONFIG.babel

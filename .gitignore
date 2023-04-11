@@ -1,5 +1,6 @@
 .fable/
 *.fs.js
+*.fs.js.map
 .fake/
 .farmer/
 .idea/
@@ -16,3 +17,4 @@ release.sh
 *.orig
 *.DotSettings.user
 tests/Client/output/
+/build

@@ -71,14 +71,14 @@ Target.create "Clean" (fun _ ->
 Target.create
     "UpdateTools"
     (fun _ ->
-        run dotnet "tool update fable" __SOURCE_DIRECTORY__
+        run dotnet "tool update fable --prerelease" __SOURCE_DIRECTORY__
         run dotnet "tool update fantomas-tool" __SOURCE_DIRECTORY__
         run dotnet "tool update fake-cli" __SOURCE_DIRECTORY__
         run dotnet "tool update paket" __SOURCE_DIRECTORY__
 
         )
 
-Target.create "InstallClient" (fun _ -> run npm "install" ".")
+Target.create "InstallClient" (fun _ -> run pnpmOrNpm "install" ".")
 
 Target.create "Run" (fun _ ->
     run dotnet "build" sharedPath
@@ -91,7 +91,7 @@ Target.create "Run" (fun _ ->
 Target.create "RunTests" (fun _ ->
     run dotnet "build" sharedTestsPath
     [ "server", dotnet "watch run" serverTestsPath
-      "client", npm "run test:live" "." ]
+      "client", pnpmOrNpm "run test:live" "." ]
     |> runParallel
 )
 
@@ -104,7 +104,7 @@ Target.create
         run dotnet "build" sharedTestsPath
 
         [ "server", dotnet "run" serverTestsPath
-          "client", npm "run test:build" "." ]
+          "client", pnpmOrNpm "run test:build" "." ]
         |> runParallel)
 
 Target.create "Format" (fun _ ->
@@ -196,7 +196,7 @@ let docsDeployPath = "docs"
 
 Target.create "InstallDocs" (fun _ ->
 
-    run npm "install --frozen-lockfile" docsSrcPath
+    run pnpmOrNpm "install --frozen-lockfile" docsSrcPath
     run dotnet "restore" docsSrcPath )
 
 Target.create "PublishDocs" (fun _ ->
