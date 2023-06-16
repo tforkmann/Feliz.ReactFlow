@@ -16,6 +16,7 @@ module ImportNames =
     let [<Literal>] Controls = "Controls"
     let [<Literal>] NodeResizer = "NodeResizer"
     let [<Literal>] NodeResizeControl = "NodeResizeControl"
+    let [<Literal>] Panel = "Panel"
 
 
 [<Erase; RequireQualifiedAccess>]
@@ -30,6 +31,7 @@ module Interop =
     let inline mkControlsProp (key: string) (value: obj) : IControlsProp = unbox (key, value)
     let inline mkNodeResizerProp (key: string) (value: obj) : INodeResizerProp = unbox (key, value)
     let inline mkNodeResizeControlProp (key: string) (value: obj) : INodeResizeControlProp = unbox (key, value)
+    let inline mkPanelProp (key: string) (value: obj) : IPanelProp = unbox (key, value)
 
 [<Erase>]
 type GraphUtils =

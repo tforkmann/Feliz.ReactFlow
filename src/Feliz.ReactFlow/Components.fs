@@ -185,3 +185,20 @@ type nodeResizer =
     /// Default: undefined
     static member inline onResizeEnd (handler: ResizeDragEvent -> ResizeParams -> unit) =
         Interop.mkNodeResizerProp "onResizeEnd" (Action<_, _> handler)
+
+
+[<Erase>]
+type panel =
+
+    /// Position of the panel in the viewport
+    /// Default: 'top-left'
+    static member inline position (value: PanelPosition) = Interop.mkPanelProp "position" value
+
+    /// Additional styles.
+    static member inline style (styleProps: #seq<IStyleAttribute>) = Interop.mkPanelProp "style" (createObj !!styleProps)
+
+    /// Additional styles.
+    static member inline style (stylePropsObj: obj) = Interop.mkPanelProp "style" (createObj !!stylePropsObj)
+
+    /// Additional class name.
+    static member inline className (value: string) = Interop.mkPanelProp "className" value

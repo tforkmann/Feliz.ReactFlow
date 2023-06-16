@@ -14,6 +14,7 @@ type IMiniMapProp = interface end
 type IControlsProp = interface end
 type INodeResizerProp = interface end
 type INodeResizeControlProp = interface end
+type IPanelProp = interface end
 
 type ElementId = string
 type NodeId = string
@@ -82,6 +83,14 @@ type [<StringEnum>] [<RequireQualifiedAccess>] ConnectionLineType =
     | Step
     | [<CompiledName("smoothstep")>] SmoothStep
     | [<CompiledName("simplebezier")>] SimpleBezier
+
+type [<StringEnum>] [<RequireQualifiedAccess>] PanelPosition =
+    | [<CompiledName("top-left")>] TopLeft
+    | [<CompiledName("top-center")>] TopCenter
+    | [<CompiledName("top-right")>] TopRight
+    | [<CompiledName("bottom-left")>] BottomLeft
+    | [<CompiledName("bottom-center")>] BottomCenter
+    | [<CompiledName("bottom-right")>] BottomRight
 
 type [<AllowNullLiteral>] Viewport =
     abstract x: float with get, set
