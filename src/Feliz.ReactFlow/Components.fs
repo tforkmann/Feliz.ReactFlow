@@ -31,7 +31,7 @@ type background =
     static member inline color(color: string): IBackgroundProp =
         Interop.mkBackgroundProp "color" color
 
-    static member inline style props: IBackgroundProp =
+    static member inline style (props: #seq<IStyleAttribute>) : IBackgroundProp =
         Interop.mkBackgroundProp "style" (createObj !!props)
 
     static member inline className(className: string): IBackgroundProp =
