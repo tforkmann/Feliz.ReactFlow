@@ -12,6 +12,8 @@ type IEdgeProp = interface end
 type IBackgroundProp = interface end
 type IMiniMapProp = interface end
 type IControlsProp = interface end
+type INodeResizerProp = interface end
+type INodeResizeControlProp = interface end
 
 type ElementId = string
 type NodeId = string
@@ -107,6 +109,19 @@ type Transform = float * float * float
 
 type CoordinateExtent =
     (float * float) * (float * float)
+
+type ResizeDragEvent =
+    inherit Browser.Types.Event
+
+type [<AllowNullLiteral>] ResizeParams =
+    abstract x: float with get, set
+    abstract y: float with get, set
+    abstract width: float with get, set
+    abstract height: float with get, set
+
+type [<AllowNullLiteral>] ResizeParamsWithDirection =
+    inherit ResizeParams
+    abstract direction: float[] with get, set
 
 type Element =
     abstract id: ElementId with get, set

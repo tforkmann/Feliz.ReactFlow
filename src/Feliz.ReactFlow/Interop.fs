@@ -14,6 +14,8 @@ module ImportNames =
     let [<Literal>] Background = "Background"
     let [<Literal>] MiniMap = "MiniMap"
     let [<Literal>] Controls = "Controls"
+    let [<Literal>] NodeResizer = "NodeResizer"
+    let [<Literal>] NodeResizeControl = "NodeResizeControl"
 
 
 [<Erase; RequireQualifiedAccess>]
@@ -26,6 +28,8 @@ module Interop =
     let inline mkBackgroundProp (key: string) (value: obj) : IBackgroundProp = unbox (key, value)
     let inline mkMiniMapProp (key: string) (value: obj) : IMiniMapProp = unbox (key, value)
     let inline mkControlsProp (key: string) (value: obj) : IControlsProp = unbox (key, value)
+    let inline mkNodeResizerProp (key: string) (value: obj) : INodeResizerProp = unbox (key, value)
+    let inline mkNodeResizeControlProp (key: string) (value: obj) : INodeResizeControlProp = unbox (key, value)
 
 [<Erase>]
 type GraphUtils =

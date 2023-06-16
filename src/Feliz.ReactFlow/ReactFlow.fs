@@ -58,6 +58,9 @@ type ReactFlow =
     static member inline controls (props: IControlsProp seq) =
         Interop.reactApi.createElement (import ImportNames.Controls PackageNames.ReactFlow, createObj !!props)
 
+    static member inline nodeResizer (props: seq<INodeResizerProp>) =
+        Interop.reactApi.createElement (import ImportNames.NodeResizer PackageNames.ReactFlow, createObj !!props)
+
     // Basic Props
 
     static member inline nodes(nodes: Node array) : IReactFlowProp = !!("nodes" ==> nodes)
