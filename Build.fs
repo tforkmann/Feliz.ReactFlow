@@ -78,7 +78,7 @@ Target.create
 Target.create "InstallClient" (fun _ -> run npm "install" ".")
 
 Target.create "Run" (fun _ ->
-    [ "client", dotnet "fable watch --run webpack-dev-server" clientPath  ]
+    [  "client", npm "start" "."  ]
       |> runParallel
 
 )

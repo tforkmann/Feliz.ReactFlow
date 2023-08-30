@@ -1,11 +1,11 @@
 {
     "private": true,
     "scripts": {
-        "start": "webpack-dev-server",
-        "build": "webpack -p",
         "test:build": "dotnet fable tests/Client --outDir tests/Client/output --run webpack -p --config webpack.tests.config.js",
-        "test:live": "dotnet fable tests/Client --outDir tests/Client/output --run webpack-dev-server --config webpack.tests.config.js"
-        },
+        "test:live": "dotnet fable tests/Client --outDir tests/Client/output --run webpack-dev-server --config webpack.tests.config.js",
+        "start": "dotnet fable watch ./src/Client --outDir src/Client/output --run parcel serve ./src/Client/index.html --port 8080",
+        "build": "dotnet fable ./src/Docs --outDir src/Docs/output && webpack"
+    },
     "devDependencies": {
         "@babel/core": "^7.6.4",
         "@babel/plugin-transform-runtime": "^7.6.2",
@@ -27,6 +27,7 @@
         "selfsigned": "^1.10.8",
         "style-loader": "^1.2.1",
         "terser": "^4.3.9",
+        "parcel": "^2.6.0",
         "webpack": "^4.41.2",
         "webpack-cli": "^3.3.9",
         "webpack-dev-server": "^3.8.2"
