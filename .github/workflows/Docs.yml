@@ -1,4 +1,4 @@
-name: Client
+name: Docs
 
 on:
   workflow_dispatch:
@@ -14,19 +14,16 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
 
-      - name: Setup .NET 6 SDK
+      - name: Setup .NET 7 SDK
         uses: actions/setup-dotnet@v1.7.2
         with:
-          dotnet-version: 7.0.100
+          dotnet-version: 7.0.400
 
       - name: Install Tools
         run: dotnet tool restore
 
-      - name: RunTests
-        run: dotnet run ExecuteTests
-
       - name: Build
-        run: dotnet run publishDocs
+        run: dotnet run -- PublishDocs
 
       - name: Publish Docs
         uses: actions/upload-artifact@v2

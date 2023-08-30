@@ -16,7 +16,7 @@ nuget Fulma
 nuget Feliz.Router
 nuget Zanaptak.TypedCssClasses
 nuget Feliz.Markdown
-nuget Feliz prerelease
+nuget Feliz
 
 nuget Fake.Core.Target
 nuget Fake.DotNet.Cli
@@ -30,4 +30,4 @@ group Package
     source https://api.nuget.org/v3/index.json
     framework: netstandard2.0
 
-    nuget Feliz prerelease
+    nuget Feliz
