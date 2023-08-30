@@ -251,18 +251,18 @@ let view (model: Model) (dispatch: Msg -> unit) =
                 yield! model.NodeList
                 yield! model.EdgeList
             |]
-            ReactFlow.onElementClick (fun ev element ->
-                console.log ev
-                window.alert "You clicked me!")
-            ReactFlow.onNodeDragStop (fun ev node ->
-                console.log ev
-                window.alert "You dragged me!")
-            ReactFlow.onElementsRemove (fun elements ->
-                console.log elements
-                window.alert "You removed me!")
-            ReactFlow.onConnect (fun onConnectParams ->
-                window.alert "Adding new edge"
-                onConnectParams |> AddEdge |> dispatch)
+            // ReactFlow.onElementClick (fun ev element ->
+            //     console.log ev
+            //     window.alert "You clicked me!")
+            // ReactFlow.onNodeDragStop (fun ev node ->
+            //     console.log ev
+            //     window.alert "You dragged me!")
+            // ReactFlow.onElementsRemove (fun elements ->
+            //     console.log elements
+            //     window.alert "You removed me!")
+            // ReactFlow.onConnect (fun onConnectParams ->
+            //     window.alert "Adding new edge"
+            //     onConnectParams |> AddEdge |> dispatch)
             // ReactFlow.onConnectStart
             //     (fun ev nodeId ->
             //         console.log ev

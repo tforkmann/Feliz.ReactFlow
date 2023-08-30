@@ -16,3 +16,9 @@ release.sh
 *.orig
 *.DotSettings.user
 tests/Client/output/
+.parcel-cache/
+dist/
+src/Docs/output/
+src/Client/output/
+tests/Client/output/
+tests/Client/*.js

@@ -12,12 +12,14 @@
         "@babel/preset-env": "^7.9.6",
         "@babel/runtime": "^7.6.3",
         "babel-loader": "^8.0.5",
+        "buffer": "^6.0.3",
         "copy-webpack-plugin": "^6.1.0",
         "core-js": "^3.3.2",
         "css-loader": "^4.2.1",
         "file-loader": "^4.2.0",
         "html-webpack-plugin": "^3.2.0",
         "mini-css-extract-plugin": "^0.10.0",
+        "parcel": "^2.6.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "remotedev": "^0.2.9",
@@ -27,12 +29,11 @@
         "selfsigned": "^1.10.8",
         "style-loader": "^1.2.1",
         "terser": "^4.3.9",
-        "parcel": "^2.6.0",
         "webpack": "^4.41.2",
         "webpack-cli": "^3.3.9",
         "webpack-dev-server": "^3.8.2"
     },
     "dependencies": {
-        "reactflow": "^11.2.0"
+        "reactflow": "^11.8.3"
     }
 }
