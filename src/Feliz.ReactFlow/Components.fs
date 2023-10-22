@@ -188,6 +188,19 @@ type nodeResizer =
 
 
 [<Erase>]
+module panel =
+
+    [<Erase>]
+    type position =
+        static member inline topLeft = Interop.mkPanelProp "position" "top-left"
+        static member inline topCenter = Interop.mkPanelProp "position" "top-center"
+        static member inline topRight = Interop.mkPanelProp "position" "top-right"
+        static member inline bottomLeft = Interop.mkPanelProp "position" "bottom-left"
+        static member inline bottomCenter = Interop.mkPanelProp "position" "bottom-center"
+        static member inline bottomRight = Interop.mkPanelProp "position" "bottom-right"
+
+
+[<Erase>]
 type panel =
 
     /// Position of the panel in the viewport
@@ -202,3 +215,10 @@ type panel =
 
     /// Additional class name.
     static member inline className (value: string) = Interop.mkPanelProp "className" value
+
+    /// The content of the component.
+    static member inline children (element: ReactElement) = Interop.mkPanelProp "children" element
+    /// The content of the component.
+    static member inline children (elements: seq<ReactElement>) = Interop.mkPanelProp "children" elements
+    /// The content of the component.
+    static member inline children (value: string) = Interop.mkPanelProp "children" value

@@ -20,7 +20,6 @@
       <NpmPackage Name="reactflow" Version="gt 11 lt 12" ResolutionStrategy="Max" DevDependency="true" />
     </NpmDependencies>
   </PropertyGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="paket.references" />
   </ItemGroup>

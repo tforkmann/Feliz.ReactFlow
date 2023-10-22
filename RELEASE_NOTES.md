@@ -1,4 +1,4 @@
-#### 0.3.0-alpha.7 - 2023-03-17
+#### 0.3.0-alpha.11 - 2023-06-16
 * Update Feliz to v2+
 * Update React Flow to v11, adjust the bindings according to the API changes -- see [Migrate to v10](https://reactflow.dev/docs/guides/migrate-to-v10/), [Migrate to v11](https://reactflow.dev/docs/guides/migrate-to-v11/) official guides for the changes details.
 * Remove `IStyleProp` and `ILabelStyleProp` types (in favor of `IStyleAttribute` from `Feliz`), adjust corresponding (dependent) prop signatures.
@@ -20,6 +20,8 @@
 * Add `node.data` and `edge.data` overloads that take generic `data: 'T` as a parameter.
 * Add bindings to the provided hooks (defined in `Feliz.ReactFlow.Hooks` module as extensions on the `ReactFlow` type): `useReactFlow`, `useNodes`, `useEdges`, `useViewport`, `useOnViewportChange`, `useOnSelectionChange`, `useUpdateNodeInternals`, `useKeyPress`, `useNodesInitialized`, `useStore`, `useNodeId`.
 * Add `ReactFlow.reactFlowProvider` helper for creating `ReactFlowProvider` component.
+* Add `NodeResizer` component bindings.
+* Add `Panel` component bindings.
 #### 0.2.7 - 2022-05-12
 * Add Source and Target Handle in Edge
 #### 0.2.6 - 2022-02-23
