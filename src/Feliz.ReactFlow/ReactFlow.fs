@@ -7,17 +7,97 @@ open Feliz
 type Event = Browser.Types.Event
 type MouseEvent = Browser.Types.MouseEvent
 
+type [<AllowNullLiteral>] ReactFlowJsonObject =
+    abstract nodes: Node[] with get, set
+    abstract edges: Edge[] with get, set
+    abstract viewport: Viewport with get, set
+
+
+type [<AllowNullLiteral>] ReactFlowJsonObject<'NodeData, 'EdgeData> =
+    abstract nodes: TypedDataNode<'NodeData>[] with get, set
+    abstract edges: TypedDataEdge<'EdgeData>[] with get, set
+    abstract viewport: Viewport with get, set
+
+
+type [<AllowNullLiteral>] ViewportHelperFunctionOptions =
+    abstract duration: float option with get, set
+
+type [<AllowNullLiteral>] SetCenterOptions =
+    abstract duration: float option with get, set
+    abstract zoom: float option with get, set
+
+
+type [<AllowNullLiteral>] FitViewOptions =
+    abstract padding: float option with get, set
+    abstract includeHiddenNodes: bool option with get, set
+    abstract minZoom: float option with get, set
+    abstract maxZoom: float option with get, set
+    abstract duration: float option with get, set
+    abstract nodes: obj[] option with get, set
+
+
+type [<AllowNullLiteral>] FitBoundsOptions =
+    abstract duration: float option with get, set
+    abstract padding: float option with get, set
+
 
 [<Erase>]
 type Instance =
-    abstract project: position -> position
-    abstract fitView: {| padding: float ; includeHiddenNodes: bool |} -> unit
-    abstract zoomIn: unit -> unit
-    abstract zoomOut: unit -> unit
-    abstract zoomTo: float -> unit
-    abstract setTransform: {| x: int ;  y: int ; zoom: float |} -> unit
-    abstract toObject: unit -> {| elements: Element list ; position: int * int ; zoom: float |}
-    abstract getElements: unit -> Element list
+    /// Transforms pixel coordinates to the internal ReactFlow coordinate system.
+    /// This can be used when you drag nodes (from a side bar for example) and need the internal position on the pane.
+    abstract project: XYPosition -> XYPosition
+    /// Fit the view to the nodes on the pane. `padding` is `0.1` and `includeHiddenNodes` is `false` by default.
+    abstract fitView: ?options: FitViewOptions -> unit
+    /// Fits the view to the passed bounds (object with width x, y, width and height: `{ x: 0, y: 0, width: 100, height: 100 }`).
+    abstract fitBounds: bounds: Rect * ?options: FitBoundsOptions -> unit
+
+    abstract zoomIn: ?options: ViewportHelperFunctionOptions -> unit
+    abstract zoomOut: ?options: ViewportHelperFunctionOptions -> unit
+    /// Zoom to passed zoom level.
+    abstract zoomTo: zoomLevel: float * ?options: ViewportHelperFunctionOptions -> unit
+    /// Return the current zoom level.
+    abstract getZoom: unit -> float
+
+    /// Set the center to the passed params. If no zoom is passed, `maxZoom` is used.
+    abstract setCenter: x: float * y: float * ?options: SetCenterOptions -> unit
+    abstract setViewport: Viewport -> unit
+    abstract getViewport : unit -> Viewport
+    /// Boolean property to determine if React Flow has been initialized with all its event listeners.
+    abstract viewportInitialized: bool
+
+    /// Return nodes, edges and viewport.
+    abstract toObject: unit -> ReactFlowJsonObject
+
+    /// Returns all nodes that intersect with the passed node. Optionally you can pass a set of nodes if you don't want to check all nodes.
+    abstract getIntersectingNodes: node: Node * ?partially: bool * ?nodes: Node[] -> Node[]
+    /// Returns all nodes that intersect with the passed node. Optionally you can pass a set of nodes if you don't want to check all nodes.
+    abstract getIntersectingNodes: rect: Rect * ?partially: bool * ?nodes: Node[] -> Node[]
+    /// Returns `true` if the passed node intersects with the passed area.
+    abstract isNodeIntersecting: node: Node * area: Rect * ?partially: bool -> bool
+    /// Returns `true` if the passed node intersects with the passed area.
+    abstract isNodeIntersecting: rect: Rect * area: Rect * ?partially: bool -> bool
+
+    abstract getNode: id: string -> Node option
+    abstract getEdge: id: string -> Edge option
+
+    abstract getNodes: unit -> Node []
+    abstract getEdges: unit -> Edge []
+
+    abstract setNodes: nodes: Node[] -> unit
+    abstract setNodes: nodes: (Node[] -> Node[]) -> unit
+
+    abstract setEdges: edges: Edge[] -> unit
+    abstract setEdges: edges: (Edge[] -> Edge[]) -> unit
+
+    abstract addNodes: node: Node -> unit
+    abstract addNodes: nodes: Node[] -> unit
+
+    abstract addEdges: edge: Edge -> unit
+    abstract addEdges: edges: Edge[] -> unit
+
+    /// (⚠ Is available from version 11.2 onwards ⚠).
+    /// Deletes the passed nodes and edges. All connected edges of the passed nodes get deleted automatically.
+    abstract deleteElements: nodesAndEdges: {| nodes: Node[] option; edges: Edge[] option |} -> unit
 
 
 [<Erase>]
