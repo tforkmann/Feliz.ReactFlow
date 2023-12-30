@@ -45,7 +45,10 @@ type [<AllowNullLiteral>] FitBoundsOptions =
 type Instance =
     /// Transforms pixel coordinates to the internal ReactFlow coordinate system.
     /// This can be used when you drag nodes (from a side bar for example) and need the internal position on the pane.
+    [<System.Obsolete "This function is deprecated and will be removed in v12. Please use `screenToFlowPosition` instead. When using `screenToFlowPosition`, you do not need to subtract the react flow bounds anymore.">]
     abstract project: XYPosition -> XYPosition
+    abstract screenToFlowPosition: XYPosition -> XYPosition
+    abstract flowToScreenPosition: XYPosition -> XYPosition
     /// Fit the view to the nodes on the pane. `padding` is `0.1` and `includeHiddenNodes` is `false` by default.
     abstract fitView: ?options: FitViewOptions -> unit
     /// Fits the view to the passed bounds (object with width x, y, width and height: `{ x: 0, y: 0, width: 100, height: 100 }`).
@@ -155,6 +158,12 @@ type ReactFlow =
     static member inline nodeOrigin (xyValues: (float * float)) : IReactFlowProp =
         Interop.mkReactFlowProp "nodeOrigin" xyValues
 
+    /// With a threshold greater than zero you can delay node drag events.
+    /// If threshold equals 1, you need to drag the node 1 pixel before a drag event is fired.
+    /// Default: 0.
+    static member inline nodeDragThreshold (value: float) =
+        Interop.mkReactFlowProp "nodeDragThreshold" value
+
     static member inline style(styleProps: #seq<IStyleAttribute>) : IReactFlowProp =
         Interop.mkReactFlowProp "style" (createObj !!styleProps)
 
@@ -208,6 +217,9 @@ type ReactFlow =
     static member inline onEdgeClick(handler: MouseEvent -> Edge -> unit) : IReactFlowProp =
         !!("onEdgeClick" ==> System.Func<_,_,_>handler)
 
+    static member inline onEdgeDoubleClick(handler: MouseEvent -> Edge -> unit) : IReactFlowProp =
+        Interop.mkReactFlowProp "onEdgeDoubleClick" (System.Func<_,_,_>handler)
+
     static member inline onNodeDragStart(handler: MouseEvent -> Node -> Node [] -> unit) : IReactFlowProp =
         !!("onNodeDragStart" ==> System.Func<_,_,_,_>handler)
 
@@ -232,6 +244,8 @@ type ReactFlow =
     static member inline onNodeDoubleClick(handler: MouseEvent -> Node -> unit) : IReactFlowProp =
         !!("onNodeDoubleClick" ==> System.Action<_,_> handler)
 
+    /// When a connection line is completed and two nodes are connected by the user, this event fires with the new connection.
+    /// You can use the addEdge utility to convert the connection to a complete edge.
     static member inline onConnect(handler: Connection -> unit) : IReactFlowProp =
         !!("onConnect" ==> handler)
 
@@ -261,6 +275,12 @@ type ReactFlow =
 
     static member inline onEdgeContextMenu(handler: MouseEvent -> Edge -> unit) : IReactFlowProp =
         !!("onEdgeContextMenu" ==> System.Action<_,_> handler)
+
+    /// This callback can be used to validate a new connection.
+    /// If you return false, the edge will not be added to your flow.
+    /// If you have custom connection logic its preferred to use this callback over the isValidConnection prop on the handle component for performance reasons.
+    static member inline isValidConnection (validate: Edge -> bool) =
+        Interop.mkReactFlowProp "isValidConnection" validate
 
     //TODO: Test if that works
 
@@ -311,7 +331,16 @@ type ReactFlow =
         !!("onPaneContextMenu" ==> handler)
 
     static member inline onPaneScroll(handler: MouseEvent -> unit) : IReactFlowProp =
-        !!("onPaneScroll" ==> handler)
+        Interop.mkReactFlowProp "onPaneScroll" handler
+
+    static member inline onPaneMouseMove(handler: MouseEvent -> unit) : IReactFlowProp =
+        Interop.mkReactFlowProp "onPaneMouseMove" handler
+
+    static member inline onPaneMouseEnter(handler: MouseEvent -> unit) : IReactFlowProp =
+        Interop.mkReactFlowProp "onPaneMouseEnter" handler
+
+    static member inline onPaneMouseLeave(handler: MouseEvent -> unit) : IReactFlowProp =
+        Interop.mkReactFlowProp "onPaneMouseLeave" handler
 
     static member inline onError(handler: string -> string -> unit) : IReactFlowProp =
         !!("onError" ==> System.Action<_, _> handler)
@@ -358,6 +387,38 @@ type ReactFlow =
     static member inline connectionMode(connectionMode : ConnectionMode) : IReactFlowProp =
         Interop.mkReactFlowProp "connectionMode" connectionMode
 
+    /// Default: true
+    static member inline autoPanOnConnect (value: bool) =
+        Interop.mkReactFlowProp "autoPanOnConnect" value
+
+    /// Default: true
+    static member inline autoPanOnNodeDrag (value: bool) =
+        Interop.mkReactFlowProp "autoPanOnNodeDrag" value
+
+    /// Default: true
+    static member inline edgesFocusable (value: bool) =
+        Interop.mkReactFlowProp "edgesFocusable" value
+
+    /// Default: true
+    static member inline nodesFocusable (value: bool) =
+        Interop.mkReactFlowProp "nodesFocusable" value
+
+    /// Default: false
+    static member inline selectionOnDrag (value: bool) =
+        Interop.mkReactFlowProp "selectionOnDrag" value
+
+    /// Enabling this option will raise the z-index of nodes when they are selected.
+    /// Default: true
+    static member inline elevateNodesOnSelect (value: bool) =
+        Interop.mkReactFlowProp "elevateNodesOnSelect" value
+
+    /// The `connectOnClick` option lets you click or tap on a source handle to start a connection and then click on a target handle to complete the connection.
+    /// If you set this option to `false`, users will need to drag the connection line to the target handle to create a connection.
+    /// Default: true
+    static member inline connectOnClick (value: bool) =
+        Interop.mkReactFlowProp "connectOnClick" value
+
+
     // Element customization
 
     static member inline nodeTypes(nodeTypes: obj) : IReactFlowProp = !!("nodeTypes" ==> nodeTypes)
@@ -383,6 +444,11 @@ type ReactFlow =
 
     static member inline connectionLineComponent(connectionLineComponent: Fable.React.ReactElementType) : IReactFlowProp =
         Interop.mkReactFlowProp "connectionLineComponent" connectionLineComponent
+
+    /// The radius around a handle where you drop a connection line to create a new edge.
+    /// Default: 20
+    static member inline connectionRadius (value: float) : IReactFlowProp =
+        Interop.mkReactFlowProp "connectionRadius" value
 
     // Keys
 
