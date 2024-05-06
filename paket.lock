@@ -270,7 +270,7 @@ NUGET
     Microsoft.Win32.SystemEvents (7.0)
     Mono.Cecil (0.11.4)
     Mono.Posix.NETStandard (1.0)
-    MSBuild.StructuredLogger (2.1.820)
+    MSBuild.StructuredLogger (2.2.240)
       Microsoft.Build.Framework (>= 17.5)
       Microsoft.Build.Utilities.Core (>= 17.5)
     Newtonsoft.Json (13.0.1)
