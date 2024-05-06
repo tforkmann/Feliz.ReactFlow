@@ -1,4 +1,4 @@
-#### 0.3.0-alpha.12 - 2023-10-23
+#### 0.3.0-alpha.13 - 2023-12-30
 * Update Feliz to v2+
 * Update React Flow to v11, adjust the bindings according to the API changes -- see [Migrate to v10](https://reactflow.dev/docs/guides/migrate-to-v10/), [Migrate to v11](https://reactflow.dev/docs/guides/migrate-to-v11/) official guides for the changes details.
 * Remove `IStyleProp` and `ILabelStyleProp` types (in favor of `IStyleAttribute` from `Feliz`), adjust corresponding (dependent) prop signatures.
@@ -10,7 +10,7 @@
 * Add `node.type'` overload with `customTypeName: string` as a parameter -- to set a custom Node type (instead of previous way by `NodeType.Custom` DU case).
 * Add `node.type'.input`, `node.type'.output`, `node.type'.default'`, `node.type'.group` prop overloads for API simplification.
 * Rename `ReactFlow.flowChart` to `ReactFlow.reactFlow`.
-* Add ["Graph Util functions"](https://reactflow.dev/docs/api/graph-util-functions/#applynodechanges) bindings as `GraphUtils` type with the following bindings (replaces previously defined `Helpers` module): `isEdge`, `isNode`, `applyNodeChanges`, `applyEdgeChanges`, `addEdge`, `updateEdge`, `getOutgoers`, `getIncomers`, `getConnectedEdges`, `getTransformForBounds`, `getRectOfNodes`.
+* Add ["Graph Util functions"](https://reactflow.dev/docs/api/graph-util-functions/#applynodechanges) bindings as `GraphUtils` type with the following bindings (replaces previously defined `Helpers` module): `isEdge`, `isNode`, `applyNodeChanges`, `applyEdgeChanges`, `addEdge`, `updateEdge`, `getOutgoers`, `getIncomers`, `getConnectedEdges`, `getTransformForBounds`, `getRectOfNodes`, `getViewportForBounds`, `getNodesBounds`.
 * Update all the "Keys" ReactFlow props -- reflect the change of ReactFlow's `KeyCode` type to `string | Array<string>`; add missing `panActivationKeyCode` prop binding.
 * Add `connectionLineStyle` ReactFlow prop binding.
 * Rename `edge.edgeType` to `edge.type'`.
