@@ -41,6 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
 		paket.references = paket.references
+		pnpm-lock.yaml = pnpm-lock.yaml
 		README.md = README.md
 		RELEASE_NOTES.md = RELEASE_NOTES.md
 		webpack.config.js = webpack.config.js
