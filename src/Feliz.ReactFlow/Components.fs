@@ -222,3 +222,26 @@ type panel =
     static member inline children (elements: seq<ReactElement>) = Interop.mkPanelProp "children" elements
     /// The content of the component.
     static member inline children (value: string) = Interop.mkPanelProp "children" value
+
+
+[<Erase>]
+type nodeToolbar =
+    static member inline nodeId (nodeId: NodeId) = Interop.mkNodeToolbarProp "nodeId" nodeId
+    /// By passing in an array of node id's you can render a single tooltip for a group or collection of nodes.
+    static member inline nodeId (groupedNodeIds: NodeId []) = Interop.mkNodeToolbarProp "nodeId" groupedNodeIds
+
+    static member inline isVisible (value: bool) = Interop.mkNodeToolbarProp "isVisible" value
+
+    static member inline position (value: Position) = Interop.mkNodeToolbarProp "position" value
+
+    /// The space between the node and the toolbar, measured in pixels. Default: 10.
+    static member inline offset (value: float) = Interop.mkNodeToolbarProp "offset" value
+
+    static member inline align (value: NodeToolbarAlign) = Interop.mkNodeToolbarProp "align" value
+
+    /// The content of the component.
+    static member inline children (element: ReactElement) = Interop.mkNodeToolbarProp "children" element
+    /// The content of the component.
+    static member inline children (elements: seq<ReactElement>) = Interop.mkNodeToolbarProp "children" elements
+    /// The content of the component.
+    static member inline children (value: string) = Interop.mkNodeToolbarProp "children" value

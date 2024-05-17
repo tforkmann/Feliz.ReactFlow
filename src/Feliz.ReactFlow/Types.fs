@@ -15,6 +15,7 @@ type IControlsProp = interface end
 type INodeResizerProp = interface end
 type INodeResizeControlProp = interface end
 type IPanelProp = interface end
+type INodeToolbarProp = interface end
 
 type ElementId = string
 type NodeId = string
@@ -91,6 +92,9 @@ type [<StringEnum>] [<RequireQualifiedAccess>] PanelPosition =
     | [<CompiledName("bottom-left")>] BottomLeft
     | [<CompiledName("bottom-center")>] BottomCenter
     | [<CompiledName("bottom-right")>] BottomRight
+
+[<StringEnum; RequireQualifiedAccess>]
+type NodeToolbarAlign = | Start | Center | End
 
 type [<AllowNullLiteral>] Viewport =
     abstract x: float with get, set

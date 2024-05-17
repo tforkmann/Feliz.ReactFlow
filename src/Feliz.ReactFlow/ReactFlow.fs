@@ -147,6 +147,9 @@ type ReactFlow =
     static member inline panel (props: seq<IPanelProp>) =
         Interop.reactApi.createElement (import ImportNames.Panel PackageNames.ReactFlow, createObj !!props)
 
+    static member inline nodeToolbar (props: seq<INodeToolbarProp>) =
+        Interop.reactApi.createElement (import ImportNames.NodeToolbar PackageNames.ReactFlow, createObj !!props)
+
     // Basic Props
 
     static member inline nodes(nodes: Node array) : IReactFlowProp = !!("nodes" ==> nodes)
