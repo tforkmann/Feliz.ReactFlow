@@ -1,9 +1,9 @@
-#### 0.3.0-alpha.14 - 2023-12-30
+#### 0.3.0-alpha.15 - 2024-05-23
 * Update Feliz to v2+
 * Update React Flow to v11, adjust the bindings according to the API changes -- see [Migrate to v10](https://reactflow.dev/docs/guides/migrate-to-v10/), [Migrate to v11](https://reactflow.dev/docs/guides/migrate-to-v11/) official guides for the changes details.
 * Remove `IStyleProp` and `ILabelStyleProp` types (in favor of `IStyleAttribute` from `Feliz`), adjust corresponding (dependent) prop signatures.
 * Add bindings to CSS class helpers `nodrag` and `nowheel` (defined in `Feliz.ReactFlow.Styles.classes`).
-* Add the following `Node` prop bindings: `dragHandle`, `zIndex`, `width`, `height`, `ariaLabel`, `parentNode`, `deletable`, `expandParent`, `selected`, `extent`, `positionAbsolute`, `focusable`.
+* Add the following `Node` prop bindings: `dragHandle`, `zIndex`, `width`, `height`, `ariaLabel`, `parentNode`, `parentId`, `deletable`, `expandParent`, `selected`, `extent`, `positionAbsolute`, `focusable`.
 * Add `Handle` prop bindings: `isConnectable`.
 * Rename: Node's `nodetype` prop binding to `type'`, Handle's `type` to `type'`.
 * Change `NodeType` type: add `Group` case, remove `Custom` case, mark the type as `StringEnum`, remove `toString` member.

@@ -76,8 +76,12 @@ type node =
     static member inline focusable(focusable: bool): INodeProp =
         Interop.mkNodeProp "focusable" focusable
 
+    [<System.Obsolete "`parentNode` prop is deprecated since React Flow v11.11.0">]
     static member inline parentNode(parentNodeId: NodeId) : INodeProp =
         Interop.mkNodeProp "parentNode" parentNodeId
+
+    static member inline parentId(parentNodeId: NodeId) : INodeProp =
+        Interop.mkNodeProp "parentId" parentNodeId
 
     static member inline expandParent(value: bool) : INodeProp =
         Interop.mkNodeProp "expandParent" value

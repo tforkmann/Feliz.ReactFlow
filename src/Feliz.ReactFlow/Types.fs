@@ -160,7 +160,9 @@ type Node =
     abstract dragHandle: string option with get, set
     abstract width: float option with get, set
     abstract height: float option with get, set
-    abstract parentNode: string option with get, set
+    [<System.Obsolete "`parentNode` prop is deprecated since React Flow v11.11.0">]
+    abstract parentNode: NodeId option with get, set
+    abstract parentId: NodeId option with get, set
     abstract zIndex: float option with get, set
     abstract extent: U2<CoordinateExtent, string> option with get, set
     abstract expandParent: bool option with get, set
@@ -327,6 +329,8 @@ type [<AllowNullLiteral>] NodeDimensionUpdate =
     abstract nodeElement: Browser.Types.HTMLDivElement with get, set
     abstract forceUpdate: bool option with get, set
 
+type NodeOrigin = float * float
+
 type [<AllowNullLiteral>] NodeDragItem =
     abstract id: string with get, set
     abstract position: XYPosition with get, set
@@ -334,9 +338,14 @@ type [<AllowNullLiteral>] NodeDragItem =
     abstract distance: XYPosition with get, set
     abstract width: float option with get, set
     abstract height: float option with get, set
-    abstract extent: U2<CoordinateExtent, string> option with get, set
-    abstract parentNode: string option with get, set
+    abstract extent: U2<CoordinateExtent, CoordinateExtentKind> option with get, set
+    [<System.Obsolete "`parentNode` prop is deprecated since React Flow v11.11.0">]
+    abstract parentNode: NodeId option with get, set
+    abstract parentId: NodeId option with get, set
     abstract dragging: bool option with get, set
+    abstract origin: NodeOrigin option with get, set
+    abstract expandParent: bool option with get, set
+
 
 type [<AllowNullLiteral>] UnselectNodesAndEdgesParams =
     abstract nodes: Node[] option with get, set
