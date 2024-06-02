@@ -286,18 +286,26 @@ type [<AllowNullLiteral>] NodeResetChange =
     abstract item: Node with get, set
     abstract ``type``: string with get, set
 
+type [<AllowNullLiteral>] NodeReplaceChange =
+    abstract item: Node with get, set
+    abstract ``type``: string with get, set
+
 type [<TypeScriptTaggedUnion("type")>] [<RequireQualifiedAccess>] NodeChange =
     | [<CompiledName("add")>] NodeAddChange of NodeAddChange
     | [<CompiledName("dimensions")>] NodeDimensionChange of NodeDimensionChange
     | [<CompiledName("position")>] NodePositionChange of NodePositionChange
     | [<CompiledName("remove")>] NodeRemoveChange of NodeRemoveChange
-    | [<CompiledName("reset")>] NodeResetChange of NodeResetChange
+    | [<CompiledName("reset")>]
+      [<System.Obsolete "Deprecated in favor of `NodeReplaceChange`.">]
+        NodeResetChange of NodeResetChange
+    | [<CompiledName("replace")>] NodeReplaceChange of NodeReplaceChange
     | [<CompiledName("select")>] NodeSelectionChange of NodeSelectionChange
     static member inline op_ErasedCast(x: NodeAddChange) = NodeAddChange x
     static member inline op_ErasedCast(x: NodeDimensionChange) = NodeDimensionChange x
     static member inline op_ErasedCast(x: NodePositionChange) = NodePositionChange x
     static member inline op_ErasedCast(x: NodeRemoveChange) = NodeRemoveChange x
     static member inline op_ErasedCast(x: NodeResetChange) = NodeResetChange x
+    static member inline op_ErasedCast(x: NodeReplaceChange) = NodeReplaceChange x
     static member inline op_ErasedCast(x: NodeSelectionChange) = NodeSelectionChange x
 
 
@@ -313,14 +321,22 @@ type [<AllowNullLiteral>] EdgeResetChange =
     abstract item: Edge with get, set
     abstract ``type``: string with get, set
 
+type [<AllowNullLiteral>] EdgeReplaceChange =
+    abstract item: Edge with get, set
+    abstract ``type``: string with get, set
+
 type [<TypeScriptTaggedUnion("type")>] [<RequireQualifiedAccess>] EdgeChange =
     | [<CompiledName("add")>] EdgeAddChange of EdgeAddChange
     | [<CompiledName("remove")>] EdgeRemoveChange of EdgeRemoveChange
-    | [<CompiledName("reset")>] EdgeResetChange of EdgeResetChange
+    | [<CompiledName("reset")>]
+      [<System.Obsolete "Deprecated in favor of `EdgeResetChange`.">]
+        EdgeResetChange of EdgeResetChange
+    | [<CompiledName("replace")>] EdgeReplaceChange of EdgeReplaceChange
     | [<CompiledName("select")>] EdgeSelectionChange of EdgeSelectionChange
     static member inline op_ErasedCast(x: EdgeAddChange) = EdgeAddChange x
     static member inline op_ErasedCast(x: EdgeRemoveChange) = EdgeRemoveChange x
     static member inline op_ErasedCast(x: EdgeResetChange) = EdgeResetChange x
+    static member inline op_ErasedCast(x: EdgeReplaceChange) = EdgeReplaceChange x
     static member inline op_ErasedCast(x: EdgeSelectionChange) = EdgeSelectionChange x
 
 
