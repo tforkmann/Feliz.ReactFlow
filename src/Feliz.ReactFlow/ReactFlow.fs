@@ -173,8 +173,10 @@ type ReactFlow =
     static member inline className(className: string) : IReactFlowProp =
         Interop.mkReactFlowProp "className" className
 
-    static member inline children (children: ReactElement list) =
-        unbox<IReactFlowProp> (prop.children children)
+    /// The content of the component. Suitable for adding React Flow components such as Controls, MiniMap, Panel.
+    static member inline children (element: ReactElement) = Interop.mkReactFlowProp "children" element
+    /// The content of the component. Suitable for adding React Flow components such as Controls, MiniMap, Panel.
+    static member inline children (elements: seq<ReactElement>) = Interop.mkReactFlowProp "children" elements
 
     // Flow View
 
