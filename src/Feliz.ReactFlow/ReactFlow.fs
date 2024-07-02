@@ -138,13 +138,16 @@ type ReactFlow =
     static member inline miniMap (props: IMiniMapProp seq) =
         Interop.reactApi.createElement (import ImportNames.MiniMap PackageNames.ReactFlow, createObj !!props)
 
-    static member inline controls (props: IControlsProp seq) =
+    static member inline controlButton (props: seq<#IReactProperty>) =
+        Interop.reactApi.createElement (import ImportNames.ControlButton PackageNames.ReactFlow, createObj !!props)
+
+    static member inline controls (props: seq<#IReactProperty>) =
         Interop.reactApi.createElement (import ImportNames.Controls PackageNames.ReactFlow, createObj !!props)
 
     static member inline nodeResizer (props: seq<INodeResizerProp>) =
         Interop.reactApi.createElement (import ImportNames.NodeResizer PackageNames.ReactFlow, createObj !!props)
 
-    static member inline panel (props: seq<IPanelProp>) =
+    static member inline panel (props: seq<#IReactProperty>) =
         Interop.reactApi.createElement (import ImportNames.Panel PackageNames.ReactFlow, createObj !!props)
 
     static member inline nodeToolbar (props: seq<INodeToolbarProp>) =

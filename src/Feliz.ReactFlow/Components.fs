@@ -107,6 +107,13 @@ type controls =
     static member inline onInteractiveChange(onInteractiveChange: bool -> unit): IControlsProp =
         Interop.mkControlsProp "onInteractiveChange" onInteractiveChange
 
+    /// The content of the component.
+    static member inline children (element: ReactElement) = Interop.mkControlsProp "children" element
+    /// The content of the component.
+    static member inline children (elements: seq<ReactElement>) = Interop.mkControlsProp "children" elements
+    /// The content of the component.
+    static member inline children (value: string) = Interop.mkControlsProp "children" value
+
 
 [<Erase>]
 type nodeResizer =

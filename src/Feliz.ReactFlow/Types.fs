@@ -11,10 +11,11 @@ type INodeProp = interface end
 type IEdgeProp = interface end
 type IBackgroundProp = interface end
 type IMiniMapProp = interface end
-type IControlsProp = interface end
+type IControlsProp = inherit Feliz.IReactProperty
+type IControlButtonProp = inherit Feliz.IReactProperty
 type INodeResizerProp = interface end
 type INodeResizeControlProp = interface end
-type IPanelProp = interface end
+type IPanelProp = inherit Feliz.IReactProperty
 type INodeToolbarProp = interface end
 
 type ElementId = string

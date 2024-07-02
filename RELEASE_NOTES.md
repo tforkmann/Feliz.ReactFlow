@@ -1,4 +1,4 @@
-#### 0.3.0-alpha.17 - 2024-05-23
+#### 0.3.0-alpha.18 - 2024-06-10
 * Update Feliz to v2+
 * Update React Flow to v11, adjust the bindings according to the API changes -- see [Migrate to v10](https://reactflow.dev/docs/guides/migrate-to-v10/), [Migrate to v11](https://reactflow.dev/docs/guides/migrate-to-v11/) official guides for the changes details.
 * Remove `IStyleProp` and `ILabelStyleProp` types (in favor of `IStyleAttribute` from `Feliz`), adjust corresponding (dependent) prop signatures.
@@ -22,6 +22,7 @@
 * Add `ReactFlow.reactFlowProvider` helper for creating `ReactFlowProvider` component.
 * Add `NodeResizer` component bindings.
 * Add `Panel` component bindings.
+* Add `ControlButton` component bindings.
 * Update ReactFlow Instance (`Instance` interface) bindings.
 * Add `NodeToolbar` component bindings.
 #### 0.2.7 - 2022-05-12

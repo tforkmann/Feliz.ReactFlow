@@ -13,6 +13,7 @@ module ImportNames =
     let [<Literal>] Handle = "Handle"
     let [<Literal>] Background = "Background"
     let [<Literal>] MiniMap = "MiniMap"
+    let [<Literal>] ControlButton = "ControlButton"
     let [<Literal>] Controls = "Controls"
     let [<Literal>] NodeResizer = "NodeResizer"
     let [<Literal>] NodeResizeControl = "NodeResizeControl"
