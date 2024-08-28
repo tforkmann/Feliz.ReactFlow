@@ -196,7 +196,7 @@ let docsDeployPath = "docs"
 
 Target.create "InstallDocs" (fun _ ->
 
-    run pnpmOrNpm "install --frozen-lockfile" docsSrcPath
+    run pnpmOrNpm "install" docsSrcPath
     run dotnet "restore" docsSrcPath )
 
 Target.create "PublishDocs" (fun _ ->
