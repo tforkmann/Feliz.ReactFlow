@@ -12,6 +12,7 @@
     <Compile Include="Edge.fs" />
     <Compile Include="Node.fs" />
     <Compile Include="ReactFlow.fs" />
+    <Compile Include="GraphUtils.fs" />
     <Compile Include="Hooks.fs" />
     <Content Include="*.fsproj; *.fs; *.js;" Exclude="**\*.fs.js" PackagePath="fable\" />
   </ItemGroup>
