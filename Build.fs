@@ -56,7 +56,7 @@ let description = """Feliz binding for ReactFlow."""
 let authors = [ "Tim Forkmann; Isaac Abraham"]
 let owner = "Tim Forkmann"
 // Tags for your project (for NuGet package)
-let tags = "Feliz binding for ReactFlow"
+let tags = "fable;fable-binding;fable-javascript;reactflow"
 
 
 Target.create "Clean" (fun _ ->
