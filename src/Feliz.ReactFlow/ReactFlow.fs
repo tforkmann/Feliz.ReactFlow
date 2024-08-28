@@ -63,7 +63,7 @@ type Instance =
 
     /// Set the center to the passed params. If no zoom is passed, `maxZoom` is used.
     abstract setCenter: x: float * y: float * ?options: SetCenterOptions -> unit
-    abstract setViewport: Viewport -> unit
+    abstract setViewport: Viewport * ?options: ViewportHelperFunctionOptions -> unit
     abstract getViewport : unit -> Viewport
     /// Boolean property to determine if React Flow has been initialized with all its event listeners.
     abstract viewportInitialized: bool
@@ -179,7 +179,8 @@ type ReactFlow =
     /// The content of the component. Suitable for adding React Flow components such as Controls, MiniMap, Panel.
     static member inline children (element: ReactElement) = Interop.mkReactFlowProp "children" element
     /// The content of the component. Suitable for adding React Flow components such as Controls, MiniMap, Panel.
-    static member inline children (elements: seq<ReactElement>) = Interop.mkReactFlowProp "children" elements
+    static member inline children (elements: seq<ReactElement>) =
+        Interop.mkReactFlowProp "children" (Interop.reactApi.Children.toArray (Array.ofSeq elements))
 
     // Flow View
 

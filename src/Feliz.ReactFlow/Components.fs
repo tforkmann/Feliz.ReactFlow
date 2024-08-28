@@ -110,7 +110,8 @@ type controls =
     /// The content of the component.
     static member inline children (element: ReactElement) = Interop.mkControlsProp "children" element
     /// The content of the component.
-    static member inline children (elements: seq<ReactElement>) = Interop.mkControlsProp "children" elements
+    static member inline children (elements: seq<ReactElement>) =
+        Interop.mkControlsProp "children" (Interop.reactApi.Children.toArray (Array.ofSeq elements))
     /// The content of the component.
     static member inline children (value: string) = Interop.mkControlsProp "children" value
 
@@ -226,7 +227,8 @@ type panel =
     /// The content of the component.
     static member inline children (element: ReactElement) = Interop.mkPanelProp "children" element
     /// The content of the component.
-    static member inline children (elements: seq<ReactElement>) = Interop.mkPanelProp "children" elements
+    static member inline children (elements: seq<ReactElement>) =
+        Interop.mkPanelProp "children" (Interop.reactApi.Children.toArray (Array.ofSeq elements))
     /// The content of the component.
     static member inline children (value: string) = Interop.mkPanelProp "children" value
 
@@ -249,6 +251,7 @@ type nodeToolbar =
     /// The content of the component.
     static member inline children (element: ReactElement) = Interop.mkNodeToolbarProp "children" element
     /// The content of the component.
-    static member inline children (elements: seq<ReactElement>) = Interop.mkNodeToolbarProp "children" elements
+    static member inline children (elements: seq<ReactElement>) =
+        Interop.mkNodeToolbarProp "children" (Interop.reactApi.Children.toArray (Array.ofSeq elements))
     /// The content of the component.
     static member inline children (value: string) = Interop.mkNodeToolbarProp "children" value
