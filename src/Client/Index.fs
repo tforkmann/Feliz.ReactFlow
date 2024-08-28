@@ -2,6 +2,8 @@ module Index
 
 open System
 open Elmish
+open Fable.Core
+open Fable.Core.JsInterop
 open Fable.React
 open Feliz
 open Feliz.ReactFlow
@@ -11,18 +13,24 @@ type FlowElement = { Id: string; Descr: string }
 
 
 type Model =
-    { NodeList: IElement list
-      EdgeList: IElement list }
+    { NodeList: Node list
+      EdgeList: Edge list }
 
 type Msg =
     | AddFlowElement of FlowElement
-    | AddEdge of OnConnectParams
+    | AddEdge of Connection
 
 
-let initNodes: IElement list =
+type style with
+    static member inline background(background: string): IStyleAttribute = Interop.mkStyleProp "background" background
+    static member inline border(border: string): IStyleAttribute = Interop.mkStyleProp "border" border
+    static member inline stroke(stroke: string): IStyleAttribute = Interop.mkStyleProp "stroke" stroke
+
+
+let initNodes: Node list =
     [ ReactFlow.node [
           node.id "1"
-          node.nodetype Input
+          node.type' Input
           node.data {| label = "Erdgas Einsatz" |}
           node.style [
               style.background "yellow"
@@ -35,7 +43,7 @@ let initNodes: IElement list =
 
       ReactFlow.node [
           node.id "2"
-          node.nodetype Default
+          node.type' Default
           node.data {| label = "CityCube" |}
           node.style [
               style.background "#2e88c9"
@@ -48,7 +56,7 @@ let initNodes: IElement list =
 
       ReactFlow.node [
           node.id "3"
-          node.nodetype Output
+          node.type' Output
           node.data {| label = "Strom Absatz" |}
           node.style [
               style.background "lightblue"
@@ -61,7 +69,7 @@ let initNodes: IElement list =
 
       ReactFlow.node [
           node.id "4"
-          node.nodetype Output
+          node.type' Output
           node.data {| label = "Wärme Absatz" |}
           node.style [
               style.background "red"
@@ -74,7 +82,7 @@ let initNodes: IElement list =
 
       ReactFlow.node [
           node.id "5"
-          node.nodetype (Custom "test")
+          node.type' "test"
           node.data {| label = "Label from Node" |}
           node.position (50, 120)
           node.style [
@@ -85,7 +93,7 @@ let initNodes: IElement list =
       ]
       ReactFlow.node [
           node.id "6"
-          node.nodetype Output
+          node.type' Output
           node.data {| label = "Unconnected" |}
           node.style [
               style.background "green"
@@ -103,12 +111,12 @@ let initEdges =
           edge.target "2"
           edge.animated false
           edge.label "100 MWh"
-          edge.edgeType SmoothStep
-          edge.arrowHeadType ArrowClosed
+          edge.type' EdgeType.SmoothStep
+          edge.markerEnd(MarkerType.ArrowClosed)
           edge.style [ style.stroke "blue" ]
           edge.labelStyle [
-              labelStyle.fill "black"
-              labelStyle.fontWeight 700
+              style.fill "black"
+              style.fontWeight 700
           ]
       ]
       ReactFlow.edge [
@@ -117,12 +125,12 @@ let initEdges =
           edge.target "3"
           edge.animated true
           edge.label "50 MWh"
-          edge.edgeType SmoothStep
-          edge.arrowHeadType ArrowClosed
+          edge.type' EdgeType.SmoothStep
+          edge.markerEnd ArrowClosed
           edge.style [ style.stroke "blue" ]
           edge.labelStyle [
-              labelStyle.fill "blue"
-              labelStyle.fontWeight 700
+              style.fill "blue"
+              style.fontWeight 700
           ]
       ]
       ReactFlow.edge [
@@ -131,12 +139,12 @@ let initEdges =
           edge.target "4"
           edge.animated true
           edge.label "55 MWh"
-          edge.edgeType SmoothStep
-          edge.arrowHeadType ArrowClosed
+          edge.type' EdgeType.SmoothStep
+          edge.markerEnd ArrowClosed
           edge.style [ style.stroke "red" ]
           edge.labelStyle [
-              labelStyle.fill "red"
-              labelStyle.fontWeight 700
+              style.fill "red"
+              style.fontWeight 700
           ]
       ]
       ReactFlow.edge [
@@ -144,7 +152,7 @@ let initEdges =
           edge.source "1"
           edge.target "5"
           edge.targetHandle "7"
-          edge.edgeType SmoothStep
+          edge.type' EdgeType.SmoothStep
           edge.style [ style.stroke "black" ]
       ] ]
 
@@ -159,7 +167,7 @@ let init () =
 let createNode (flowElement: FlowElement) =
     ReactFlow.node [
         node.id flowElement.Id
-        node.nodetype Default
+        node.type' Default
         node.data {| label = flowElement.Descr |}
         node.style [
             style.background "red"
@@ -170,23 +178,25 @@ let createNode (flowElement: FlowElement) =
         node.position (700, 50)
     ]
 
-let createEdge (parameter: OnConnectParams) =
+let createEdge (connection: Connection) =
     let id = new Guid()
 
-    ReactFlow.edge [
-        edge.id (id.ToString())
-        edge.source parameter.source
-        edge.target parameter.target
-        edge.animated true
-        edge.label "50 MWh"
-        edge.edgeType SmoothStep
-        edge.arrowHeadType ArrowClosed
-        edge.style [ style.stroke "blue" ]
-        edge.labelStyle [
-            labelStyle.fill "blue"
-            labelStyle.fontWeight 700
+    (connection.source, connection.target) ||> Option.map2 (fun source target ->
+        ReactFlow.edge [
+            edge.id (id.ToString())
+            edge.source source
+            edge.target target
+            edge.animated true
+            edge.label "50 MWh"
+            edge.type' EdgeType.SmoothStep
+            edge.markerEnd ArrowClosed
+            edge.style [ style.stroke "blue" ]
+            edge.labelStyle [
+                style.fill "blue"
+                style.fontWeight 700
+            ]
         ]
-    ]
+    )
 
 let update msg (model: Model) =
     match msg with
@@ -199,13 +209,12 @@ let update msg (model: Model) =
 
         { model with NodeList = newNodes }, Cmd.none
     | AddEdge param ->
-        let newEdge =
-            List.concat [
-                model.EdgeList
-                [ createEdge param ]
-            ]
+        let newEdges =
+            match createEdge param with
+            | None -> model.EdgeList
+            | Some newEdge -> [ yield! model.EdgeList; newEdge ]
 
-        { model with EdgeList = newEdge }, Cmd.none
+        { model with EdgeList = newEdges }, Cmd.none
 
 [<ReactComponent>]
 let Counter
@@ -219,18 +228,22 @@ let Counter
         prop.style [ style.padding 10 ]
         prop.children [
             ReactFlow.handle [
-                handle.``type`` Target
+                handle.type' Target
                 handle.id "6"
-                handle.position Top
+                handle.position Position.Top
             ]
             ReactFlow.handle [
-                handle.``type`` Target
+                handle.type' Target
                 handle.id "7"
-                handle.position Left
+                handle.position Position.Left
             ]
             Html.button [
+                prop.classes [Styles.classes.nodrag]
                 prop.style [ style.marginRight 5 ]
-                prop.onClick (fun _ -> setCount (count + 1))
+                prop.onClick (fun ev ->
+                    ev.preventDefault()
+                    ev.stopPropagation()
+                    setCount (count + 1))
                 prop.text "Increment"
             ]
             Html.text props.data.label
@@ -240,29 +253,40 @@ let Counter
 
 
 let view (model: Model) (dispatch: Msg -> unit) =
+    do importSideEffects "reactflow/dist/style.css"
     let gridSize = 20
 
     div [ Props.Style [ Props.CSSProp.Height 800 ] ] [
-        ReactFlow.flowChart [
+        ReactFlow.reactFlow [
             ReactFlow.nodeTypes {| test = Counter |}
             ReactFlow.snapGrid (gridSize, gridSize)
             ReactFlow.snapToGrid true
-            ReactFlow.elements [|
-                yield! model.NodeList
-                yield! model.EdgeList
-            |]
-            ReactFlow.onElementClick (fun ev element ->
+            ReactFlow.defaultNodes (Array.ofList model.NodeList)
+            ReactFlow.defaultEdges (Array.ofList model.EdgeList)
+
+            ReactFlow.onNodeClick (fun ev element ->
                 console.log ev
                 window.alert "You clicked me!")
-            ReactFlow.onNodeDragStop (fun ev node ->
+            ReactFlow.onNodeDragStop (fun ev node nodes ->
                 console.log ev
-                window.alert "You dragged me!")
-            ReactFlow.onElementsRemove (fun elements ->
-                console.log elements
-                window.alert "You removed me!")
-            ReactFlow.onConnect (fun onConnectParams ->
+                window.alert $"%A{node.id}: You dragged me!")
+            ReactFlow.onNodesChange (fun changes ->
+                let removedNodes = [|
+                    for change in changes do
+                        match change with
+                        | NodeChange.NodeRemoveChange remove ->
+                            if remove.``type`` = "remove" then
+                                window.alert "You removed me!"
+                                remove.id
+                        | _ -> ()
+                |]
+                if removedNodes |> Array.isEmpty |> not then
+                    console.log("Nodes removed: ", removedNodes)
+            )
+                    
+            ReactFlow.onConnect (fun connection ->
                 window.alert "Adding new edge"
-                onConnectParams |> AddEdge |> dispatch)
+                connection |> AddEdge |> dispatch)
             // ReactFlow.onConnectStart
             //     (fun ev nodeId ->
             //         console.log ev

@@ -6,19 +6,21 @@ nuget Fable.Remoting.Giraffe
 nuget Saturn
 nuget Expecto
 
-nuget Fable.Elmish.React
-nuget Fable.Elmish.Debugger
+nuget Fable.Elmish.React >= 4
+nuget Fable.Elmish.Debugger >= 4
 nuget Fable.FontAwesome.Free
 nuget Fable.Mocha
 nuget Fable.Remoting.Client
-nuget Feliz.Bulma
-nuget Fulma
-nuget Feliz.Router
+nuget Fable.Core >= 4.0.0 theta
+nuget Feliz >= 2
+nuget Feliz.Bulma >= 3
+nuget Feliz.Router >= 4
 nuget Zanaptak.TypedCssClasses
 nuget Feliz.Markdown
 
 nuget Fake.Core.Target
 nuget Fake.DotNet.Cli
+nuget MSBuild.StructuredLogger >= 2.2.155
 nuget Fake.Core.ReleaseNotes
 nuget Fake.Tools.Git
 nuget Fake.Core.UserInput
@@ -28,5 +30,6 @@ nuget Feliz.ReactFlow
 group Package
     source https://api.nuget.org/v3/index.json
     framework: netstandard2.0
+    storage: none
 
-    nuget Feliz prerelease
+    nuget Feliz >= 2 lowest_matching: true
