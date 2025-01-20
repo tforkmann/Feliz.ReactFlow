@@ -214,6 +214,8 @@ NUGET
       Fable.Elmish (>= 4.0)
       Feliz (>= 2.3)
       FSharp.Core (>= 4.7.2)
+    Feliz.Tailwind (2.3.7)
+      Feliz (>= 2.7)
     FParsec (1.1.1)
       FSharp.Core (>= 4.3.4)
     FSharp.Control.Reactive (5.0.5)
@@ -308,8 +310,6 @@ NUGET
       Fable.Core (>= 4.1)
       Fable.Package.SDK (>= 1.0)
       FSharp.Core (>= 5.0.2)
-    Zanaptak.TypedCssClasses (1.0)
-      FSharp.Core (>= 4.3.4)
 
 GROUP Package
 STORAGE: NONE
