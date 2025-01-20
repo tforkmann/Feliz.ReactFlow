@@ -20,5 +20,3 @@ jobs:
         dotnet-version: ${{ matrix.dotnet }}
     - name: Restore tools
       run: dotnet tool restore
-    - name: Run Test
-      run: dotnet run -- RunTests

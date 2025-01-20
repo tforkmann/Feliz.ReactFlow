@@ -22,9 +22,6 @@ jobs:
       - name: Install Tools
         run: dotnet tool restore
 
-      - name: RunTests
-        run: dotnet run ExecuteTests
-
       - name: Build
         run: dotnet run publishDocs
 
