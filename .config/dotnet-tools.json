@@ -29,13 +29,6 @@
         "fake"
       ],
       "rollForward": false
-    },
-    "fantomas-tool": {
-      "version": "4.7.9",
-      "commands": [
-        "fantomas"
-      ],
-      "rollForward": false
     }
   }
 }
