@@ -6,21 +6,20 @@ nuget Fable.Remoting.Giraffe
 nuget Saturn
 nuget Expecto
 
-nuget Fable.Elmish.React >= 4
-nuget Fable.Elmish.Debugger >= 4
+nuget Fable.Elmish.React
+nuget Fable.Elmish.Debugger
 nuget Fable.FontAwesome.Free
 nuget Fable.Mocha
 nuget Fable.Remoting.Client
-nuget Fable.Core >= 4.0.0 theta
-nuget Feliz >= 2
-nuget Feliz.Bulma >= 3
-nuget Feliz.Router >= 4
+nuget Fable.Core
+nuget Feliz
+nuget Feliz.Bulma
+nuget Feliz.Router
 nuget Zanaptak.TypedCssClasses
 nuget Feliz.Markdown
 
 nuget Fake.Core.Target
 nuget Fake.DotNet.Cli
-nuget MSBuild.StructuredLogger >= 2.2.155
 nuget Fake.Core.ReleaseNotes
 nuget Fake.Tools.Git
 nuget Fake.Core.UserInput
