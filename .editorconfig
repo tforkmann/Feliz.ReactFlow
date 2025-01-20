@@ -9,4 +9,7 @@ insert_final_newline = true
 
 [src/Client/*.fs]
 # Feliz style
-fsharp_single_argument_web_mode=true
+fsharp_multiline_bracket_style = stroustrup
+[src/Docs/*.fs]
+# Feliz style
+fsharp_multiline_bracket_style = stroustrup

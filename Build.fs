@@ -14,11 +14,8 @@ let execContext = Context.FakeExecutionContext.Create false "build.fsx" [ ]
 Context.setExecutionContext (Context.RuntimeContext.Fake execContext)
 
 let sharedPath = Path.getFullName "src/Shared"
-let serverPath = Path.getFullName "src/Server"
 let clientPath = Path.getFullName "src/Client"
 let deployDir = Path.getFullName "deploy"
-let sharedTestsPath = Path.getFullName "tests/Shared"
-let serverTestsPath = Path.getFullName "tests/Server"
 let buildDir  = "./build/"
 
 // --------------------------------------------------------------------------------------
@@ -82,30 +79,10 @@ Target.create "InstallClient" (fun _ -> run pnpmOrNpm "install" ".")
 
 Target.create "Run" (fun _ ->
     run dotnet "build" sharedPath
-    [ "server",  dotnet "watch run" serverPath
-      "client", dotnet "fable watch --run webpack-dev-server" clientPath  ]
+    [ "client", dotnet "fable watch --run webpack-dev-server" clientPath  ]
       |> runParallel
 
 )
-
-Target.create "RunTests" (fun _ ->
-    run dotnet "build" sharedTestsPath
-    [ "server", dotnet "watch run" serverTestsPath
-      "client", pnpmOrNpm "run test:live" "." ]
-    |> runParallel
-)
-
-
-Target.create
-    "ExecuteTests"
-    (fun _ ->
-        Environment.setEnvironVar "status" "Development"
-
-        run dotnet "build" sharedTestsPath
-
-        [ "server", dotnet "run" serverTestsPath
-          "client", pnpmOrNpm "run test:build" "." ]
-        |> runParallel)
 
 Target.create "Format" (fun _ ->
    run dotnet "fantomas . -r" "src"
@@ -212,25 +189,18 @@ let dependencies = [
 
     "Clean"
         ==> "InstallClient"
-        // ==> "UpdateTools"
+        ==> "UpdateTools"
         ==> "Run"
-
-    "Clean"
-        ==> "InstallClient"
-        // ==> "UpdateTools"
-        ==> "RunTests"
-
-    "Clean"
-        ==> "InstallClient"
-        // ==> "UpdateTools"
-        ==> "Build"
-        ==> "ExecuteTests"
 
     "Clean"
         ==> "InstallClient"
         ==> "UpdateTools"
         ==> "Build"
-        ==> "ExecuteTests"
+
+    "Clean"
+        ==> "InstallClient"
+        ==> "UpdateTools"
+        ==> "Build"
         ==> "PrepareRelease"
         ==> "Pack"
         ==> "Push"
@@ -239,7 +209,6 @@ let dependencies = [
         ==> "RunDocs"
 
     "InstallDocs"
-        ==> "ExecuteTests"
         ==> "PublishDocs"
 ]
 

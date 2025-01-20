@@ -4,7 +4,6 @@ open Domain
 open Feliz
 open Feliz.Bulma
 open Router
-open Shared
 
 let menuPart model dispatch =
     let item (t: string) p =
@@ -30,23 +29,11 @@ let contentPart model dispatch =
     | FelizReactFlowInstallation -> Views.FelizReactFlow.installation
     | FelizReactFlowExampleFlow -> Views.ExampleFlow.overview
 
-
-open Zanaptak.TypedCssClasses
-
-type Icon =
-    CssClasses<"https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", Naming.PascalCase>
-
-type tailwind = CssClasses<"public/css/tailwind-generated.css", Naming.Verbatim>
-
 let view (model: Model) (dispatch: Msg -> unit) =
 
     let render =
         Html.div
-            [ prop.classes
-                [ tailwind.container
-                  tailwind.``md:flex``
-                  tailwind.``justify-center`` ]
-              prop.children
+            [ prop.children
                   [ Bulma.section
                       [ Bulma.tile
                           [ tile.isAncestor

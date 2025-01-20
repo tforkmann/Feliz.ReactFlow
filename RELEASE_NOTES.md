@@ -1,3 +1,5 @@
+#### 0.3.1 - 2025-01-20
+Update Feliz to v2+ and net9
 #### 0.3.0-alpha.19 - 2024-07-02
 * Update Feliz to v2+
 * Update React Flow to v11, adjust the bindings according to the API changes -- see [Migrate to v10](https://reactflow.dev/docs/guides/migrate-to-v10/), [Migrate to v11](https://reactflow.dev/docs/guides/migrate-to-v11/) official guides for the changes details.

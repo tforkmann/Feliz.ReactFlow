@@ -1,10 +1,14 @@
 module Views.ExampleFlow
 
+open System
+open Elmish
+open Fable.Core
+open Fable.Core.JsInterop
 open Fable.React
-open Browser.Dom
 open Feliz
 open Feliz.Bulma
 open Feliz.ReactFlow
+open Browser.Dom
 open Shared
 
 [<ReactComponent>]
@@ -27,9 +31,9 @@ let Counter() =
     ]
 
 let flowChart =
-    div [ Props.Style [
-              Props.CSSProp.Height 150
-          ] ] [
+    Html.div [
+        prop.style [ style.height 150 ]
+        prop.children [
           ReactFlow.flowChart [
             ReactFlow.nodeTypes {| test = Counter |}
             ReactFlow.elements [|
@@ -157,6 +161,7 @@ let flowChart =
                     window.alert "You started to connect me!")
         ]
           ]
+        ]
 
 let overview =
     Html.div
