@@ -2,7 +2,6 @@ module Index
 
 open System
 open Elmish
-open Fable.Core
 open Fable.Core.JsInterop
 open Fable.React
 open Feliz
@@ -283,7 +282,7 @@ let view (model: Model) (dispatch: Msg -> unit) =
                 if removedNodes |> Array.isEmpty |> not then
                     console.log("Nodes removed: ", removedNodes)
             )
-                    
+
             ReactFlow.onConnect (fun connection ->
                 window.alert "Adding new edge"
                 connection |> AddEdge |> dispatch)
